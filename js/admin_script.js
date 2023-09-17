@@ -17,6 +17,6 @@ window.onscroll = () =>{
 }
 
 document.querySelector('#close-update').onclick = () =>{
-   document.querySelector('.edit-product-form').style.display = 'none';
+   document.querySelector('.edit-books-form').style.display = 'none';
    window.location.href = 'admin_books.php';
 }

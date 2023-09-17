@@ -276,7 +276,7 @@ section{
    border:var(--border);
 }
 
-.add-products form{
+.add-books form{
    background-color: var(--white);
    border-radius: .5rem;
    padding:2rem;
@@ -287,14 +287,14 @@ section{
    margin:0 auto;
 }
 
-.add-products form h3{
+.add-books form h3{
    font-size: 2.5rem;
    text-transform: uppercase;
    color:var(--black);
    margin-bottom: 1.5rem;
 }
 
-.add-products form .box{
+.add-books form .box{
    width: 100%;
    background-color: var(--light-bg);
    border-radius: .5rem;
@@ -305,7 +305,7 @@ section{
    border:var(--border);
 }
 
-.show-products .box-container{
+.show-.add-books .box-container{
    display: grid;
    grid-template-columns: repeat(auto-fit, 30rem);
    justify-content: center;
@@ -315,11 +315,11 @@ section{
    align-items: flex-start;
 }
 
-.show-products{
+.show-.add-books{
    padding-top: 0;
 }
 
-.show-products .box-container .box{
+.show-.add-books .box-container .box{
    text-align: center;
    padding:2rem;
    border-radius: .5rem;
@@ -328,23 +328,23 @@ section{
    background-color: var(--white);
 }
 
-.show-products .box-container .box img{
+.show-.add-books .box-container .box img{
    height: 30rem;
 }
 
-.show-products .box-container .box .name{
+.show-.add-books .box-container .box .name{
    padding:1rem 0;
    font-size: 2rem;
    color:var(--black);
 }
 
-.show-products .box-container .box .price{
+.show-.add-books .box-container .box .price{
    padding:1rem 0;
    font-size: 2.5rem;
    color:var(--red);
 }
 
-.edit-product-form{
+.edit-books-form{
    min-height: 100vh;
    background-color: rgba(0,0,0,.7);
    display: flex;
@@ -358,7 +358,7 @@ section{
    width: 100%;
 }
 
-.edit-product-form form{
+.edit-books-form form{
    width: 50rem;
    padding:2rem;
    text-align: center;
@@ -366,12 +366,12 @@ section{
    background-color: var(--white);
 }
 
-.edit-product-form form img{
+.edit-books-form form img{
    height: 25rem;
    margin-bottom: 1rem;
 }
 
-.edit-product-form form .box{
+.edit-books-form form .box{
    margin:1rem 0;
    padding:1.2rem 1.4rem;
    border:var(--border);
