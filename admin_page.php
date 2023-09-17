@@ -70,8 +70,14 @@ if(!isset($admin_id)){
 
       <div class="box">
          <?php 
+            $number_of_books = 0;
             $select_books = mysqli_query($conn, "SELECT * FROM `books`") or die('query failed');
-            $number_of_books = mysqli_num_rows($select_books);
+            if(mysqli_num_rows($select_books) > 0){
+                while($fetch_pendings = mysqli_fetch_assoc($select_books)){
+                   $amount_of_book = $fetch_pendings['BOOK_AMOUNT'];
+                   $number_of_books += $amount_of_book;
+                };
+             };
          ?>
          <h3><?php echo $number_of_books; ?></h3>
          <p>Всего книг</p>
