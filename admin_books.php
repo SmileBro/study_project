@@ -10,24 +10,42 @@ if(!isset($admin_id)){
    header('location:login.php');
 };
 
-if(isset($_POST['add_book'])){
+function uniquePost($posted) {
+   // take some form values
+   $description = $_POST['name'].$_POST['amount'].$_POST['year'].$_POST['publisher'].$_POST['author'];
+   
+   // check if session hash matches current form hash
+   if (isset($_SESSION['form_hash']) && $_SESSION['form_hash'] == md5($description) ) {
+      // form was re-submitted return false
+      return false;
+   }
+   // set the session value to prevent re-submit
+   $_SESSION['form_hash'] = md5($description);
+   return true;
+}
 
+if(isset($_POST['add_book']) && uniquePost($_POST)){
+   
+   
+  
    $name = mysqli_real_escape_string($conn, $_POST['name']);
    $amount = $_POST['amount'];
+   $year = $_POST['year'];
    $publisher = mysqli_real_escape_string($conn, $_POST['publisher']);
    $author = mysqli_real_escape_string($conn, $_POST['author']);
 
+   
    $filename = $_FILES["image"]["name"];
    $tempname = $_FILES["image"]["tmp_name"];
-   $folder = "C:\\Users\\urere\\Desktop\\Рабочий стол\\Четвертый курс\\ПППР\\study_project\\uploaded _img\\" . $filename;
+   $folder = "C:\\Users\\urere\\Desktop\\Рабочий стол\\Четвертый курс\\ПППР\\study_project\\uploaded_img\\" . $filename;
    $image_size = $_FILES['image']['size'];
    
    $select_book_name = mysqli_query($conn, "SELECT BOOK_NAME FROM `books` WHERE BOOK_NAME = '$name'") or die('query failed');
 
    if(mysqli_num_rows($select_book_name) > 0){
-        $existing_books = mysqli_query($conn, "SELECT BOOK_AMOUNT FROM `books` WHERE BOOK_NAME = '$name'") or die('query failed');
-        $upd_amount = $amount+$existing_books->fetch_array()[0];
-        mysqli_query($conn, "UPDATE `books` SET `BOOK_AMOUNT`='$upd_amount' WHERE BOOK_NAME = '$name'") or die('query failed');
+      $existing_books = mysqli_query($conn, "SELECT BOOK_AMOUNT FROM `books` WHERE BOOK_NAME = '$name'") or die('query failed');
+      $upd_amount = $amount+$existing_books->fetch_array()[0];
+      mysqli_query($conn, "UPDATE `books` SET `BOOK_AMOUNT`='$upd_amount' WHERE BOOK_NAME = '$name'") or die('query failed');
    }else{
         $select_pub = mysqli_query($conn, "SELECT PUB_ID FROM `publishers` WHERE PUB_NAME = '$publisher'") or die('query failed');
         if (mysqli_num_rows($select_pub) > 0){
@@ -46,10 +64,11 @@ if(isset($_POST['add_book'])){
         if($image_size > 2000000){
          $message[] = 'Размер файла слишком большой!';
         }else{
-         $add_book_query = mysqli_query($conn, "INSERT INTO `books`(BOOK_NAME, BOOK_AMOUNT,PUB_ID, AUTH_ID, BOOK_IMG) VALUES('$name', '$amount',$pub_id, $auth_id, '$filename')") or die('query failed');
+         $add_book_query = mysqli_query($conn, "INSERT INTO `books`(BOOK_NAME, BOOK_AMOUNT,PUB_ID, AUTH_ID,RELEASE_YEAR, BOOK_IMG) VALUES('$name','$amount',$pub_id, $auth_id,'$year','$filename')") or die('query failed');
          if($add_book_query){
             move_uploaded_file($tempname, $folder);
             $message[] = 'Книга успешно добавлена!';
+            
          }
       }
    }
@@ -84,7 +103,7 @@ if(isset($_POST['update_book'])){
       }else{
          mysqli_query($conn, "UPDATE `books` SET BOOK_IMG = '$update_image' WHERE BOOK_ID = '$update_p_id'") or die('query failed');
          move_uploaded_file($update_image_tmp_name, $update_folder);
-         unlink('./uploaded_img/'.$update_old_image);
+         unlink('C:\\Users\\urere\\Desktop\\Рабочий стол\\Четвертый курс\\ПППР\\study_project\\uploaded_img\\'.$update_old_image);
       }
    }
 
@@ -143,7 +162,7 @@ if(isset($_POST['update_book'])){
             while($fetch_books = mysqli_fetch_assoc($select_books)){
       ?>
       <div class="box">
-         <img src="C:\\Users\\urere\\Desktop\\Рабочий стол\\Четвертый курс\\ПППР\\study_project\\uploaded _img\\<?php echo $fetch_books['BOOK_IMG']; ?>" alt="">
+         <img src="/uploaded_img/<?php echo $fetch_books['BOOK_IMG']; ?>" alt="">
          <div class="name"><?php echo $fetch_books['BOOK_NAME']; ?></div>
          <div class="amount">Количество: <?php echo $fetch_books['BOOK_AMOUNT']; ?></div>
          <a href="admin_books.php?update=<?php echo $fetch_books['BOOK_ID']; ?>" class="option-btn">update</a>
