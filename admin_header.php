@@ -19,8 +19,8 @@ if(isset($message)){
 
       <nav class="navbar">
          <a href="admin_page.php">Главная</a>
-         <a href="admin_products.php">Книги</a>
-         <a href="admin_orders.php">Выдачи</a>
+         <a href="admin_books.php">Книги</a>
+         <a href="admin_leases.php">Выдачи</a>
          <a href="admin_users.php">Пользователи</a>
          <a href="admin_contacts.php">Контакты</a>
       </nav>
