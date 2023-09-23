@@ -16,11 +16,12 @@ if(isset($_POST['add_book'])){
    $amount = $_POST['amount'];
    $publisher = mysqli_real_escape_string($conn, $_POST['publisher']);
    $author = mysqli_real_escape_string($conn, $_POST['author']);
-   $image = $_FILES['image']['name'];
-   $image_size = $_FILES['image']['size'];
-   $image_tmp_name = $_FILES['image']['tmp_name'];
-   $image_folder = 'uploaded_img/'.$image;
 
+   $filename = $_FILES["image"]["name"];
+   $tempname = $_FILES["image"]["tmp_name"];
+   $folder = "C:\\Users\\urere\\Desktop\\Рабочий стол\\Четвертый курс\\ПППР\\study_project\\uploaded _img\\" . $filename;
+   $image_size = $_FILES['image']['size'];
+   
    $select_book_name = mysqli_query($conn, "SELECT BOOK_NAME FROM `books` WHERE BOOK_NAME = '$name'") or die('query failed');
 
    if(mysqli_num_rows($select_book_name) > 0){
@@ -42,27 +43,24 @@ if(isset($_POST['add_book'])){
             mysqli_query($conn, "INSERT INTO `authors`(AUTH_NAME) VALUES('$author')") or die('query failed');
             $auth_id = mysqli_insert_id($conn);
         }
-        $add_book_query = mysqli_query($conn, "INSERT INTO `books`(BOOK_NAME, BOOK_AMOUNT,PUB_ID, AUTH_ID, BOOK_IMG) VALUES('$name', '$amount',$pub_id, $auth_id, '$image')") or die('query failed');
-
-      if($add_book_query){
-         if($image_size > 2000000){
-            $message[] = 'image size is too large';
-         }else{
-            move_uploaded_file($image_tmp_name, $image_folder);
-            $message[] = 'book added successfully!';
+        if($image_size > 2000000){
+         $message[] = 'Размер файла слишком большой!';
+        }else{
+         $add_book_query = mysqli_query($conn, "INSERT INTO `books`(BOOK_NAME, BOOK_AMOUNT,PUB_ID, AUTH_ID, BOOK_IMG) VALUES('$name', '$amount',$pub_id, $auth_id, '$filename')") or die('query failed');
+         if($add_book_query){
+            move_uploaded_file($tempname, $folder);
+            $message[] = 'Книга успешно добавлена!';
          }
-      }else{
-         $message[] = 'book could not be added!';
       }
    }
 }
 
 if(isset($_GET['delete'])){
    $delete_id = $_GET['delete'];
-   $delete_image_query = mysqli_query($conn, "SELECT image FROM `books` WHERE id = '$delete_id'") or die('query failed');
+   $delete_image_query = mysqli_query($conn, "SELECT BOOK_IMG FROM `books` WHERE BOOK_ID = '$delete_id'") or die('query failed');
    $fetch_delete_image = mysqli_fetch_assoc($delete_image_query);
-   unlink('uploaded_img/'.$fetch_delete_image['image']);
-   mysqli_query($conn, "DELETE FROM `books` WHERE id = '$delete_id'") or die('query failed');
+   unlink('./uploaded_img/'.$fetch_delete_image['BOOK_IMG']);
+   mysqli_query($conn, "DELETE FROM `books` WHERE BOOK_ID = '$delete_id'") or die('query failed');
    header('location:admin_books.php');
 }
 
@@ -72,21 +70,21 @@ if(isset($_POST['update_book'])){
    $update_name = $_POST['update_name'];
    $update_price = $_POST['update_price'];
 
-   mysqli_query($conn, "UPDATE `books` SET name = '$update_name', amount = '$update_price' WHERE id = '$update_p_id'") or die('query failed');
+   mysqli_query($conn, "UPDATE `books` SET BOOK_NAME = '$update_name', BOOK_AMOUNT = '$update_price' WHERE BOOK_ID = '$update_p_id'") or die('query failed');
 
    $update_image = $_FILES['update_image']['name'];
    $update_image_tmp_name = $_FILES['update_image']['tmp_name'];
    $update_image_size = $_FILES['update_image']['size'];
-   $update_folder = 'uploaded_img/'.$update_image;
+   $update_folder = './uploaded_img/'.$update_image;
    $update_old_image = $_POST['update_old_image'];
 
    if(!empty($update_image)){
       if($update_image_size > 2000000){
-         $message[] = 'image file size is too large';
+         $message[] = 'Слишком большой размер файла!';
       }else{
-         mysqli_query($conn, "UPDATE `books` SET image = '$update_image' WHERE id = '$update_p_id'") or die('query failed');
+         mysqli_query($conn, "UPDATE `books` SET BOOK_IMG = '$update_image' WHERE BOOK_ID = '$update_p_id'") or die('query failed');
          move_uploaded_file($update_image_tmp_name, $update_folder);
-         unlink('uploaded_img/'.$update_old_image);
+         unlink('./uploaded_img/'.$update_old_image);
       }
    }
 
@@ -103,7 +101,7 @@ if(isset($_POST['update_book'])){
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Книги</title>
-
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
    <link rel="stylesheet" href="css/admin_style.css">
 
@@ -145,11 +143,11 @@ if(isset($_POST['update_book'])){
             while($fetch_books = mysqli_fetch_assoc($select_books)){
       ?>
       <div class="box">
-         <img src="uploaded_img/<?php echo $fetch_books['image']; ?>" alt="">
-         <div class="name"><?php echo $fetch_books['name']; ?></div>
-         <div class="amount">$<?php echo $fetch_books['amount']; ?>/-</div>
-         <a href="admin_books.php?update=<?php echo $fetch_books['id']; ?>" class="option-btn">update</a>
-         <a href="admin_books.php?delete=<?php echo $fetch_books['id']; ?>" class="delete-btn" onclick="return confirm('delete this book?');">delete</a>
+         <img src="C:\\Users\\urere\\Desktop\\Рабочий стол\\Четвертый курс\\ПППР\\study_project\\uploaded _img\\<?php echo $fetch_books['BOOK_IMG']; ?>" alt="">
+         <div class="name"><?php echo $fetch_books['BOOK_NAME']; ?></div>
+         <div class="amount">Количество: <?php echo $fetch_books['BOOK_AMOUNT']; ?></div>
+         <a href="admin_books.php?update=<?php echo $fetch_books['BOOK_ID']; ?>" class="option-btn">update</a>
+         <a href="admin_books.php?delete=<?php echo $fetch_books['BOOK_ID']; ?>" class="delete-btn" onclick="return confirm('delete this book?');">delete</a>
       </div>
       <?php
          }
@@ -171,11 +169,11 @@ if(isset($_POST['update_book'])){
             while($fetch_update = mysqli_fetch_assoc($update_query)){
    ?>
    <form action="" method="post" enctype="multipart/form-data">
-      <input type="hidden" name="update_p_id" value="<?php echo $fetch_update['id']; ?>">
-      <input type="hidden" name="update_old_image" value="<?php echo $fetch_update['image']; ?>">
-      <img src="uploaded_img/<?php echo $fetch_update['image']; ?>" alt="">
-      <input type="text" name="update_name" value="<?php echo $fetch_update['name']; ?>" class="box" required placeholder="enter book name">
-      <input type="number" name="update_price" value="<?php echo $fetch_update['amount']; ?>" min="0" class="box" required placeholder="enter book amount">
+      <input type="hidden" name="update_p_id" value="<?php echo $fetch_update['BOOK_ID']; ?>">
+      <input type="hidden" name="update_old_image" value="<?php echo $fetch_update['BOOK_IMG']; ?>">
+      <img src="uploaded_img/<?php echo $fetch_update['BOOK_IMG']; ?>" alt="">
+      <input type="text" name="update_name" value="<?php echo $fetch_update['BOOK_NAME']; ?>" class="box" required placeholder="enter book name">
+      <input type="number" name="update_price" value="<?php echo $fetch_update['BOOK_AMOUNT']; ?>" min="0" class="box" required placeholder="enter book amount">
       <input type="file" class="box" name="update_image" accept="image/jpg, image/jpeg, image/png">
       <input type="submit" value="update" name="update_book" class="btn">
       <input type="reset" value="cancel" id="close-update" class="option-btn">
@@ -189,11 +187,6 @@ if(isset($_POST['update_book'])){
    ?>
 
 </section>
-
-
-
-
-
 
 
 <!-- custom admin js file link  -->
