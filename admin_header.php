@@ -22,7 +22,7 @@ if(isset($message)){
          <a href="admin_books.php">Книги</a>
          <a href="admin_leases.php">Выдачи</a>
          <a href="admin_users.php">Пользователи</a>
-         <a href="admin_contacts.php">Контакты</a>
+         <a href="admin_contacts.php">Сообщения</a>
       </nav>
 
       <div class="icons">

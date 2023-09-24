@@ -1,6 +1,10 @@
 <?php
 
+
+
 include 'config.php';
+
+
 
 if(isset($_POST['submit'])){
 
@@ -10,7 +14,7 @@ if(isset($_POST['submit'])){
    $cpass = mysqli_real_escape_string($conn, md5($_POST['cpassword']));
    
 
-   $select_users = mysqli_query($conn, "SELECT * FROM `users` WHERE USER_MAIL = '$email' AND USER_PASSWORD = '$pass'") or die('query failed');
+   $select_users = mysqli_query($conn, "SELECT * FROM `users` WHERE USER_LOGIN = '$name'") or die('query failed');
 
    if(mysqli_num_rows($select_users) > 0){
       $message[] = 'Пользователь уже существует!';
@@ -39,6 +43,18 @@ if(isset($_POST['submit'])){
     <link rel="stylesheet" href="css/style.css">
 </head> 
 <body>
+<?php
+if(isset($message)){
+   foreach($message as $message){
+      echo '
+      <div class="message">
+         <span>'.$message.'</span>
+         <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
+      </div>
+      ';
+   }
+}
+?>
 <div class="form-container">
     <form action="" method="post">
         <h3>Регистрация</h3>
@@ -46,10 +62,6 @@ if(isset($_POST['submit'])){
         <input type="text" name="email" placeholder="Адрес электронной почты" required class = "box">
         <input type="password" name="password" placeholder="Пароль" required class="box">
         <input type="password" name="cpassword" placeholder="Введите пароль еще раз" required class="box">
-        <!--<select name="user_type" class="box">
-         <option value="user">user</option>
-         <option value="admin">admin</option>
-        </select>-->
       <input type="submit" name="submit" value="Зарегистрироваться" class="btn">
       <p>Уже зарегистрированы? 
         <p><a href="login.php">Войти</a></p>

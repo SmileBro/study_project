@@ -344,7 +344,91 @@ section{
    color:var(--red);
 }
 
-.edit-books-form{
+.home{
+   min-height: 70vh;
+   background:linear-gradient(rgba(0,0,0,.7), rgba(0,0,0,.7)), url(../images/home-bg.jpg) no-repeat;
+   background-size: cover;
+   background-position: center;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.home .book_img{
+   background-repeat:no-repeat;
+   background-position: center;
+   background-size: cover;
+}
+.home .content{
+   text-align: center;
+   width: 60rem;
+}
+
+.home .content h3{
+   font-size: 5.5rem;
+   color:var(--white);
+   text-transform: uppercase;
+}
+
+.home .content p{
+   font-size:1.8rem;
+   color:var(--light-white);
+   padding:1rem 0;
+   line-height: 1.5;
+}
+
+.books .box-container{
+   max-width: 1200px;
+   
+   margin:0 auto;
+   display: grid;
+   grid-template-columns: repeat(auto-fit, 30rem);
+   align-items: flex-start;
+   gap:1.5rem;
+   justify-content: center;
+}
+
+.books .box-container .box{
+   min-height: 600px;
+   border-radius: .5rem;
+   background-color: var(--white);
+   box-shadow: var(--box-shadow);
+   padding:2rem;
+   text-align: center;
+   border:var(--border);
+   position: relative;
+}
+
+.books .box-container .box .image{
+   height: 30rem;
+}
+
+.books .box-container .box .name{
+   padding:1rem 0;
+   font-size: 2rem;
+   color:var(--black);
+}
+
+.books .box-container .box .qty{
+   width: 100%;
+   padding:1.2rem 1.4rem;
+   border-radius: .5rem;
+   border:var(--border);
+   margin:1rem 0;
+   font-size: 2rem;
+}
+
+.books .box-container .box .price{
+   position: absolute;
+   top:1rem; left:1rem;
+   border-radius: .5rem;
+   padding:1rem;
+   font-size: 2.5rem;
+   color:var(--white);
+   background-color: var(--red);
+}
+
+.edit-form{
    min-height: 100vh;
    background-color: rgba(0,0,0,.7);
    display: flex;
@@ -358,7 +442,7 @@ section{
    width: 100%;
 }
 
-.edit-books-form form{
+.edit-form form{
    width: 50rem;
    padding:2rem;
    text-align: center;
@@ -366,12 +450,12 @@ section{
    background-color: var(--white);
 }
 
-.edit-books-form form img{
+.edit-form form img{
    height: 25rem;
    margin-bottom: 1rem;
 }
 
-.edit-books-form form .box{
+.edit-form form .box{
    margin:1rem 0;
    padding:1.2rem 1.4rem;
    border:var(--border);
@@ -382,7 +466,8 @@ section{
    width: 100%;
 }
 
-.orders .box-container{
+
+.leases .box-container{
    display: grid;
    grid-template-columns: repeat(auto-fit, 30rem);
    justify-content: center;
@@ -392,7 +477,7 @@ section{
    align-items: flex-start;
 }
 
-.orders .box-container .box{
+.leases .box-container .box{
    background-color: var(--white);
    padding:2rem;
    border:var(--border);
@@ -400,21 +485,21 @@ section{
    border-radius: .5rem;
 }
 
-.orders .box-container .box p{
+.leases .box-container .box p{
    padding-bottom: 1rem;
    font-size: 2rem;
    color:var(--light-color);
 }
 
-.orders .box-container .box p span{
+.leases .box-container .box p span{
    color:var(--purple);
 }
 
-.orders .box-container .box form{
+.leases .box-container .box form{
    text-align: center;
 }
 
-.orders .box-container .box form select{
+.leases .box-container .box form select{
    border-radius: .5rem;
    margin:.5rem 0;
    width: 100%;
