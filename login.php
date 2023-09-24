@@ -14,16 +14,16 @@ if(isset($_POST['submit'])){
 
       $row = mysqli_fetch_assoc($select_users);
 
-      if($row['USER_STATUS'] == 3){
+      if($row['USER_STATUS'] == 3 || $row['USER_STATUS'] == 2){
 
-         $_SESSION['admin_name'] = $row['USER_NAME'];
+         $_SESSION['admin_name'] = $row['USER_LOGIN'];
          $_SESSION['admin_email'] = $row['USER_MAIL'];
          $_SESSION['admin_id'] = $row['USER_ID'];
          header('location:admin_page.php');
 
       }elseif($row['USER_STATUS'] == 1){
 
-         $_SESSION['user_name'] = $row['USER_NAME'];
+         $_SESSION['user_name'] = $row['USER_LOGIN'];
          $_SESSION['user_email'] = $row['USER_MAIL'];
          $_SESSION['user_id'] = $row['USER_ID'];
          header('location:home.php');
