@@ -11,14 +11,12 @@ if (isset($_POST['submit'])) {
 
     if (mysqli_num_rows($select_users) > 0) {
         $message[] = 'Пользователь уже существует!';
+    } elseif ($pass != $cpass) {
+        $message[] = 'Пароли не совпадают!';
     } else {
-        if ($pass != $cpass) {
-            $message[] = 'Пароли не совпадают!';
-        } else {
-            mysqli_query($conn, "INSERT INTO `users`(USER_LOGIN, USER_PASSWORD, USER_MAIL) VALUES('$name', '$cpass','$email')") or die('query failed');
-            $message[] = 'Регистрация успешна!';
-            header('location:login.php');
-        }
+        mysqli_query($conn, "INSERT INTO `users`(USER_LOGIN, USER_PASSWORD, USER_MAIL) VALUES('$name', '$cpass','$email')") or die('query failed');
+        $message[] = 'Регистрация успешна!';
+        header('location:login.php');
     }
 }
 ?>
@@ -36,18 +34,15 @@ if (isset($_POST['submit'])) {
 </head>
 <body>
 
-<?php
-if (isset($message)) {
-    foreach ($message as $msg) {
-        echo '
-      <div class="message">
-         <span>' . $msg . '</span>
-         <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
-      </div>
-      ';
-    }
-}
-?>
+<?php if (isset($message)): ?>
+    <?php foreach ($message as $msg): ?>
+        <div class="message">
+            <span><?= $msg ?></span>
+            <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
+        </div>
+    <?php endforeach; ?>
+<?php endif; ?>
+
 <div class="form-container">
     <form action="" method="post">
         <h3>Регистрация</h3>

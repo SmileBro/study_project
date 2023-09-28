@@ -40,21 +40,29 @@ if (isset($_POST['update_user']) && uniquePost($_POST)) {
 
     if ($admin_id == 3) {
         mysqli_query($conn, "UPDATE `users` SET USER_NAME = '$update_name', USER_MAIL = '$update_email',USER_STATUS = '$update_status' WHERE USER_ID = '$update_u_id'") or die('query failed');
-
+    } elseif ($update_status < 3) {
+        mysqli_query($conn, "UPDATE `users` SET USER_NAME = '$update_name', USER_MAIL = '$update_email' WHERE USER_ID = '$update_u_id'") or die('query failed');
     } else {
-        if ($update_status < 3) {
-            mysqli_query($conn, "UPDATE `users` SET USER_NAME = '$update_name', USER_MAIL = '$update_email' WHERE USER_ID = '$update_u_id'") or die('query failed');
-        } else {
-            $message[] = 'У вас нет прав редактироавть данные этого пользователя!';
-        }
+        $message[] = 'У вас нет прав редактироавть данные этого пользователя!';
     }
     header('location:admin_users.php');
 }
 
 if (isset($_GET['delete'])) {
-    $delete_id = $_GET['delete'];
-    mysqli_query($conn, "DELETE FROM `users` WHERE USER_ID = '$delete_id'") or die('query failed');
-    header('location:admin_users.php');
+    $delete_id = intval($_GET['delete']); // Преобразовываем значение в целое число, чтобы избежать SQL-инъекций
+
+    if ($delete_id > 0) {
+        $delete_query = "DELETE FROM `users` WHERE USER_ID = $delete_id";
+        $result = mysqli_query($conn, $delete_query);
+
+        if ($result) {
+            header('location:admin_users.php');
+        } else {
+            $message[] = 'Ошибка при удалении пользователя: ' . mysqli_error($conn);
+        }
+    } else {
+        $message[] = 'Неверный идентификатор пользователя.';
+    }
 }
 ?>
 
@@ -85,25 +93,19 @@ if (isset($_GET['delete'])) {
         while ($fetch_users = mysqli_fetch_assoc($select_users)) {
             ?>
             <div class="box">
-                <p> Номер : <span><?php echo $fetch_users['USER_ID']; ?></span></p>
-                <p> Имя : <span><?php echo $fetch_users['USER_NAME']; ?></span></p>
-                <p> Email : <span><?php echo $fetch_users['USER_MAIL']; ?></span></p>
+                <p> Номер : <span><?= $fetch_users['USER_ID']; ?></span></p>
+                <p> Имя : <span><?= $fetch_users['USER_NAME']; ?></span></p>
+                <p> Email : <span><?= $fetch_users['USER_MAIL']; ?></span></p>
                 <p> Уровень : <span style="color:<?php if ($fetch_users['USER_STATUS'] == 3) {
                         echo 'var(--orange)';
                     } ?>">
          <?php
          $status = $fetch_users['USER_STATUS'];
-         if ($status == 1) {
-             echo "Пользователь";
-         } else if ($status == 2) {
-             echo "Работник";
-         } else {
-             echo "Администратор";
-         }
+         $userType = ($status == 1) ? "Пользователь" : (($status == 2) ? "Работник" : "Администратор");
+         echo $userType;
          ?></span></p>
-                <a href="admin_users.php?delete=<?php echo $fetch_users['USER_ID']; ?>"
-                   onclick="return confirm('delete this user?');" class="delete-btn">delete user</a>
-                <a href="admin_users.php?update=<?php echo $fetch_users['USER_ID']; ?>" class="option-btn">update</a>
+                <a href="admin_users.php?delete=<?= $fetch_users['USER_ID']; ?>" onclick="return confirm('delete this user?');" class="delete-btn">delete user</a>
+                <a href="admin_users.php?update=<?= $fetch_users['USER_ID']; ?>" class="option-btn">update</a>
             </div>
             <?php
         };
@@ -119,12 +121,12 @@ if (isset($_GET['delete'])) {
             while ($fetch_update = mysqli_fetch_assoc($update_query)) {
                 ?>
                 <form action="" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="update_u_id" value="<?php echo $fetch_update['USER_ID']; ?>">
-                    <input type="text" name="update_name" value="<?php echo $fetch_update['USER_NAME']; ?>" class="box"
+                    <input type="hidden" name="update_u_id" value="<?= $fetch_update['USER_ID'] ?>">
+                    <input type="text" name="update_name" value="<?= $fetch_update['USER_NAME'] ?>" class="box"
                            required placeholder="enter name">
-                    <input type="text" name="update_email" value="<?php echo $fetch_update['USER_MAIL']; ?>" min="0"
+                    <input type="text" name="update_email" value="<?= $fetch_update['USER_MAIL'] ?>" min="0"
                            class="box" required placeholder="enter email">
-                    <input type="text" name="update_status" value="<?php echo $fetch_update['USER_STATUS']; ?>" min="0"
+                    <input type="text" name="update_status" value="<?= $fetch_update['USER_STATUS'] ?>" min="0"
                            class="box" required placeholder="enter status">
                     <input type="submit" value="update" name="update_user" class="btn">
                     <input type="reset" value="cancel" id="close-update" class="option-btn">

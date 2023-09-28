@@ -1,7 +1,6 @@
 <?php
 include 'config.php';
 session_start();
-
 $admin_id = $_SESSION['admin_id'];
 
 if (!isset($admin_id)) {
@@ -47,13 +46,13 @@ if (isset($_GET['delete'])) {
                     $fetch_user = mysqli_fetch_assoc($select_user)
                     ?>
                     <div class="box">
-                        <p> user id : <span><?php echo $fetch_message['FROM_USER']; ?></span></p>
-                        <p> login : <span><?php echo $fetch_user['USER_LOGIN']; ?></span></p>
-                        <p> name : <span><?php echo $fetch_user['USER_NAME']; ?></span></p>
-                        <p> number : <span><?php echo $fetch_user['USER_PHONE']; ?></span></p>
-                        <p> email : <span><?php echo $fetch_user['USER_MAIL']; ?></span></p>
-                        <p> message : <span><?php echo $fetch_message['MESSAGE']; ?></span></p>
-                        <a href="admin_contacts.php?delete=<?php echo $fetch_message['MESSAGE_ID']; ?>"
+                        <p> user id : <span><?= $fetch_message['FROM_USER'] ?></span></p>
+                        <p> login : <span><?= $fetch_user['USER_LOGIN'] ?></span></p>
+                        <p> name : <span><?= $fetch_user['USER_NAME'] ?></span></p>
+                        <p> number : <span><?= $fetch_user['USER_PHONE'] ?></span></p>
+                        <p> email : <span><?= $fetch_user['USER_MAIL'] ?></span></p>
+                        <p> message : <span><?= $fetch_message['MESSAGE'] ?></span></p>
+                        <a href="admin_contacts.php?delete=<?= $fetch_message['MESSAGE_ID'] ?>"
                            onclick="return confirm('delete this message?');" class="delete-btn">delete message</a>
                     </div>
                     <?php

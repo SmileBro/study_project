@@ -10,21 +10,28 @@ if (isset($_POST['submit'])) {
 
     if (mysqli_num_rows($select_users) > 0) {
         $row = mysqli_fetch_assoc($select_users);
-        if ($row['USER_STATUS'] == 3 || $row['USER_STATUS'] == 2) {
-            $_SESSION['admin_name'] = $row['USER_LOGIN'];
-            $_SESSION['admin_email'] = $row['USER_MAIL'];
-            $_SESSION['admin_id'] = $row['USER_ID'];
-            header('location:admin_page.php');
-        } elseif ($row['USER_STATUS'] == 1) {
-            $_SESSION['user_name'] = $row['USER_LOGIN'];
-            $_SESSION['user_email'] = $row['USER_MAIL'];
-            $_SESSION['user_id'] = $row['USER_ID'];
-            header('location:home.php');
+        $userStatus = $row['USER_STATUS'];
+
+        if ($userStatus == 3 || $userStatus == 2) {
+            $sessionKey = 'admin';
+            $redirectPage = 'admin_page.php';
+        } elseif ($userStatus == 1) {
+            $sessionKey = 'user';
+            $redirectPage = 'home.php';
+        } else {
+            $message[] = 'Неправильный логин или пароль!';
+            // Дополнительная обработка для других статусов пользователя, если необходимо
+        }
+
+        if (isset($sessionKey) && isset($redirectPage)) {
+            $_SESSION[$sessionKey . '_name'] = $row['USER_LOGIN'];
+            $_SESSION[$sessionKey . '_email'] = $row['USER_MAIL'];
+            $_SESSION[$sessionKey . '_id'] = $row['USER_ID'];
+            header('location:' . $redirectPage);
         }
     } else {
         $message[] = 'Неправильный логин или пароль!';
     }
-
 }
 
 ?>
@@ -42,18 +49,14 @@ if (isset($_POST['submit'])) {
 </head>
 <body>
 
-<?php
-if (isset($message)) {
-    foreach ($message as $msg) {
-        echo '
-      <div class="message">
-         <span>' . $msg . '</span>
-         <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
-      </div>
-      ';
-    }
-}
-?>
+<?php if (isset($message)): ?>
+    <?php foreach ($message as $msg): ?>
+        <div class="message">
+            <span><?= $msg ?></span>
+            <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
+        </div>
+    <?php endforeach; ?>
+<?php endif; ?>
 
 <div class="form-container">
     <form action="" method="post">

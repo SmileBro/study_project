@@ -1,15 +1,11 @@
-<?php
-if (isset($message)) {
-    foreach ($message as $msg) {
-        echo '
-      <div class="message">
-         <span>' . $msg . '</span>
-         <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
-      </div>
-      ';
-    }
-}
-?>
+<?php if (isset($message)): ?>
+    <?php foreach ($message as $msg): ?>
+        <div class="message">
+            <span><?= $msg ?></span>
+            <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
+        </div>
+    <?php endforeach; ?>
+<?php endif; ?>
 
 <header class="header">
     <div class="header-1">

@@ -1,15 +1,11 @@
-<?php
-if (isset($message)) {
-    foreach ($message as $msg) {
-        echo '
-      <div class="message">
-         <span>' . $msg . '</span>
-         <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
-      </div>
-      ';
-    }
-}
-?>
+<?php if (isset($message)): ?>
+    <?php foreach ($message as $msg): ?>
+        <div class="message">
+            <span><?= $msg ?></span>
+            <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
+        </div>
+    <?php endforeach; ?>
+<?php endif; ?>
 
 <header class="header">
     <div class="flex">
@@ -26,8 +22,8 @@ if (isset($message)) {
             <div id="user-btn" class="fas fa-user"></div>
         </div>
         <div class="account-box">
-            <p>username : <span><?php echo $_SESSION['admin_name']; ?></span></p>
-            <p>email : <span><?php echo $_SESSION['admin_email']; ?></span></p>
+            <p>username : <span><?= $_SESSION['admin_name'] ?></span></p>
+            <p>email : <span><?= $_SESSION['admin_email'] ?></span></p>
             <a href="logout.php" class="delete-btn">Выйти</a>
             <div><a href="login.php">Войти</a> | <a href="register.php">Регистрация</a></div>
         </div>

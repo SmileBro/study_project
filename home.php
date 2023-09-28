@@ -8,10 +8,10 @@ if (!isset($user_id)) {
 }
 
 if (isset($_POST['add_to_cart'])) {
-    $book_name = $_POST['book_name'];
-    $book_amount = $_POST['book_amount'];
-    $book_img = $_POST['book_img'];
-    $product_quantity = $_POST['product_quantity'];
+    $book_name = mysqli_real_escape_string($conn, $_POST['book_name']);
+    $book_amount = mysqli_real_escape_string($conn, $_POST['book_amount']);
+    $book_img = mysqli_real_escape_string($conn, $_POST['book_img']);
+    $product_quantity = mysqli_real_escape_string($conn, $_POST['product_quantity']);
 
     $check_cart_numbers = mysqli_query($conn, "SELECT * FROM `cart` WHERE name = '$book_name' AND user_id = '$user_id'") or die('query failed');
 
@@ -61,8 +61,7 @@ if (isset($_POST['add_to_cart'])) {
             while ($fetch_books = mysqli_fetch_assoc($select_books)) {
                 ?>
                 <form action="" method="post" class="box">
-                    <img class="book_img" src="uploaded_img/<?php echo $fetch_books['BOOK_IMG']; ?>" width="100%"
-                         height="100%" alt="">
+                    <img class="book_img" src="uploaded_img/<?php echo $fetch_books['BOOK_IMG']; ?>" width="100%" height="100%" alt="">
                     <div class="name"><?php echo $fetch_books['BOOK_NAME']; ?></div>
                     <div class="amount"><?php echo $fetch_books['BOOK_AMOUNT']; ?></div>
                     <input type="number" min="1" name="product_quantity" value="1" class="qty">
