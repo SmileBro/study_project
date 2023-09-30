@@ -1,26 +1,50 @@
 <?php
 include 'config.php';
+include 'get_function.php';
 session_start();
 $user_id = $_SESSION['user_id'];
 
 if (!isset($user_id)) {
     header('location:login.php');
 }
+/*function uniquePost($posted)
+{
+    // Define an array of form fields that you want to include in the description
+    $formFields = ['book_id', 'book_amount', 'product_quantity', 'name'];
 
-if (isset($_POST['add_to_cart'])) {
-    $book_name = mysqli_real_escape_string($conn, $_POST['book_name']);
-    $book_amount = mysqli_real_escape_string($conn, $_POST['book_amount']);
-    $book_img = mysqli_real_escape_string($conn, $_POST['book_img']);
-    $product_quantity = mysqli_real_escape_string($conn, $_POST['product_quantity']);
+    // Initialize an array to store the values of the form fields
+    $formValues = [];
 
-    $check_cart_numbers = mysqli_query($conn, "SELECT * FROM `cart` WHERE name = '$book_name' AND user_id = '$user_id'") or die('query failed');
-
-    if (mysqli_num_rows($check_cart_numbers) > 0) {
-        $message[] = 'already added to cart!';
-    } else {
-        mysqli_query($conn, "INSERT INTO `cart`(user_id, name, price, quantity, image) VALUES('$user_id', '$book_name', '$book_amount', '$product_quantity', '$book_img')") or die('query failed');
-        $message[] = 'product added to cart!';
+    // Collect the form field values into the $formValues array
+    foreach ($formFields as $field) {
+        if (isset($_POST[$field])) {
+            $formValues[] = $_POST[$field];
+        }
     }
+
+    // Combine the form field values into a single string
+    $description = implode('', $formValues);
+
+    // check if session hash matches current form hash
+    if (isset($_SESSION['form_hash']) && $_SESSION['form_hash'] == md5($description)) {
+        // form was re-submitted return false
+        return false;
+    }
+    // set the session value to prevent re-submit
+    $_SESSION['form_hash'] = md5($description);
+    return true;
+}*/
+if (isset($_POST['add_to_cart'])) {
+    $book_id = $_POST['book_id'];
+    $book_amount = $_POST['book_amount'];
+    $book_quantity = mysqli_real_escape_string($conn, $_POST['product_quantity']);
+
+    if ($book_quantity > $book_amount) {
+        $message[] = 'Невозможно забронировать такое количество книг!';
+    } else {
+        mysqli_query($conn, "INSERT INTO `cart`(USER_ID, BOOK_ID, BOOK_AMOUNT) VALUES('$user_id', '$book_id', '$book_amount')") or die('query failed');
+        $message[] = 'product added to cart!';
+   }
 }
 
 ?>
@@ -65,9 +89,9 @@ if (isset($_POST['add_to_cart'])) {
                     <div class="name"><?php echo $fetch_books['BOOK_NAME']; ?></div>
                     <div class="amount"><?php echo $fetch_books['BOOK_AMOUNT']; ?></div>
                     <input type="number" min="1" name="product_quantity" value="1" class="qty">
+                    <input type="hidden" name="book_id" value="<?php echo $fetch_books['BOOK_ID']; ?>">
                     <input type="hidden" name="book_name" value="<?php echo $fetch_books['BOOK_NAME']; ?>">
                     <input type="hidden" name="book_amount" value="<?php echo $fetch_books['BOOK_AMOUNT']; ?>">
-                    <input type="hidden" name="book_img" value="<?php echo $fetch_books['BOOK_IMG']; ?>">
                     <input type="submit" value="add to cart" name="add_to_cart" class="btn">
                 </form>
                 <?php
@@ -78,7 +102,7 @@ if (isset($_POST['add_to_cart'])) {
         ?>
     </div>
     <div class="load-more" style="margin-top: 2rem; text-align:center">
-        <a href="shop.php" class="option-btn">load more</a>
+        <a href="books.php" class="option-btn">load more</a>
     </div>
 </section>
 

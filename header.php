@@ -28,6 +28,7 @@
                 <a href="shop.php">shop</a>
                 <a href="contact.php">contact</a>
                 <a href="orders.php">orders</a>
+                <a href="cart.php">cart</a>
             </nav>
             <div class="icons">
                 <div id="menu-btn" class="fas fa-bars"></div>
