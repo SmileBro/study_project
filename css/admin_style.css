@@ -111,6 +111,7 @@ section{
    font-size: 1.8rem;
    border-radius: .5rem;
    text-transform: capitalize;
+   
 }
 
 .btn:hover,
@@ -355,6 +356,7 @@ section{
 }
 
 .home .book_img{
+   
    background-repeat:no-repeat;
    background-position: center;
    background-size: cover;
@@ -390,6 +392,7 @@ section{
 
 .books .box-container .box{
    min-height: 600px;
+   max-height: 600px;
    border-radius: .5rem;
    background-color: var(--white);
    box-shadow: var(--box-shadow);

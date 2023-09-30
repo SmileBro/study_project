@@ -76,7 +76,7 @@ if(isset($_POST['add_to_cart'])){
             <input type="hidden" name="book_id" value="<?php echo $fetch_books['BOOK_ID']; ?>">
             <input type="hidden" name="book_name" value="<?php echo $fetch_books['BOOK_NAME']; ?>">
             <input type="hidden" name="book_amount" value="<?php echo $fetch_books['BOOK_AMOUNT']; ?>">
-            <input type="submit" value="add to cart" name="add_to_cart" class="btn">
+            <input type="submit" value="В корзину" name="add_to_cart" class="btn">
         </form>
    <?php
             }

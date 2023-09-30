@@ -103,23 +103,20 @@ if (isset($_GET['delete'])) {
 if (isset($_POST['update_book'])) {
     $update_p_id = $_POST['update_p_id'];
     $update_name = $_POST['update_name'];
-    $update_price = $_POST['update_price'];
+    $update_amount = $_POST['update_amount'];
 
-    mysqli_query($conn, "UPDATE `books` SET BOOK_NAME = '$update_name', BOOK_AMOUNT = '$update_price' WHERE BOOK_ID = '$update_p_id'") or die('query failed');
+    mysqli_query($conn, "UPDATE `books` SET BOOK_NAME = '$update_name', BOOK_AMOUNT = '$update_amount' WHERE BOOK_ID = '$update_p_id'") or die('query failed');
+
+    $temp = explode(".", $_FILES["update_image"]["name"]);
 
     $dest = "C:\\Users\\urere\\Desktop\\Рабочий стол\\Четвертый курс\\ПППР\\study_project\\uploaded_img\\";
-    $image_size = $_FILES['image']['size'];
-    $update_old_image = $_POST['update_old_image'];
-    $update_image_tmp_name = $_FILES['update_image']['tmp_name'];
-    if (!empty($update_image)) {
-        if ($update_image_size > 2000000) {
-            $message[] = 'Слишком большой размер файла!';
-        } else {
-            unlink($dest . $update_old_image);
-            move_uploaded_file($update_image_tmp_name, $dest.$update_old_image);
-            mysqli_query($conn, "UPDATE `books` SET BOOK_IMG = '$update_old_image' WHERE BOOK_ID = '$update_p_id'") or die('query failed');
-        }
-    }
+
+    $image_size = $_FILES['update_image']['size'];
+
+    $newfilename = $_POST['update_old_image'];
+    move_uploaded_file($_FILES["update_image"]["tmp_name"], $dest . $newfilename);
+    $message[] = 'Книга успешно изменена!';
+
     header('location:admin_books.php');
 }
 ?>
@@ -171,13 +168,13 @@ if (isset($_POST['update_book'])) {
             while ($fetch_books = mysqli_fetch_assoc($select_books)) {
                 ?>
                 <div class="box">
-                    <img class="book_img" src="uploaded_img/<?= $fetch_books['BOOK_IMG'] ?>" width="100%" height="100%"
+                    <img class="book_img" src="uploaded_img/<?= $fetch_books['BOOK_IMG'] ?>" height= "350rem" width=100% 
                          alt="">
                     <div class="name"><?= $fetch_books['BOOK_NAME'] ?></div>
                     <div class="amount">Количество: <?= $fetch_books['BOOK_AMOUNT'] ?></div>
-                    <a href="admin_books.php?update=<?= $fetch_books['BOOK_ID'] ?>" class="option-btn">update</a>
+                    <a href="admin_books.php?update=<?= $fetch_books['BOOK_ID'] ?>" class="option-btn">Изменить</a>
                     <a href="admin_books.php?delete=<?= $fetch_books['BOOK_ID'] ?>" class="delete-btn"
-                       onclick="return confirm('delete this book?');">delete</a>
+                       onclick="return confirm('delete this book?');">Удалить</a>
                 </div>
                 <?php
             }
@@ -199,15 +196,16 @@ if (isset($_POST['update_book'])) {
                 <form action="" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="update_p_id" value="<?= $fetch_update['BOOK_ID'] ?>">
                     <input type="hidden" name="update_old_image" value="<?= $fetch_update['BOOK_IMG'] ?>">
-                    <img class="book_img" src="uploaded_img/<?= $fetch_books['BOOK_IMG'] ?>" width="100%"
-                         height="100%" alt="">
+                    <img class="book_img" src="uploaded_img/<?= $fetch_update['BOOK_IMG'] ?>" alt="">
                     <input type="text" name="update_name" value="<?= $fetch_update['BOOK_NAME'] ?>" class="box"
-                           required placeholder="enter book name">
-                    <input type="number" name="update_price" value="<?= $fetch_update['BOOK_AMOUNT'] ?>" min="0"
-                           class="box" required placeholder="enter book amount">
+                           required placeholder="Введите новое название">
+                    <input type="number" name="update_amount" value="<?= $fetch_update['BOOK_AMOUNT'] ?>" min="0"
+                           class="box" required placeholder="Введите новое количество">
                     <input type="file" class="box" name="update_image" accept="image/jpg, image/jpeg, image/png">
-                    <input type="submit" value="update" name="update_book" class="btn">
-                    <input type="reset" value="cancel" id="close-update" class="option-btn">
+                    
+                    <input type="submit" value="Изменить" name="update_book" class="btn">
+                    <p></p>
+                    <input type="reset" value="Отменить" id="close-update" class="option-btn">
                 </form>
                 <?php
             }
@@ -216,7 +214,7 @@ if (isset($_POST['update_book'])) {
         echo '<script>document.querySelector(".edit-form").style.display = "none";</script>';
     }
     ?>
-    /home/vol8_8/hyperphp.com/hp_35100034/htdocs/uploaded_img/
+    
 </section>
 
 <!-- custom admin js file link  -->
