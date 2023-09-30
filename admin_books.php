@@ -107,19 +107,17 @@ if (isset($_POST['update_book'])) {
 
     mysqli_query($conn, "UPDATE `books` SET BOOK_NAME = '$update_name', BOOK_AMOUNT = '$update_price' WHERE BOOK_ID = '$update_p_id'") or die('query failed');
 
-    $update_image = $_FILES['update_image']['name'];
-    $update_image_tmp_name = $_FILES['update_image']['tmp_name'];
-    $update_image_size = $_FILES['update_image']['size'];
-    $update_folder = 'C:\\Users\\urere\\Desktop\\Рабочий стол\\Четвертый курс\\ПППР\\study_project\\uploaded_img\\' . $update_image;
+    $dest = "C:\\Users\\urere\\Desktop\\Рабочий стол\\Четвертый курс\\ПППР\\study_project\\uploaded_img\\";
+    $image_size = $_FILES['image']['size'];
     $update_old_image = $_POST['update_old_image'];
-
+    $update_image_tmp_name = $_FILES['update_image']['tmp_name'];
     if (!empty($update_image)) {
         if ($update_image_size > 2000000) {
             $message[] = 'Слишком большой размер файла!';
         } else {
-            mysqli_query($conn, "UPDATE `books` SET BOOK_IMG = '$update_image' WHERE BOOK_ID = '$update_p_id'") or die('query failed');
-            move_uploaded_file($update_image_tmp_name, $update_folder);
-            unlink('C:\\Users\\urere\\Desktop\\Рабочий стол\\Четвертый курс\\ПППР\\study_project\\uploaded_img\\' . $update_old_image);
+            unlink($dest . $update_old_image);
+            move_uploaded_file($update_image_tmp_name, $dest.$update_old_image);
+            mysqli_query($conn, "UPDATE `books` SET BOOK_IMG = '$update_old_image' WHERE BOOK_ID = '$update_p_id'") or die('query failed');
         }
     }
     header('location:admin_books.php');
