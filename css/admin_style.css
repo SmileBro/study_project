@@ -465,6 +465,7 @@ section{
 }
 
 .edit-form{
+   max-height: 100vh;
    min-height: 100vh;
    background-color: rgba(0,0,0,.7);
    display: flex;
@@ -472,6 +473,7 @@ section{
    justify-content: center;
    padding:2rem;
    overflow-y: scroll;
+   
    position: fixed;
    top:0; left:0; 
    z-index: 1200;
@@ -531,6 +533,7 @@ section{
    max-width: 1200px;
    margin:0 auto;
    align-items: flex-start;
+   text-align: center;
 }
 
 .leases .box-container .box{
@@ -553,6 +556,11 @@ section{
 
 .leases .box-container .box form{
    text-align: center;
+   
+}
+.leases .box-container .box a{
+   text-align: center;
+   
 }
 
 .leases .box-container .box form select{

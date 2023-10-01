@@ -61,7 +61,7 @@ if(isset($_POST['order_btn']) ){
          #$sub_total = ($cart_item['price'] * $cart_item['quantity']);
          #$cart_total += $sub_total;
 
-         mysqli_query($conn, "INSERT INTO `leases`(USER_ID, BOOK_ID, WORKER_ID, LEASE_START, LEASE_DUE, LEASE_STATUS) VALUES('$user_id', '$book_id', '$worker_id', '$placed_on', '$due_date', 'pending')") or die('query failed');
+         mysqli_query($conn, "INSERT INTO `leases`(USER_ID, BOOK_ID, WORKER_ID, LEASE_START, LEASE_DUE, LEASE_STATUS) VALUES('$user_id', '$book_id', '$worker_id', '$placed_on', '$due_date', 'Active')") or die('query failed');
          $message[] = 'order placed successfully!';
 
          mysqli_query($conn, "DELETE FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
