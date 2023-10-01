@@ -11,7 +11,7 @@ if (isset($_GET['delete'])) {
    $delete_id = $_GET['delete'];
    $delete_image_query = mysqli_query($conn, "SELECT BOOK_IMG FROM `books` WHERE BOOK_ID = '$delete_id'") or die('query failed');
    $fetch_delete_image = mysqli_fetch_assoc($delete_image_query);
-   unlink('$dest . $fetch_delete_image['BOOK_IMG']);
+   unlink($dest . $fetch_delete_image['BOOK_IMG']);
    mysqli_query($conn, "DELETE FROM `books` WHERE BOOK_ID = '$delete_id'") or die('query failed');
    header('location:admin_search_page.php');
 }
@@ -54,14 +54,14 @@ if (isset($_POST['update_book'])) {
 <?php include 'admin_header.php'; ?>
 
 <div class="heading">
-   <h3>search page</h3>
-   <p> <a href="admin_page.php">home</a> / search </p>
+   <h3>страница поиска</h3>
+   <p> <a href="admin_page.php">главная</a> / поиск </p>
 </div>
 
 <section class="search-form">
    <form action="" method="post">
-      <input type="text" name="search" placeholder="search books..." class="box">
-      <input type="submit" name="submit" value="search" class="btn">
+      <input type="text" name="search" placeholder="начать поиск..." class="box">
+      <input type="submit" name="submit" value="поиск" class="btn">
       
    </form>
 </section>
@@ -83,15 +83,15 @@ if (isset($_POST['update_book'])) {
                     <div class="amount">Количество: <?= $fetch_books['BOOK_AMOUNT'] ?></div>
                     <a href="admin_search_page.php?update=<?= $fetch_books['BOOK_ID'] ?>" class="option-btn">Изменить</a>
                     <a href="admin_search_page.php?delete=<?= $fetch_books['BOOK_ID'] ?>" class="delete-btn"
-                       onclick="return confirm('delete this book?');">Удалить</a>
+                       onclick="return confirm('Удалить эту книгу?');">Удалить</a>
                 </div>
    <?php
             }
          }else{
-            echo '<p class="empty">no result found!</p>';
+            echo '<p class="empty">Ничего не нашлось!</p>';
          }
       }else{
-         echo '<p class="empty">search something!</p>';
+         echo '<p class="empty">Поищите что-нибудь!</p>';
       }
    ?>
    </div>
@@ -119,7 +119,8 @@ if (isset($_POST['update_book'])) {
                     
                     <input type="submit" value="Изменить" name="update_book" class="btn">
                     <p></p>
-                    <input type="reset" value="Отменить" id="close-update" class="option-btn">
+                    
+                    <a href="admin_search_page.php" id="close-update" class="option-btn" >Отменить</a>
                 </form>
                 <?php
             }

@@ -17,7 +17,7 @@ if (isset($_POST['add_to_cart'])) {
         $message[] = 'Невозможно забронировать такое количество книг!';
     } else {
         mysqli_query($conn, "INSERT INTO `cart`(USER_ID, BOOK_ID, BOOK_AMOUNT) VALUES('$user_id', '$book_id', '$book_amount')") or die('query failed');
-        $message[] = 'product added to cart!';
+        $message[] = 'Книга добавлена в корзину!';
    }
 }
 

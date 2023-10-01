@@ -73,7 +73,7 @@ if (!isset($admin_id)) {
             $number_of_users = mysqli_num_rows($select_users);
             ?>
             <h3><?php echo $number_of_users; ?></h3>
-            <p>Обычные пользователи</p>
+            <p>Пользователи</p>
         </div>
         <div class="box">
             <?php

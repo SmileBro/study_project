@@ -21,7 +21,7 @@ if (isset($_GET['delete'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>messages</title>
+    <title>Сообщения</title>
 
     <!-- font awesome cdn link  -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -44,14 +44,14 @@ if (isset($_GET['delete'])) {
                     $fetch_user = GetUserById($conn, $fetch_message['FROM_USER'])
                     ?>
                     <div class="box">
-                        <p> user id : <span><?= $fetch_message['FROM_USER'] ?></span></p>
-                        <p> login : <span><?= $fetch_user['USER_LOGIN'] ?></span></p>
-                        <p> name : <span><?= $fetch_user['USER_NAME'] ?></span></p>
-                        <p> number : <span><?= $fetch_user['USER_PHONE'] ?></span></p>
-                        <p> email : <span><?= $fetch_user['USER_MAIL'] ?></span></p>
-                        <p> message : <span><?= $fetch_message['MESSAGE'] ?></span></p>
+                        <p> ID  : <span><?= $fetch_message['FROM_USER'] ?></span></p>
+                        <p> Логин : <span><?= $fetch_user['USER_LOGIN'] ?></span></p>
+                        <p> Имя : <span><?= $fetch_user['USER_NAME'] ?></span></p>
+                        <p> Номер тел. : <span><?= $fetch_user['USER_PHONE'] ?></span></p>
+                        <p> Email : <span><?= $fetch_user['USER_MAIL'] ?></span></p>
+                        <p> Сообщение : <span><?= $fetch_message['MESSAGE'] ?></span></p>
                         <a href="admin_contacts.php?delete=<?= $fetch_message['MESSAGE_ID'] ?>"
-                           onclick="return confirm('delete this message?');" class="delete-btn">delete message</a>
+                           onclick="return confirm('Удалить это сообщение?');" class="delete-btn">удалить сообщение</a>
                     </div>
                     <?php
             }

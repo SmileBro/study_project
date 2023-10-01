@@ -95,7 +95,7 @@ if (isset($_GET['delete'])) {
     $delete_id = $_GET['delete'];
     $delete_image_query = mysqli_query($conn, "SELECT BOOK_IMG FROM `books` WHERE BOOK_ID = '$delete_id'") or die('query failed');
     $fetch_delete_image = mysqli_fetch_assoc($delete_image_query);
-    unlink('$dest . $fetch_delete_image['BOOK_IMG']);
+    unlink($dest . $fetch_delete_image['BOOK_IMG']);
     mysqli_query($conn, "DELETE FROM `books` WHERE BOOK_ID = '$delete_id'") or die('query failed');
     header('location:admin_books.php');
 }
@@ -171,7 +171,7 @@ if (isset($_POST['update_book'])) {
                     <div class="amount">Количество: <?= $fetch_books['BOOK_AMOUNT'] ?></div>
                     <a href="admin_books.php?update=<?= $fetch_books['BOOK_ID'] ?>" class="option-btn">Изменить</a>
                     <a href="admin_books.php?delete=<?= $fetch_books['BOOK_ID'] ?>" class="delete-btn"
-                       onclick="return confirm('delete this book?');">Удалить</a>
+                       onclick="return confirm('Удалить эту книгу?');">Удалить</a>
                 </div>
                 <?php
             }

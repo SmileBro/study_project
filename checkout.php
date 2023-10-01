@@ -78,7 +78,7 @@ if(isset($_POST['order_btn']) ){
    }
    $message[] = 'Заказ успешно сформирован!';
    }else{
-      $message[] = 'your cart is empty';
+      $message[] = 'Ваша корзина пуста!';
    }
 }
 

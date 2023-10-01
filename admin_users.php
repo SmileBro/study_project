@@ -86,7 +86,7 @@ if (isset($_GET['delete'])) {
 <?php include 'admin_header.php'; ?>
 
 <section class="users">
-    <h1 class="title"> user accounts </h1>
+    <h1 class="title"> Аккаунты пользователей </h1>
     <div class="box-container">
         <?php
         $select_users = mysqli_query($conn, "SELECT * FROM `users`") or die('query failed');
@@ -104,8 +104,8 @@ if (isset($_GET['delete'])) {
          $userType = ($status == 1) ? "Пользователь" : (($status == 2) ? "Работник" : "Администратор");
          echo $userType;
          ?></span></p>
-                <a href="admin_users.php?delete=<?= $fetch_users['USER_ID']; ?>" onclick="return confirm('delete this user?');" class="delete-btn">delete user</a>
-                <a href="admin_users.php?update=<?= $fetch_users['USER_ID']; ?>" class="option-btn">update</a>
+                <a href="admin_users.php?delete=<?= $fetch_users['USER_ID']; ?>" onclick="return confirm('Удалить этого пользователя?');" class="delete-btn">Удалить</a>
+                <a href="admin_users.php?update=<?= $fetch_users['USER_ID']; ?>" class="option-btn">Изменить</a>
             </div>
             <?php
         };
@@ -123,13 +123,13 @@ if (isset($_GET['delete'])) {
                 <form action="" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="update_u_id" value="<?= $fetch_update['USER_ID'] ?>">
                     <input type="text" name="update_name" value="<?= $fetch_update['USER_NAME'] ?>" class="box"
-                           required placeholder="enter name">
+                           required placeholder="Введите имя">
                     <input type="text" name="update_email" value="<?= $fetch_update['USER_MAIL'] ?>" min="0"
-                           class="box" required placeholder="enter email">
+                           class="box" required placeholder="Введите email">
                     <input type="text" name="update_status" value="<?= $fetch_update['USER_STATUS'] ?>" min="0"
-                           class="box" required placeholder="enter status">
-                    <input type="submit" value="update" name="update_user" class="btn">
-                    <input type="reset" value="cancel" id="close-update" class="option-btn">
+                           class="box" required placeholder="Введите уровень доступа">
+                    <input type="submit" value="Изменить" name="update_user" class="btn">
+                    <input type="reset" value="Отменить" id="close-update" class="option-btn">
                 </form>
                 <?php
             }

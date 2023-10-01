@@ -14,13 +14,13 @@ if(isset($_POST['add_to_cart'])){
 
     $book_id = $_POST['book_id'];
     $book_amount = $_POST['book_amount'];
-    $book_quantity = mysqli_real_escape_string($conn, $_POST['books_quantity']);
+    $book_quantity = 1;
 
     if ($book_quantity > $book_amount) {
         $message[] = 'Невозможно забронировать такое количество книг!';
     } else {
-        mysqli_query($conn, "INSERT INTO `cart`(USER_ID, BOOK_ID, BOOK_AMOUNT) VALUES('$user_id', '$book_id', '$book_amount')") or die('query failed');
-        $message[] = 'books added to cart!';
+        mysqli_query($conn, "INSERT INTO `cart`(USER_ID, BOOK_ID, BOOK_AMOUNT) VALUES('$user_id', '$book_id', '$book_quantity')") or die('query failed');
+        $message[] = 'Книга добавлена в корзину!';
    }
 
 };

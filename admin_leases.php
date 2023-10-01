@@ -162,7 +162,7 @@ if (isset($_POST['send_update_lease'])) {
                 <?php
             }
         } else {
-            echo '<p class="empty">no leases placed yet!</p>';
+            echo '<p class="empty">Выдач в данный момент нет!</p>';
         }
         ?>
     </div>
