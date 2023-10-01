@@ -138,6 +138,38 @@ section{
    color:var(--black);
 }
 
+.heading{
+   min-height: 30vh;
+   display: flex;
+   flex-flow: column;
+   align-items: center;
+   justify-content: center;
+   gap:1rem;
+   background: url(../images/heading-bg.webp) no-repeat;
+   background-size: cover;
+   background-position: center;
+   text-align: center;
+}
+
+.heading h3{
+   font-size: 5rem;
+   color:var(--black);
+   text-transform: uppercase;
+}
+
+.heading p{
+   font-size: 2.5rem;
+   color:var(--light-color);
+}
+
+.heading p a{
+   color:var(--purple);
+}
+
+.heading p a:hover{
+   text-decoration: underline;
+}
+
 @keyframes fadeIn {
    0%{
       transform: translateY(1rem);
@@ -182,16 +214,17 @@ section{
    color:var(--purple);
 }
 
-.header .flex .icons div{
-   margin-left: 1.5rem;
+.header .flex .icons > *{
    font-size: 2.5rem;
-   cursor: pointer;
    color:var(--black);
+   cursor: pointer;
+   margin-left: 1.5rem;
 }
 
-.header .flex .icons div:hover{
+.header .flex .icons > *:hover{
    color:var(--purple);
 }
+
 
 .header .flex .account-box{
    position: absolute;
@@ -469,6 +502,26 @@ section{
    width: 100%;
 }
 
+.search-form form{
+   max-width: 1200px;
+   margin:0 auto;
+   display: flex;
+   gap:1rem;
+}
+
+.search-form form .btn{
+   margin-top: 0;
+}
+
+.search-form form .box{
+   width: 100%;
+   padding:1.2rem 1.4rem;
+   border:var(--border);
+   font-size: 2rem;
+   color:var(--black);
+   background-color: var(--light-bg);
+   border-radius: .5rem;
+}
 
 .leases .box-container{
    display: grid;
@@ -642,6 +695,9 @@ section{
 
    .title{
       font-size: 3rem;
+   }
+   .heading h3{
+      font-size: 3.5rem;
    }
 
 }
