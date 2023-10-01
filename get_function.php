@@ -20,4 +20,10 @@ function GetBookById($conn, $id) {
     $book_query = mysqli_query($conn, "SELECT * FROM `books` WHERE BOOK_ID = '$id'") or die('query failed');
     return $fetch_book = mysqli_fetch_assoc($book_query);
 }
+function GetLeaseById($conn, $id) {
+
+    $lease_query = mysqli_query($conn, "SELECT * FROM `leases` WHERE LEASE_ID = '$id'") or die('query failed');
+    return $fetch_lease = mysqli_fetch_assoc($lease_query);
+}
+
 ?>

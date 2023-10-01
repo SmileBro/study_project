@@ -1,5 +1,6 @@
 <?php
 include 'config.php';
+include 'get_function.php';
 session_start();
 
 $admin_id = $_SESSION['admin_id'];
@@ -17,27 +18,37 @@ if (isset($_POST['send_lease'])) {
     $lease_status = mysqli_real_escape_string($conn, $_POST['lease_status']);
     
     // Проверка, существуют ли пользователь, книга и работник с такими данными
-    $user_query = mysqli_query($conn, "SELECT USER_ID FROM `users` WHERE USER_LOGIN = '$user_login'");
-    $book_query = mysqli_query($conn, "SELECT BOOK_ID FROM `books` WHERE BOOK_NAME = '$book_name'");
-    $worker_query = mysqli_query($conn, "SELECT USER_ID FROM `users` WHERE USER_LOGIN = '$worker_name'");
+    $user_query = mysqli_query($conn, "SELECT * FROM `users` WHERE USER_LOGIN = '$user_login'");
+    $book_query = mysqli_query($conn, "SELECT * FROM `books` WHERE BOOK_NAME = '$book_name'");
+    $worker_query = mysqli_query($conn, "SELECT * FROM `users` WHERE USER_LOGIN = '$worker_name'");
 
     if ($user_query && $book_query && $worker_query) {
         $fetch_user = mysqli_fetch_assoc($user_query);
         $fetch_book = mysqli_fetch_assoc($book_query);
         $fetch_worker = mysqli_fetch_assoc($worker_query);
 
+        //Проверка книги на наличие
+        $book_amount = $fetch_book['BOOK_AMOUNT'];
+        if ($book_amount < 1){
+            $message[] = 'В данный момент книга отсутствует.';
+        }else{
+
         $user = $fetch_user['USER_ID'];
-        $book = $fetch_book['BOOK_ID'];
+        $book_id = $fetch_book['BOOK_ID'];
         $worker = $fetch_worker['USER_ID'];
 
         // Вставка записи в таблицу leases
-        $add_lease_query = mysqli_query($conn, "INSERT INTO `leases`(USER_ID, BOOK_ID, WORKER_ID, LEASE_START, LEASE_DUE, LEASE_STATUS) VALUES('$user','$book', $worker, '$lease_start','$lease_due','$lease_status')");
+        $add_lease_query = mysqli_query($conn, "INSERT INTO `leases`(USER_ID, BOOK_ID, WORKER_ID, LEASE_START, LEASE_DUE, LEASE_STATUS) VALUES('$user','$book_id', $worker, '$lease_start','$lease_due','$lease_status')");
 
         if ($add_lease_query) {
+            // Уменьшение количества книг
+            $new_amount = $book_amount-1;
+            $update_lease_query = mysqli_query($conn, "UPDATE `books` SET BOOK_AMOUNT = '$new_amount' WHERE BOOK_ID = '$book_id'") or die('query failed');
             $message[] = 'Запись добавлена!';
             header('location:admin_leases.php');
         } else {
             $message[] = 'Не удалось добавить запись в базу данных.';
+        }
         }
     } else {
         $message[] = 'Вы ввели неправильные данные!';
@@ -45,7 +56,12 @@ if (isset($_POST['send_lease'])) {
 }
 if (isset($_GET['delete'])) {
     $delete_id = $_GET['delete'];
+    $lease = GetLeaseById($conn, $delete_id);
+    $book = GetBookById($conn, $lease['BOOK_ID']);
     mysqli_query($conn, "DELETE FROM `leases` WHERE LEASE_ID = '$delete_id'") or die('query failed');
+    $new_amount = $book['BOOK_AMOUNT']+1;
+    $book_id = $book['BOOK_ID'];
+    $update_lease_query = mysqli_query($conn, "UPDATE `books` SET BOOK_AMOUNT = '$new_amount' WHERE BOOK_ID = '$book_id'") or die('query failed');
     header('location:admin_leases.php');
 }
 
@@ -71,7 +87,8 @@ if (isset($_POST['send_update_lease'])) {
         $book = $fetch_book['BOOK_ID'];
         $worker = $fetch_worker['USER_ID'];
 
-        // Вставка записи в таблицу leases
+        
+        // Обновление записи в таблице leases
         $update_lease_query = mysqli_query($conn, "UPDATE `leases` SET USER_ID = '$user', BOOK_ID = '$book', WORKER_ID = '$worker', LEASE_START = '$lease_start', LEASE_DUE = '$lease_due', LEASE_STATUS = '$lease_status' WHERE LEASE_ID = '$lease_id'") or die('query failed');
 
         if ($update_lease_query) {
@@ -125,12 +142,13 @@ if (isset($_POST['send_update_lease'])) {
                 $fetch_book = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM `books` WHERE BOOK_ID = $book_id"));
                 ?>
                 <div class="box">
-                    <p> user id : <span><?= $fetch_leases['USER_ID'] ?></span></p>
-                    <p> placed on : <span><?= $fetch_leases['LEASE_START'] ?></span></p>
-                    <p> name : <span><?= $fetch_user['USER_LOGIN'] ?></span></p>
-                    <p> number : <span><?= $fetch_user['USER_PHONE'] ?></span></p>
-                    <p> email : <span><?= $fetch_user['USER_MAIL'] ?></span></p>
-                    <p> status : <span><?= $fetch_leases['LEASE_STATUS'] ?></span></p>
+                    <p> № выдачи : <span><?= $fetch_leases['LEASE_ID'] ?></span></p>
+                    <p> № пользователя : <span><?= $fetch_leases['USER_ID'] ?></span></p>
+                    <p> Выдача размещена : <span><?= $fetch_leases['LEASE_START'] ?></span></p>
+                    <p> Логин пользователя : <span><?= $fetch_user['USER_LOGIN'] ?></span></p>
+                    <p> Номер пользователя : <span><?= $fetch_user['USER_PHONE'] ?></span></p>
+                    <p> Email пользователя : <span><?= $fetch_user['USER_MAIL'] ?></span></p>
+                    <p> Статус выдачи : <span><?= $fetch_leases['LEASE_STATUS'] ?></span></p>
                             
                     <form action="" method="post">
                         <input type="hidden" name="lease_id" value="<?= $fetch_leases['LEASE_ID'] ?>">
@@ -138,7 +156,7 @@ if (isset($_POST['send_update_lease'])) {
                         <a href="admin_leases.php?update_lease=<?= $fetch_leases['LEASE_ID'] ?>" class="option-btn">Изменить</a>
                         
                         <a href="admin_leases.php?delete=<?= $fetch_leases['LEASE_ID'] ?>"
-                           onclick="return confirm('delete this order?');" class="delete-btn">delete</a>
+                           onclick="return confirm('Удалить этот заказ?');" class="delete-btn">Удалить</a>
                     </form>
                 </div>
                 <?php
@@ -171,8 +189,8 @@ if (isset($_POST['send_update_lease'])) {
                 <option value="pending">Просрочена</option>
             </select>
 
-            <input type="submit" value="update" name="send_lease" class="btn">
-            <input type="reset" value="cancel" id="close-update" class="option-btn">
+            <input type="submit" value="Добавить" name="send_lease" class="btn">
+            <input type="reset" value="Отменить" id="close-update" class="option-btn">
         </form>
         <?php
     } else if (isset($_GET['update_lease'])){
@@ -219,7 +237,7 @@ if (isset($_POST['send_update_lease'])) {
                     <input type="hidden" name="lease_id" value="<?= $fetch_leases['LEASE_ID'] ?>">
                     <input type="hidden" name="user_id" value="<?= $fetch_leases['USER_ID'] ?>">
                     
-                    <input type="submit" value="update" name="send_update_lease" class="option-btn">
+                    <input type="submit" value="Изменить" name="send_update_lease" class="option-btn">
                     <input type="reset" value="Отменить" id="close-update" class="option-btn">
                     
                 </div>

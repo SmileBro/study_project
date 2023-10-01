@@ -7,33 +7,7 @@ $user_id = $_SESSION['user_id'];
 if (!isset($user_id)) {
     header('location:login.php');
 }
-/*function uniquePost($posted)
-{
-    // Define an array of form fields that you want to include in the description
-    $formFields = ['book_id', 'book_amount', 'product_quantity', 'name'];
 
-    // Initialize an array to store the values of the form fields
-    $formValues = [];
-
-    // Collect the form field values into the $formValues array
-    foreach ($formFields as $field) {
-        if (isset($_POST[$field])) {
-            $formValues[] = $_POST[$field];
-        }
-    }
-
-    // Combine the form field values into a single string
-    $description = implode('', $formValues);
-
-    // check if session hash matches current form hash
-    if (isset($_SESSION['form_hash']) && $_SESSION['form_hash'] == md5($description)) {
-        // form was re-submitted return false
-        return false;
-    }
-    // set the session value to prevent re-submit
-    $_SESSION['form_hash'] = md5($description);
-    return true;
-}*/
 if (isset($_POST['add_to_cart'])) {
     $book_id = $_POST['book_id'];
     $book_amount = $_POST['book_amount'];
@@ -91,8 +65,8 @@ if (isset($_POST['add_to_cart'])) {
                     <input type="number" min="1" name="product_quantity" value="1" class="qty">
                     <input type="hidden" name="book_id" value="<?php echo $fetch_books['BOOK_ID']; ?>">
                     <input type="hidden" name="book_name" value="<?php echo $fetch_books['BOOK_NAME']; ?>">
-                    <input type="hidden" name="book_amount" value="<?php echo $fetch_books['BOOK_AMOUNT']; ?>">
-                    <input type="submit" value="add to cart" name="add_to_cart" class="btn">
+                    <input type="hidden" name="book_amount" value="<?php echo 1; ?>">
+                    <input type="submit" value="В корзину" name="add_to_cart" class="btn">
                 </form>
                 <?php
             }
