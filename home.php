@@ -44,14 +44,14 @@ if (isset($_POST['add_to_cart'])) {
 
 <section class="home">
     <div class="content">
-        <h3>Hand Picked Book to your door.</h3>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi, quod? Reiciendis ut porro iste totam.</p>
-        <a href="about.php" class="white-btn">discover more</a>
+        <h3>Забронируйте книгу не выходя из дома.</h3>
+        <p>До 5 книг в одни руки из нашей библиотеки</p>
+        <a href="books.php" class="white-btn">вперед</a>
     </div>
 </section>
 
 <section class="books">
-    <h1 class="title">latest books</h1>
+    <h1 class="title">популярное</h1>
     <div class="box-container">
         <?php
         $select_books = mysqli_query($conn, "SELECT * FROM `books` LIMIT 6") or die('query failed');
@@ -59,10 +59,13 @@ if (isset($_POST['add_to_cart'])) {
             while ($fetch_books = mysqli_fetch_assoc($select_books)) {
                 ?>
                 <form action="" method="post" class="box">
-                    <img class="book_img" src="uploaded_img/<?php echo $fetch_books['BOOK_IMG']; ?>" width="100%" height="100%" alt="">
+                    <img class="book_img" src="uploaded_img/<?php echo $fetch_books['BOOK_IMG']; ?>" height= "350rem" width=100%  alt="">
                     <div class="name"><?php echo $fetch_books['BOOK_NAME']; ?></div>
-                    <div class="amount"><?php echo $fetch_books['BOOK_AMOUNT']; ?></div>
-                    <input type="number" min="1" name="product_quantity" value="1" class="qty">
+                    <div class="amount">Новинка</div>
+                    <div class="name"><?php 
+                    $author = GetAuthorById($conn, $fetch_books['AUTH_ID']);
+                    echo $author['AUTH_NAME']; ?></div>
+                    <div class="qty">Кол-во: <?php echo $fetch_books['BOOK_AMOUNT']; ?></div>
                     <input type="hidden" name="book_id" value="<?php echo $fetch_books['BOOK_ID']; ?>">
                     <input type="hidden" name="book_name" value="<?php echo $fetch_books['BOOK_NAME']; ?>">
                     <input type="hidden" name="book_amount" value="<?php echo 1; ?>">
@@ -76,7 +79,7 @@ if (isset($_POST['add_to_cart'])) {
         ?>
     </div>
     <div class="load-more" style="margin-top: 2rem; text-align:center">
-        <a href="books.php" class="option-btn">load more</a>
+        <a href="books.php" class="option-btn">Еще</a>
     </div>
 </section>
 
@@ -86,20 +89,18 @@ if (isset($_POST['add_to_cart'])) {
             <img src="images/about-img.jpg" alt="">
         </div>
         <div class="content">
-            <h3>about us</h3>
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit quos enim minima ipsa dicta officia
-                corporis ratione saepe sed adipisci?</p>
-            <a href="about.php" class="btn">read more</a>
+            <h3>о нас</h3>
+            <p>БАЗА - это удобное решение для библиотек для работы с клиентами и автоматизации книжного учета</p>
+            <a href="about.php" class="btn">Еще</a>
         </div>
     </div>
 </section>
 
 <section class="home-contact">
     <div class="content">
-        <h3>have any questions?</h3>
-        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Atque cumque exercitationem repellendus, amet ullam
-            voluptatibus?</p>
-        <a href="contact.php" class="white-btn">contact us</a>
+        <h3>есть вопросы?</h3>
+        <p>Вы можете оставить отзыв или задать вопрос по форме связи ниже</p>
+        <a href="contact.php" class="white-btn">связаться</a>
     </div>
 </section>
 

@@ -25,5 +25,9 @@ function GetLeaseById($conn, $id) {
     $lease_query = mysqli_query($conn, "SELECT * FROM `leases` WHERE LEASE_ID = '$id'") or die('query failed');
     return $fetch_lease = mysqli_fetch_assoc($lease_query);
 }
+function GetAuthorById($conn, $id) {
 
+    $author_query = mysqli_query($conn, "SELECT * FROM `authors` WHERE AUTH_ID = '$id'") or die('query failed');
+    return $fetch_lease = mysqli_fetch_assoc($author_query);
+}
 ?>

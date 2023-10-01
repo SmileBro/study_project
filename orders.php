@@ -30,13 +30,13 @@ if(!isset($user_id)){
 <?php include 'header.php'; ?>
 
 <div class="heading">
-   <h3>your orders</h3>
-   <p> <a href="home.php">home</a> / orders </p>
+   <h3>ваши заказы</h3>
+   <p> <a href="home.php">главная</a> / заказы </p>
 </div>
 
 <section class="placed-orders">
 
-   <h1 class="title">placed orders</h1>
+   <h1 class="title">список заказов</h1>
 
    <div class="box-container">
 
@@ -47,19 +47,16 @@ if(!isset($user_id)){
                 $user = GetUserById($conn, $user_id);
       ?>
       <div class="box">
-         <p> placed on : <span><?php echo $fetch_orders['LEASE_START']; ?></span> </p>
-         <p> name : <span><?php echo $user['USER_NAME']; ?></span> </p>
-         <p> number : <span><?php echo $user['USER_PHONE']; ?></span> </p>
+         <p> дата заказа : <span><?php echo $fetch_orders['LEASE_START']; ?></span> </p>
+         <p> имя : <span><?php echo $user['USER_NAME']; ?></span> </p>
+         <p> номер : <span><?php echo $user['USER_PHONE']; ?></span> </p>
          <p> email : <span><?php echo $user['USER_MAIL']; ?></span> </p>
-         <p> address : <span><?php echo $user['USER_ADRESS']; ?></span> </p>
-         <p> your orders : <span><?php  ?></span> </p>
-         <p> total price : <span>$<?php  ?></span> </p>
-         <p> payment status : <span style="color:<?php if($fetch_orders['LEASE_STATUS'] == 'pending'){ echo 'red'; }else{ echo 'green'; } ?>;"><?php echo $fetch_orders['LEASE_STATUS']; ?></span> </p>
+         <p> статус : <span style="color:<?php if($fetch_orders['LEASE_STATUS'] == 'pending'){ echo 'red'; }else{ echo 'green'; } ?>;"><?php echo $fetch_orders['LEASE_STATUS']; ?></span> </p>
          </div>
       <?php
        }
       }else{
-         echo '<p class="empty">no orders placed yet!</p>';
+         echo '<p class="empty">У вас еще нет заказов!</p>';
       }
       ?>
    </div>

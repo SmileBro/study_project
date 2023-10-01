@@ -11,10 +11,10 @@
     <div class="header-1">
         <div class="flex">
             <div class="share">
-                <a href="#" class="fab fa-facebook-f"></a>
-                <a href="#" class="fab fa-twitter"></a>
-                <a href="#" class="fab fa-instagram"></a>
-                <a href="#" class="fab fa-linkedin"></a>
+            <a href="https://vk.com/yar_l"><i class="fab fa-vk"></i></a>
+            <a href="https://vk.com/azat_ku"> <i class="fab fa-vk"></i></a>
+            <a href="https://t.me/yar_laz"> <i class="fab fa-telegram"></i></a>
+            <a href="https://t.me/perfectfury"> <i class="fab fa-telegram"></i></a>
             </div>
             <a href="home.php" class="logo">БАЗА</a>
             <p><a href="login.php">Войти</a> | <a href="register.php">Регистрация</a></p>
@@ -23,12 +23,12 @@
     <div class="header-2">
         <div class="flex">
             <nav class="navbar">
-                <a href="home.php">home</a>
-                <a href="about.php">about</a>
-                <a href="books.php">books</a>
-                <a href="contact.php">contact</a>
-                <a href="orders.php">orders</a>
-                <a href="cart.php">cart</a>
+                <a href="home.php">главная</a>
+                <a href="about.php">о нас</a>
+                <a href="books.php">книги</a>
+                <a href="contact.php">связатьсья</a>
+                <a href="orders.php">заказы</a>
+                <a href="cart.php">корзина</a>
             </nav>
             <div class="icons">
                 <div id="menu-btn" class="fas fa-bars"></div>

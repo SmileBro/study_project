@@ -10,42 +10,13 @@ $user_id = $_SESSION['user_id'];
 if(!isset($user_id)){
    header('location:login.php');
 }
-function uniquePost($posted)
-{
-    // Define an array of form fields that you want to include in the description
-    $formFields = ['name', 'number', 'email'];
 
-    // Initialize an array to store the values of the form fields
-    $formValues = [];
-
-    // Collect the form field values into the $formValues array
-    foreach ($formFields as $field) {
-        if (isset($_POST[$field])) {
-            $formValues[] = $_POST[$field];
-        }
-    }
-
-    // Combine the form field values into a single string
-    $description = implode('', $formValues);
-    $description = $description.strtotime("now");
-
-    // check if session hash matches current form hash
-    if (isset($_SESSION['form_hash']) && $_SESSION['form_hash'] == md5($description)) {
-        // form was re-submitted return false
-        return false;
-    }
-    // set the session value to prevent re-submit
-    $_SESSION['form_hash'] = md5($description);
-    return true;
-}
-//&& uniquePost($_POST)
 if(isset($_POST['order_btn']) ){
 
    $name = mysqli_real_escape_string($conn, $_POST['name']);
-   
    $email = mysqli_real_escape_string($conn, $_POST['email']);
-   $placed_on = date('d-M-Y');
-   $due_date = date('d-M-Y', strtotime($placed_on. ' + 14 days'));
+   $placed_on = date('Y-m-d h:i:sa');
+   $due_date = date('Y-m-d h:i:sa', strtotime($placed_on. ' + 30 days'));
    $worker_id = 0;
 
    $cart_total = 0;
@@ -90,7 +61,7 @@ if(isset($_POST['order_btn']) ){
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>checkout</title>
+   <title>оформление</title>
 
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
@@ -102,8 +73,8 @@ if(isset($_POST['order_btn']) ){
 <?php include 'header.php'; ?>
 
 <div class="heading">
-   <h3>checkout</h3>
-   <p> <a href="home.php">home</a> / checkout </p>
+   <h3>оформление</h3>
+   <p> <a href="home.php">главная</a> / оформить заказ </p>
 </div>
 
 <section class="display-order">
@@ -120,7 +91,7 @@ if(isset($_POST['order_btn']) ){
    <?php
       }
    }else{
-      echo '<p class="empty">your cart is empty</p>';
+      echo '<p class="empty">Ваша корзина пуста</p>';
    }
    ?>
    <div class="grand-total"> Всего книг : <span><?php echo $grand_total; ?></span> </div>

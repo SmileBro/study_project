@@ -10,15 +10,6 @@ if(!isset($user_id)){
    header('location:login.php');
 }
 
-//Т.к. выдаем по одному экземпляру книги уже не нужна функция изменения
-//количества книг в заказе
-/*if(isset($_POST['update_cart'])){
-   $cart_id = $_POST['cart_id'];
-   $cart_quantity = $_POST['cart_quantity'];
-   mysqli_query($conn, "UPDATE `cart` SET quantity = '$cart_quantity' WHERE id = '$cart_id'") or die('query failed');
-   $message[] = 'cart quantity updated!';
-}*/
-
 if(isset($_GET['delete'])){
    $delete_id = $_GET['delete'];
    mysqli_query($conn, "DELETE FROM `cart` WHERE CART_ID = '$delete_id'") or die('query failed');
@@ -38,12 +29,10 @@ if(isset($_GET['delete_all'])){
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>cart</title>
+   <title>Корзина</title>
 
-   <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-   <!-- custom css file link  -->
    <link rel="stylesheet" href="css/style.css">
 
 </head>
@@ -52,13 +41,13 @@ if(isset($_GET['delete_all'])){
 <?php include 'header.php'; ?>
 
 <div class="heading">
-   <h3>shopping cart</h3>
-   <p> <a href="home.php">home</a> / cart </p>
+   <h3>Корзина</h3>
+   <p> <a href="home.php">главная</a> / коризна </p>
 </div>
 
 <section class="shopping-cart">
 
-   <h1 class="title">products added</h1>
+   <h1 class="title">добавленные книги</h1>
 
    <div class="box-container">
       <?php
@@ -69,7 +58,7 @@ if(isset($_GET['delete_all'])){
                 $book = GetBookById($conn, $fetch_cart['BOOK_ID']);
       ?>
       <div class="box">
-         <a href="cart.php?delete=<?php echo $fetch_cart['CART_ID']; ?>" class="fas fa-times" onclick="return confirm('delete this from cart?');"></a>
+         <a href="cart.php?delete=<?php echo $fetch_cart['CART_ID']; ?>" class="fas fa-times" onclick="return confirm('Удалить эту книгу из корзины?');"></a>
          <img src="uploaded_img/<?php echo $book['BOOK_IMG']; ?>" alt="">
          <div class="name"><?php echo $book['BOOK_NAME']; ?></div>
          
@@ -91,7 +80,7 @@ if(isset($_GET['delete_all'])){
    <div class="cart-total">
       <p>Всего книг : <span><?php echo $grand_total; ?></span></p>
       <div class="flex">
-         <a href="shop.php" class="option-btn">Продолжить поиск</a>
+         <a href="books.php" class="option-btn">Продолжить поиск</a>
          <a href="checkout.php" class="btn <?php echo ($grand_total > 0)?'':'disabled'; ?>">Заказать</a>
       </div>
    </div>

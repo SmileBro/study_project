@@ -1,32 +1,32 @@
 <section class="footer">
     <div class="box-container">
         <div class="box">
-            <h3>quick links</h3>
-            <a href="home.php">home</a>
-            <a href="about.php">about</a>
-            <a href="books.php">books</a>
-            <a href="contact.php">contact</a>
+            <h3>основные ссылки</h3>
+            <a href="home.php">главная</a>
+            <a href="about.php">о нас</a>
+            <a href="books.php">книги</a>
+            <a href="contact.php">cвязаться</a>
         </div>
         <div class="box">
-            <h3>extra links</h3>
-            <a href="login.php">login</a>
-            <a href="register.php">register</a>
-            <a href="cart.php">cart</a>
-            <a href="orders.php">orders</a>
+            <h3>ваши ссылки</h3>
+            <a href="login.php">войти</a>
+            <a href="register.php">регистрация</a>
+            <a href="cart.php">корзина</a>
+            <a href="orders.php">заказы</a>
         </div>
         <div class="box">
-            <h3>contact info</h3>
-            <p><i class="fas fa-phone"></i> +123-456-7890 </p>
-            <p><i class="fas fa-phone"></i> +111-222-3333 </p>
-            <p><i class="fas fa-envelope"></i> shaikhanas@gmail.com </p>
-            <p><i class="fas fa-map-marker-alt"></i> mumbai, india - 400104 </p>
+            <h3>контакты</h3>
+            <p><i class="fas fa-phone"></i> +8 909 348 2992 </p>
+            <p><i class="fas fa-phone"></i> +8 902 711 1825 </p>
+            <p><i class="fas fa-envelope"></i> yaroslav.laz@mail.ru </p>
+            <p><i class="fas fa-map-marker-alt"></i> Kazan, Russia - 420066 </p>
         </div>
         <div class="box">
-            <h3>follow us</h3>
-            <a href="#"> <i class="fab fa-facebook-f"></i> facebook </a>
-            <a href="#"> <i class="fab fa-twitter"></i> twitter </a>
-            <a href="#"> <i class="fab fa-instagram"></i> instagram </a>
-            <a href="#"> <i class="fab fa-linkedin"></i> linkedin </a>
+            <h3>соц сети</h3>
+            <a href="https://vk.com/yar_l"> <i class="fab fa-vk"></i> VK Ярослав </a>
+            <a href="https://vk.com/azat_ku"> <i class="fab fa-vk"></i> VK Азат </a>
+            <a href="https://t.me/yar_laz"> <i class="fab fa-telegram"></i> Ярослав </a>
+            <a href="https://t.me/perfectfury"> <i class="fab fa-telegram"></i> Азат </a>
         </div>
     </div>
     <p class="credit"> &copy; copyright @ <?php echo date('Y'); ?> by <span>AZ$T & YAROSL$V</span></p>
