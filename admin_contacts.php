@@ -1,5 +1,6 @@
 <?php
 include 'config.php';
+include 'get_function.php';
 session_start();
 $admin_id = $_SESSION['admin_id'];
 
@@ -9,7 +10,7 @@ if (!isset($admin_id)) {
 
 if (isset($_GET['delete'])) {
     $delete_id = $_GET['delete'];
-    mysqli_query($conn, "DELETE FROM `message` WHERE id = '$delete_id'") or die('query failed');
+    mysqli_query($conn, "DELETE FROM `message` WHERE MESSAGE_ID = '$delete_id'") or die('query failed');
     header('location:admin_contacts.php');
 }
 ?>
@@ -40,10 +41,10 @@ if (isset($_GET['delete'])) {
         $select_message = mysqli_query($conn, "SELECT * FROM `message`") or die('query failed');
         if (mysqli_num_rows($select_message) > 0) {
             while ($fetch_message = mysqli_fetch_assoc($select_message)) {
-                $user_id = $fetch_message['FROM_USER'];
-                $select_user = mysqli_query($conn, "SELECT * FROM `users` WHERE USER_ID = $user_id") or die('query failed');
-                if (mysqli_num_rows($select_user) > 0) {
-                    $fetch_user = mysqli_fetch_assoc($select_user)
+                $user_id = $fetch_message['TO_USER'];
+                $select_message_to_user = mysqli_query($conn, "SELECT * FROM `users` WHERE USER_ID = $user_id OR USER_ID = 'null'") or die('query failed');
+                if (mysqli_num_rows($select_message_to_user) > 0) {
+                    $fetch_user = GetUserById($conn, $fetch_message['FROM_USER'])
                     ?>
                     <div class="box">
                         <p> user id : <span><?= $fetch_message['FROM_USER'] ?></span></p>
