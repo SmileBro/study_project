@@ -38,12 +38,9 @@ if (isset($_GET['delete'])) {
     <h1 class="title"> Сообщения </h1>
     <div class="box-container">
         <?php
-        $select_message = mysqli_query($conn, "SELECT * FROM `message`") or die('query failed');
+        $select_message = mysqli_query($conn, "SELECT * FROM `message` WHERE TO_USER = $admin_id OR TO_USER = 'null'") or die('query failed');
         if (mysqli_num_rows($select_message) > 0) {
             while ($fetch_message = mysqli_fetch_assoc($select_message)) {
-                $user_id = $fetch_message['TO_USER'];
-                $select_message_to_user = mysqli_query($conn, "SELECT * FROM `users` WHERE USER_ID = $user_id OR USER_ID = 'null'") or die('query failed');
-                if (mysqli_num_rows($select_message_to_user) > 0) {
                     $fetch_user = GetUserById($conn, $fetch_message['FROM_USER'])
                     ?>
                     <div class="box">
@@ -57,7 +54,6 @@ if (isset($_GET['delete'])) {
                            onclick="return confirm('delete this message?');" class="delete-btn">delete message</a>
                     </div>
                     <?php
-                };
             }
         } else {
             echo '<p class="empty">У вас нет сообщений!</p>';

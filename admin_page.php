@@ -73,7 +73,7 @@ if (!isset($admin_id)) {
             $number_of_users = mysqli_num_rows($select_users);
             ?>
             <h3><?php echo $number_of_users; ?></h3>
-            <p>normal users</p>
+            <p>Обычные пользователи</p>
         </div>
         <div class="box">
             <?php
@@ -81,7 +81,7 @@ if (!isset($admin_id)) {
             $number_of_admins = mysqli_num_rows($select_admins);
             ?>
             <h3><?php echo $number_of_admins; ?></h3>
-            <p>admin users</p>
+            <p>Администраторы</p>
         </div>
         <div class="box">
             <?php
@@ -89,15 +89,15 @@ if (!isset($admin_id)) {
             $number_of_account = mysqli_num_rows($select_account);
             ?>
             <h3><?php echo $number_of_account; ?></h3>
-            <p>total accounts</p>
+            <p>Всего аккаунтов</p>
         </div>
         <div class="box">
             <?php
-            $select_messages = mysqli_query($conn, "SELECT * FROM `message`") or die('query failed');
+            $select_messages = mysqli_query($conn, "SELECT * FROM `message` WHERE TO_USER = $admin_id OR TO_USER = 'null'") or die('query failed');
             $number_of_messages = mysqli_num_rows($select_messages);
             ?>
             <h3><?php echo $number_of_messages; ?></h3>
-            <p>new messages</p>
+            <p>Новых сообщений</p>
         </div>
     </div>
 </section>
