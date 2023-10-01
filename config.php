@@ -5,4 +5,5 @@ $db_pass        = '';
 $db_database    = 'library_bd'; 
 $db_port        = '3306';
 $conn = mysqli_connect($db_host,$db_user,$db_pass,$db_database,$db_port) or die('connection failed');
+$dest = "C:\\Users\\urere\\Desktop\\Рабочий стол\\Четвертый курс\\ПППР\\study_project\\uploaded_img\\";
 ?>

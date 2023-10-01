@@ -11,7 +11,7 @@ if (isset($_GET['delete'])) {
    $delete_id = $_GET['delete'];
    $delete_image_query = mysqli_query($conn, "SELECT BOOK_IMG FROM `books` WHERE BOOK_ID = '$delete_id'") or die('query failed');
    $fetch_delete_image = mysqli_fetch_assoc($delete_image_query);
-   unlink('C:\\Users\\urere\\Desktop\\Рабочий стол\\Четвертый курс\\ПППР\\study_project\\uploaded_img\\' . $fetch_delete_image['BOOK_IMG']);
+   unlink('$dest . $fetch_delete_image['BOOK_IMG']);
    mysqli_query($conn, "DELETE FROM `books` WHERE BOOK_ID = '$delete_id'") or die('query failed');
    header('location:admin_search_page.php');
 }
@@ -24,9 +24,6 @@ if (isset($_POST['update_book'])) {
    mysqli_query($conn, "UPDATE `books` SET BOOK_NAME = '$update_name', BOOK_AMOUNT = '$update_amount' WHERE BOOK_ID = '$update_p_id'") or die('query failed');
 
    $temp = explode(".", $_FILES["update_image"]["name"]);
-
-   $dest = "C:\\Users\\urere\\Desktop\\Рабочий стол\\Четвертый курс\\ПППР\\study_project\\uploaded_img\\";
-
    $image_size = $_FILES['update_image']['size'];
 
    $newfilename = $_POST['update_old_image'];
