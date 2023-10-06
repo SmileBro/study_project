@@ -77,8 +77,9 @@ if (isset($_POST['update_book'])) {
          while($fetch_books = mysqli_fetch_assoc($select_books)){
    ?>
         <div class="box">
+                     <a href="admin_detail.php?id=<?=$fetch_books['BOOK_ID']?>">
                     <img class="book_img" src="uploaded_img/<?= $fetch_books['BOOK_IMG'].'?t='. time() ?>" height= "350rem" width=100% 
-                         alt="">
+                         alt=""></a>
                     <div class="name"><?= $fetch_books['BOOK_NAME'] ?></div>
                     <div class="amount">Количество: <?= $fetch_books['BOOK_AMOUNT'] ?></div>
                     <a href="admin_search_page.php?update=<?= $fetch_books['BOOK_ID'] ?>" class="option-btn">Изменить</a>

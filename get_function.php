@@ -30,4 +30,17 @@ function GetAuthorById($conn, $id) {
     $author_query = mysqli_query($conn, "SELECT * FROM `authors` WHERE AUTH_ID = '$id'") or die('query failed');
     return $fetch_lease = mysqli_fetch_assoc($author_query);
 }
+function GetAuthorByName($conn, $name) {
+
+    $author_query = mysqli_query($conn, "SELECT * FROM `authors` WHERE AUTH_NAME = '$name'") or die('query failed');
+    return $fetch_lease = mysqli_fetch_assoc($author_query);
+}
+function GetPublisherById($conn, $id) {
+    $query = mysqli_query($conn, "SELECT * FROM `publishers` WHERE PUB_ID = '$id'") or die('query failed');
+    return $fetch = mysqli_fetch_assoc($query);
+}
+function GetPublisherByName($conn, $name) {
+    $query = mysqli_query($conn, "SELECT * FROM `publishers` WHERE PUB_NAME = '$name'") or die('query failed');
+    return $fetch = mysqli_fetch_assoc($query);
+}
 ?>
