@@ -59,7 +59,8 @@ if (isset($_POST['add_to_cart'])) {
             while ($fetch_books = mysqli_fetch_assoc($select_books)) {
                 ?>
                 <form action="" method="post" class="box">
-                    <img class="book_img" src="uploaded_img/<?php echo $fetch_books['BOOK_IMG']; ?>" height= "350rem" width=100%  alt="">
+                    <a href="details.php?id=<?=$fetch_books['BOOK_ID']?>">
+                    <img class="book_img" src="uploaded_img/<?php echo $fetch_books['BOOK_IMG']; ?>" height= "350rem" width=100%  alt=""></a>
                     <div class="name"><?php echo $fetch_books['BOOK_NAME']; ?></div>
                     <div class="amount">Новинка</div>
                     <div class="name"><?php 

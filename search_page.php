@@ -1,7 +1,7 @@
 <?php
 
 include 'config.php';
-
+include 'get_function.php';
 session_start();
 
 $user_id = $_SESSION['user_id'];
@@ -67,12 +67,14 @@ if(isset($_POST['add_to_cart'])){
          $select_books = mysqli_query($conn, "SELECT * FROM `books` WHERE BOOK_NAME LIKE '%{$search_item}%'") or die('query failed');
          if(mysqli_num_rows($select_books) > 0){
          while($fetch_books = mysqli_fetch_assoc($select_books)){
+            $fetch_author = GetAuthorById($conn, $fetch_books['AUTH_ID']);
    ?>
         <form action="" method="post" class="box">
-            <img class="book_img" src="uploaded_img/<?php echo $fetch_books['BOOK_IMG']; ?>" width="100%" height="100%" alt="">
+            <a href="details.php?id=<?=$fetch_books['BOOK_ID']?>">
+            <img class="image" src="uploaded_img/<?php echo $fetch_books['BOOK_IMG']; ?>" width="100%" alt=""></a>
             <div class="name"><?php echo $fetch_books['BOOK_NAME']; ?></div>
             <div class="amount"><?php echo $fetch_books['BOOK_AMOUNT']; ?></div>
-            <input type="number" min="1" name="books_quantity" value="1" class="qty">
+            <div class="name"><?php echo $fetch_author['AUTH_NAME']; ?></div>
             <input type="hidden" name="book_id" value="<?php echo $fetch_books['BOOK_ID']; ?>">
             <input type="hidden" name="book_name" value="<?php echo $fetch_books['BOOK_NAME']; ?>">
             <input type="hidden" name="book_amount" value="<?php echo $fetch_books['BOOK_AMOUNT']; ?>">

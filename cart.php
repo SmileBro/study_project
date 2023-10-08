@@ -59,7 +59,8 @@ if(isset($_GET['delete_all'])){
       ?>
       <div class="box">
          <a href="cart.php?delete=<?php echo $fetch_cart['CART_ID']; ?>" class="fas fa-times" onclick="return confirm('Удалить эту книгу из корзины?');"></a>
-         <img src="uploaded_img/<?php echo $book['BOOK_IMG']; ?>" alt="">
+         <a href="details.php?id=<?=$fetch_cart['BOOK_ID']?>">
+         <img src="uploaded_img/<?php echo $book['BOOK_IMG']; ?>" alt=""></a>
          <div class="name"><?php echo $book['BOOK_NAME']; ?></div>
          
       </div>

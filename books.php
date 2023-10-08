@@ -64,7 +64,8 @@ if (isset($_POST['add_to_cart'])) {
             while($fetch_books = mysqli_fetch_assoc($select_books)){
       ?>
      <form action="" method="post" class="box">
-      <img class="image" src="uploaded_img/<?php echo $fetch_books['BOOK_IMG']; ?>" width="100%" alt="">
+     <a href="details.php?id=<?=$fetch_books['BOOK_ID']?>">
+      <img class="image" src="uploaded_img/<?php echo $fetch_books['BOOK_IMG']; ?>" width="100%" alt=""></a>
       <div class="name"><?php echo $fetch_books['BOOK_NAME']; ?></div>
       <div class="name"><?php $author = GetAuthorById($conn, $fetch_books['AUTH_ID']);
       echo $author['AUTH_NAME']; ?></div>
