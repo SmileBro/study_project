@@ -10,7 +10,7 @@
         <div class="box">
             <h3>ваши ссылки</h3>
             <a href="login.php">войти</a>
-            <a href="register.php">регистрация</a>
+            <a href="user_cabinet.php">личный кабинет</a>
             <a href="cart.php">корзина</a>
             <a href="orders.php">заказы</a>
         </div>

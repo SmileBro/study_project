@@ -1105,3 +1105,78 @@ section {
     opacity: 0.5;
     margin-right: 5px;
   }
+
+  
+.users .box-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 30rem);
+    justify-content: center;
+    gap:1.5rem;
+    max-width: 1200px;
+    margin:0 auto;
+    align-items: flex-start;
+ }
+ 
+ .users .box-container .box{
+    background-color: var(--white);
+    padding:2rem;
+    border:var(--border);
+    box-shadow: var(--box-shadow);
+    border-radius: .5rem;
+    text-align: center;
+ }
+ 
+ .users .box-container .box p{
+    padding-bottom: 1.5rem;
+    font-size: 2rem;
+    color:var(--light-color);
+ }
+ 
+ .users .box-container .box p span{
+    color:var(--purple);
+ }
+ 
+ .users .box-container .box .delete-btn{
+    margin-top: 0;
+ }
+
+ 
+.edit-form{
+    max-height: 100vh;
+    min-height: 100vh;
+    background-color: rgba(0,0,0,.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding:2rem;
+    overflow-y: scroll;
+    
+    position: fixed;
+    top:0; left:0; 
+    z-index: 1200;
+    width: 100%;
+ }
+ 
+ .edit-form form{
+    width: 50rem;
+    padding:2rem;
+    text-align: center;
+    border-radius: .5rem;
+    background-color: var(--white);
+ }
+ 
+ .edit-form form img{
+    height: 25rem;
+    margin-bottom: 1rem;
+ }
+ 
+ .edit-form form .box{
+    margin:1rem 0;
+    padding:1.2rem 1.4rem;
+    border:var(--border);
+    border-radius: .5rem;
+    background-color: var(--light-bg);
+    font-size: 1.8rem;
+    color:var(--black);
+    width: 100%;
+ }

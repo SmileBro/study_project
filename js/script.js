@@ -22,3 +22,6 @@ window.onscroll = () =>{
       document.querySelector('.header .header-2').classList.remove('active');
    }
 }
+
+document.querySelector('#close-update').onclick = () =>{
+   document.querySelector('.edit-form').style.display = 'none';}

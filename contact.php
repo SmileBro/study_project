@@ -74,7 +74,7 @@ if(isset($_POST['send'])){
       required placeholder="Введите ваше имя" class="box">
       <input type="email" name="email" value = "<?php echo $user['USER_MAIL']?>"
       required placeholder="Введите ваш email" class="box">
-      <input type="number" name="number" value = "<?php echo $user['USER_PHONE']?>" required placeholder="Введите ваш номер" class="box">
+      <input type="text" name="number" value = "<?php echo $user['USER_PHONE']?>" required placeholder="Введите ваш номер" class="box">
       <textarea name="message" class="box" placeholder="Ваше сообщение" id="" cols="30" rows="10"></textarea>
       <input type="submit" value="Отправить" name="send" class="btn">
    </form>

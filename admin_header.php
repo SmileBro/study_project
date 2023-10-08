@@ -26,7 +26,7 @@
             <p>username : <span><?= $_SESSION['admin_name'] ?></span></p>
             <p>email : <span><?= $_SESSION['admin_email'] ?></span></p>
             <a href="logout.php" class="delete-btn">Выйти</a>
-            <div><a href="login.php">Войти</a> | <a href="register.php">Регистрация</a></div>
+            
         </div>
     </div>
 </header>

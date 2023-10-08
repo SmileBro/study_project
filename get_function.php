@@ -31,7 +31,6 @@ function GetAuthorById($conn, $id) {
     return $fetch_lease = mysqli_fetch_assoc($author_query);
 }
 function GetAuthorByName($conn, $name) {
-
     $author_query = mysqli_query($conn, "SELECT * FROM `authors` WHERE AUTH_NAME = '$name'") or die('query failed');
     return $fetch_lease = mysqli_fetch_assoc($author_query);
 }

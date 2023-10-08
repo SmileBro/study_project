@@ -40,7 +40,7 @@
                 </p>
                 <p>email : <span><?= $_SESSION['user_email'] ?></span>
                 </p>
-                <a href="logout.php" class="delete-btn">Выйти</a>
+                <a href="user_cabinet.php" class="option-btn">Кабинет</a> | <a href="logout.php" class="delete-btn">Выйти</a>
             </div>
         </div>
     </div>

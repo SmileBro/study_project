@@ -112,7 +112,7 @@ if(isset($_POST['order_btn']) ){
          </div>
          <div class="inputBox">
             <span>Ваш номер :</span>
-            <input type="number" name="number" value = "<?php echo $user['USER_PHONE']?>"
+            <input type="text" name="number" value = "<?php echo $user['USER_PHONE']?>"
             required placeholder="Введите ваш номер">
          </div>
          <div class="inputBox">
