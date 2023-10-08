@@ -1,4 +1,5 @@
 <?php
+
 include 'config.php';
 session_start();
 $user_id = $_SESSION['user_id'];
@@ -16,7 +17,8 @@ if (!isset($user_id)) {
     <title>О нас</title>
 
     <!-- font awesome cdn link  -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <!-- custom css file link  -->
     <link rel="stylesheet" href="css/style.css">
@@ -38,7 +40,8 @@ if (!isset($user_id)) {
         </div>
         <div class="content">
             <h3>Почему мы?</h3>
-            <p>Мы уже сделали все что нужно, вам осталось только сделать заказ. А если у вас остались вопросы то пишите по кнопке ниже.</p>
+            <p>Мы уже сделали все что нужно, вам осталось только сделать заказ.
+                А если у вас остались вопросы то пишите по кнопке ниже.</p>
             <a href="contact.php" class="btn">связаться</a>
         </div>
     </div>
@@ -48,7 +51,8 @@ if (!isset($user_id)) {
     <div class="box-container">
         <div class="box">
             <img src="images/pic-1.png" alt="">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt ad, quo labore fugiat nam accusamus quia.
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt ad,
+                quo labore fugiat nam accusamus quia.
                 Ducimus repudiandae dolore placeat.</p>
             <div class="stars">
                 <i class="fas fa-star"></i>
@@ -61,7 +65,8 @@ if (!isset($user_id)) {
         </div>
         <div class="box">
             <img src="images/pic-2.png" alt="">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt ad, quo labore fugiat nam accusamus quia.
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt ad,
+                quo labore fugiat nam accusamus quia.
                 Ducimus repudiandae dolore placeat.</p>
             <div class="stars">
                 <i class="fas fa-star"></i>
@@ -74,7 +79,8 @@ if (!isset($user_id)) {
         </div>
         <div class="box">
             <img src="images/pic-3.png" alt="">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt ad, quo labore fugiat nam accusamus quia.
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt ad,
+                quo labore fugiat nam accusamus quia.
                 Ducimus repudiandae dolore placeat.</p>
             <div class="stars">
                 <i class="fas fa-star"></i>
@@ -87,7 +93,8 @@ if (!isset($user_id)) {
         </div>
         <div class="box">
             <img src="images/pic-4.png" alt="">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt ad, quo labore fugiat nam accusamus quia.
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt ad,
+                quo labore fugiat nam accusamus quia.
                 Ducimus repudiandae dolore placeat.</p>
             <div class="stars">
                 <i class="fas fa-star"></i>
@@ -100,7 +107,8 @@ if (!isset($user_id)) {
         </div>
         <div class="box">
             <img src="images/pic-5.png" alt="">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt ad, quo labore fugiat nam accusamus quia.
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt ad,
+                quo labore fugiat nam accusamus quia.
                 Ducimus repudiandae dolore placeat.</p>
             <div class="stars">
                 <i class="fas fa-star"></i>
@@ -113,7 +121,8 @@ if (!isset($user_id)) {
         </div>
         <div class="box">
             <img src="images/pic-6.png" alt="">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt ad, quo labore fugiat nam accusamus quia.
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt ad,
+                quo labore fugiat nam accusamus quia.
                 Ducimus repudiandae dolore placeat.</p>
             <div class="stars">
                 <i class="fas fa-star"></i>
@@ -132,16 +141,17 @@ if (!isset($user_id)) {
         <div class="box">
             <img src="images/author-1.jpg" alt="">
             <div class="share">
-            <a href="https://vk.com/azat_ku"> <i class="fab fa-vk"></i></a>
-            <a href="https://t.me/perfectfury"> <i class="fab fa-telegram"></i></a>
+                <a href="https://vk.com/azat_ku"> <i class="fab fa-vk"></i></a>
+                <a href="https://t.me/perfectfury"> <i
+                        class="fab fa-telegram"></i></a>
             </div>
             <h3>Азат</h3>
         </div>
         <div class="box">
             <img src="images/author-2.jpg" alt="">
             <div class="share">
-            <a href="https://vk.com/yar_l"> <i class="fab fa-vk"></i></a>
-            <a href="https://t.me/yar_laz"> <i class="fab fa-telegram"></i></a>
+                <a href="https://vk.com/yar_l"> <i class="fab fa-vk"></i></a>
+                <a href="https://t.me/yar_laz"> <i class="fab fa-telegram"></i></a>
             </div>
             <h3>Ярослав</h3>
         </div>

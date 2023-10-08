@@ -1,13 +1,14 @@
 <?php
+
 include 'config.php';
+include 'get_function.php';
 session_start();
 $admin_id = $_SESSION['admin_id'];
 if (!isset($admin_id)) {
     header('location:login.php');
 };
 
-function uniquePost($posted)
-{
+function uniquePost($posted) {
     // Define an array of form fields that you want to include in the description
     $formFields = ['name', 'amount', 'year', 'publisher', 'author'];
 
@@ -16,8 +17,8 @@ function uniquePost($posted)
 
     // Collect the form field values into the $formValues array
     foreach ($formFields as $field) {
-        if (isset($_POST[$field])) {
-            $formValues[] = $_POST[$field];
+        if (isset($posted[$field])) {
+            $formValues[] = $posted[$field];
         }
     }
 
@@ -27,33 +28,11 @@ function uniquePost($posted)
     // check if session hash matches current form hash
     if (isset($_SESSION['form_hash']) && $_SESSION['form_hash'] == md5($description)) {
         // form was re-submitted return false
-        return false;
+        return FALSE;
     }
     // set the session value to prevent re-submit
     $_SESSION['form_hash'] = md5($description);
-    return true;
-}
-
-function insertPublisherIfNeeded($conn, $publisher)
-{
-    $select_pub = mysqli_query($conn, "SELECT PUB_ID FROM `publishers` WHERE PUB_NAME = '$publisher'");
-    if (mysqli_num_rows($select_pub) > 0) {
-        return $select_pub->fetch_array()[0];
-    } else {
-        mysqli_query($conn, "INSERT INTO `publishers`(PUB_NAME) VALUES('$publisher')");
-        return mysqli_insert_id($conn);
-    }
-}
-
-function insertAuthorIfNeeded($conn, $author)
-{
-    $select_auth = mysqli_query($conn, "SELECT AUTH_ID FROM `authors` WHERE AUTH_NAME = '$author'");
-    if (mysqli_num_rows($select_auth) > 0) {
-        return $select_auth->fetch_array()[0];
-    } else {
-        mysqli_query($conn, "INSERT INTO `authors`(AUTH_NAME) VALUES('$author')");
-        return mysqli_insert_id($conn);
-    }
+    return TRUE;
 }
 
 if (isset($_POST['add_book']) && uniquePost($_POST)) {
@@ -64,27 +43,35 @@ if (isset($_POST['add_book']) && uniquePost($_POST)) {
     $author = mysqli_real_escape_string($conn, $_POST['author']);
 
     $temp = explode(".", $_FILES["image"]["name"]);
-    
+
     $image_size = $_FILES['image']['size'];
 
-    $select_book_name = mysqli_query($conn, "SELECT BOOK_NAME FROM `books` WHERE BOOK_NAME = '$name'") or die('query failed');
+    $select_book_name = mysqli_query($conn,
+        "SELECT BOOK_NAME FROM `books` WHERE BOOK_NAME = '$name'") or die('query failed');
 
     if ($image_size > 2000000) {
         $message[] = 'Размер файла слишком большой!';
-    } else {
+    }
+    else {
         if (mysqli_num_rows($select_book_name) > 0) {
-            $existing_books = mysqli_query($conn, "SELECT BOOK_AMOUNT FROM `books` WHERE BOOK_NAME = '$name'") or die('query failed');
+            $existing_books = mysqli_query($conn,
+                "SELECT BOOK_AMOUNT FROM `books` WHERE BOOK_NAME = '$name'") or die('query failed');
             $upd_amount = $amount + $existing_books->fetch_array()[0];
-            mysqli_query($conn, "UPDATE `books` SET `BOOK_AMOUNT`='$upd_amount' WHERE BOOK_NAME = '$name'") or die('query failed');
-        } else {
+            mysqli_query($conn,
+                "UPDATE `books` SET `BOOK_AMOUNT`='$upd_amount' WHERE BOOK_NAME = '$name'") or die('query failed');
+        }
+        else {
             $pub_id = insertPublisherIfNeeded($conn, $publisher);
             $auth_id = insertAuthorIfNeeded($conn, $author);
-            $add_book_query = mysqli_query($conn, "INSERT INTO `books`(BOOK_NAME, BOOK_AMOUNT,PUB_ID, AUTH_ID, RELEASE_YEAR, BOOK_IMG) VALUES('$name','$amount','$pub_id', '$auth_id','$year', '')") or die('query failed');
+            $add_book_query = mysqli_query($conn,
+                "INSERT INTO `books`(BOOK_NAME, BOOK_AMOUNT,PUB_ID, AUTH_ID, RELEASE_YEAR, BOOK_IMG) VALUES('$name','$amount','$pub_id', '$auth_id','$year', '')") or die('query failed');
             if ($add_book_query) {
                 $inserted_book_id = mysqli_insert_id($conn);
                 $newfilename = $inserted_book_id . '.' . end($temp);
-                $add_book_query = mysqli_query($conn, "UPDATE `books` SET BOOK_IMG = '$newfilename' WHERE BOOK_ID = '$inserted_book_id'") or die('query failed');
-                move_uploaded_file($_FILES["image"]["tmp_name"], $dest . $newfilename);
+                $add_book_query = mysqli_query($conn,
+                    "UPDATE `books` SET BOOK_IMG = '$newfilename' WHERE BOOK_ID = '$inserted_book_id'") or die('query failed');
+                move_uploaded_file($_FILES["image"]["tmp_name"],
+                    $dest . $newfilename);
                 $message[] = 'Книга успешно добавлена!';
             }
         }
@@ -93,11 +80,7 @@ if (isset($_POST['add_book']) && uniquePost($_POST)) {
 
 if (isset($_GET['delete'])) {
     $delete_id = $_GET['delete'];
-    $delete_image_query = mysqli_query($conn, "SELECT BOOK_IMG FROM `books` WHERE BOOK_ID = '$delete_id'") or die('query failed');
-    $fetch_delete_image = mysqli_fetch_assoc($delete_image_query);
-    unlink($dest . $fetch_delete_image['BOOK_IMG']);
-    mysqli_query($conn, "DELETE FROM `books` WHERE BOOK_ID = '$delete_id'") or die('query failed');
-    header('location:admin_books.php');
+    deleteBook($conn, $delete_id, $dest);
 }
 
 if (isset($_POST['update_book'])) {
@@ -105,14 +88,13 @@ if (isset($_POST['update_book'])) {
     $update_name = $_POST['update_name'];
     $update_amount = $_POST['update_amount'];
 
-    mysqli_query($conn, "UPDATE `books` SET BOOK_NAME = '$update_name', BOOK_AMOUNT = '$update_amount' WHERE BOOK_ID = '$update_p_id'") or die('query failed');
+    mysqli_query($conn,
+        "UPDATE `books` SET BOOK_NAME = '$update_name', BOOK_AMOUNT = '$update_amount' WHERE BOOK_ID = '$update_p_id'") or die('query failed');
 
-    $temp = explode(".", $_FILES["update_image"]["name"]);
-    $image_size = $_FILES['update_image']['size'];
-
-    $newfilename = $_POST['update_old_image'];
-    move_uploaded_file($_FILES["update_image"]["tmp_name"], $dest . $newfilename);
-    $message[] = 'Книга успешно изменена!';
+    if (isset($_FILES["update_image"])) {
+        $message[] = uploadImage($_FILES["update_image"], $dest,
+            $_POST['update_old_image']);
+    }
 
     header('location:admin_books.php');
 }
@@ -126,7 +108,8 @@ if (isset($_POST['update_book'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Книги</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <link rel="stylesheet" href="css/admin_style.css">
 
@@ -142,12 +125,18 @@ if (isset($_POST['update_book'])) {
     <h1 class="title">Добавить книги</h1>
 
     <form action="" method="post" enctype="multipart/form-data">
-        <input type="text" name="name" class="box" placeholder="Введите название книги" required>
-        <input type="text" name="author" class="box" placeholder="Введите автора" required>
-        <input type="text" name="publisher" class="box" placeholder="Введите издательство книги" required>
-        <input type="number" min="0" name="amount" class="box" placeholder="Введите количество" required>
-        <input type="number" min="0" name="year" class="box" placeholder="Введите год" required>
-        <input type="file" name="image" accept="image/jpg, image/jpeg, image/png" class="box" required>
+        <input type="text" name="name" class="box"
+               placeholder="Введите название книги" required>
+        <input type="text" name="author" class="box"
+               placeholder="Введите автора" required>
+        <input type="text" name="publisher" class="box"
+               placeholder="Введите издательство книги" required>
+        <input type="number" min="0" name="amount" class="box"
+               placeholder="Введите количество" required>
+        <input type="number" min="0" name="year" class="box"
+               placeholder="Введите год" required>
+        <input type="file" name="image"
+               accept="image/jpg, image/jpeg, image/png" class="box" required>
         <input type="submit" value="Добавить" name="add_book" class="btn">
     </form>
 
@@ -160,23 +149,30 @@ if (isset($_POST['update_book'])) {
 <section class="books">
     <div class="box-container">
         <?php
-        $select_books = mysqli_query($conn, "SELECT * FROM `books`") or die('query failed');
+        $select_books = mysqli_query($conn,
+            "SELECT * FROM `books`") or die('query failed');
         if (mysqli_num_rows($select_books) > 0) {
             while ($fetch_books = mysqli_fetch_assoc($select_books)) {
                 ?>
                 <div class="box">
-                    <a href="admin_detail.php?id=<?=$fetch_books['BOOK_ID']?>">
-                    <img class="book_img" src="uploaded_img/<?= $fetch_books['BOOK_IMG'].'?t='. time() ?>" height= "350rem" width=100% 
-                         alt=""></a>
+                    <a href="admin_detail.php?id=<?= $fetch_books['BOOK_ID'] ?>">
+                        <img class="book_img"
+                             src="uploaded_img/<?= $fetch_books['BOOK_IMG'] . '?t=' . time() ?>"
+                             height="350rem" width=100%
+                             alt=""></a>
                     <div class="name"><?= $fetch_books['BOOK_NAME'] ?></div>
-                    <div class="amount">Количество: <?= $fetch_books['BOOK_AMOUNT'] ?></div>
-                    <a href="admin_books.php?update=<?= $fetch_books['BOOK_ID'] ?>" class="option-btn">Изменить</a>
-                    <a href="admin_books.php?delete=<?= $fetch_books['BOOK_ID'] ?>" class="delete-btn"
+                    <div class="amount">
+                        Количество: <?= $fetch_books['BOOK_AMOUNT'] ?></div>
+                    <a href="admin_books.php?update=<?= $fetch_books['BOOK_ID'] ?>"
+                       class="option-btn">Изменить</a>
+                    <a href="admin_books.php?delete=<?= $fetch_books['BOOK_ID'] ?>"
+                       class="delete-btn"
                        onclick="return confirm('Удалить эту книгу?');">Удалить</a>
                 </div>
                 <?php
             }
-        } else {
+        }
+        else {
             echo '<p class="empty">Еще нет ни одной книги!</p>';
         }
         ?>
@@ -187,32 +183,44 @@ if (isset($_POST['update_book'])) {
     <?php
     if (isset($_GET['update'])) {
         $update_id = $_GET['update'];
-        $update_query = mysqli_query($conn, "SELECT * FROM `books` WHERE BOOK_ID = '$update_id'") or die('query failed');
+        $update_query = mysqli_query($conn,
+            "SELECT * FROM `books` WHERE BOOK_ID = '$update_id'") or die('query failed');
         if (mysqli_num_rows($update_query) > 0) {
             while ($fetch_update = mysqli_fetch_assoc($update_query)) {
                 ?>
                 <form action="" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="update_p_id" value="<?= $fetch_update['BOOK_ID'] ?>">
-                    <input type="hidden" name="update_old_image" value="<?= $fetch_update['BOOK_IMG'] ?>">
-                    <img class="book_img" src="uploaded_img/<?= $fetch_update['BOOK_IMG'] ?>" alt="">
-                    <input type="text" name="update_name" value="<?= $fetch_update['BOOK_NAME'] ?>" class="box"
+                    <input type="hidden" name="update_p_id"
+                           value="<?= $fetch_update['BOOK_ID'] ?>">
+                    <input type="hidden" name="update_old_image"
+                           value="<?= $fetch_update['BOOK_IMG'] ?>">
+                    <img class="book_img"
+                         src="uploaded_img/<?= $fetch_update['BOOK_IMG'] ?>"
+                         alt="">
+                    <input type="text" name="update_name"
+                           value="<?= $fetch_update['BOOK_NAME'] ?>" class="box"
                            required placeholder="Введите новое название">
-                    <input type="number" name="update_amount" value="<?= $fetch_update['BOOK_AMOUNT'] ?>" min="0"
-                           class="box" required placeholder="Введите новое количество">
-                    <input type="file" class="box" name="update_image" accept="image/jpg, image/jpeg, image/png">
-                    
-                    <input type="submit" value="Изменить" name="update_book" class="btn">
+                    <input type="number" name="update_amount"
+                           value="<?= $fetch_update['BOOK_AMOUNT'] ?>" min="0"
+                           class="box" required
+                           placeholder="Введите новое количество">
+                    <input type="file" class="box" name="update_image"
+                           accept="image/jpg, image/jpeg, image/png">
+
+                    <input type="submit" value="Изменить" name="update_book"
+                           class="btn">
                     <p></p>
-                    <input type="reset" value="Отменить" id="close-update" class="option-btn">
+                    <input type="reset" value="Отменить" id="close-update"
+                           class="option-btn">
                 </form>
                 <?php
             }
         }
-    } else {
+    }
+    else {
         echo '<script>document.querySelector(".edit-form").style.display = "none";</script>';
     }
     ?>
-    
+
 </section>
 
 <!-- custom admin js file link  -->
