@@ -61,8 +61,8 @@ if (isset($_POST['add_book']) && uniquePost($_POST)) {
                 "UPDATE `books` SET `BOOK_AMOUNT`='$upd_amount' WHERE BOOK_NAME = '$name'") or die('query failed');
         }
         else {
-            $pub_id = insertPublisherIfNeeded($conn, $publisher);
-            $auth_id = insertAuthorIfNeeded($conn, $author);
+            $pub_id = insertIfNeeded($conn, 'publishers', 'PUB_NAME', $publisher);
+            $auth_id = insertIfNeeded($conn, 'authors', 'AUTH_NAME', $author);
             $add_book_query = mysqli_query($conn,
                 "INSERT INTO `books`(BOOK_NAME, BOOK_AMOUNT,PUB_ID, AUTH_ID, RELEASE_YEAR, BOOK_IMG) VALUES('$name','$amount','$pub_id', '$auth_id','$year', '')") or die('query failed');
             if ($add_book_query) {
@@ -81,21 +81,16 @@ if (isset($_POST['add_book']) && uniquePost($_POST)) {
 if (isset($_GET['delete'])) {
     $delete_id = $_GET['delete'];
     deleteBook($conn, $delete_id, $dest);
+    header('location:admin_books.php');
 }
 
 if (isset($_POST['update_book'])) {
-    $update_p_id = $_POST['update_p_id'];
-    $update_name = $_POST['update_name'];
-    $update_amount = $_POST['update_amount'];
-
-    mysqli_query($conn,
-        "UPDATE `books` SET BOOK_NAME = '$update_name', BOOK_AMOUNT = '$update_amount' WHERE BOOK_ID = '$update_p_id'") or die('query failed');
-
-    if (isset($_FILES["update_image"])) {
-        $message[] = uploadImage($_FILES["update_image"], $dest,
-            $_POST['update_old_image']);
-    }
-
+    $upd_book_id = $_POST['upd_book_id'];
+    $upd_book_name = $_POST['upd_book_name'];
+    $upd_book_amount = $_POST['upd_book_amount'];
+    $message[] = updateBook($conn, $upd_book_id, $upd_book_name,
+        $upd_book_amount, NULL, NULL, NULL, NULL, $_FILES["update_image"],
+        $dest, $_POST['update_old_image']);
     header('location:admin_books.php');
 }
 ?>
@@ -107,23 +102,16 @@ if (isset($_POST['update_book'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Книги</title>
-
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
     <link rel="stylesheet" href="css/admin_style.css">
-
 </head>
 <body>
 
 <?php include 'admin_header.php'; ?>
 
-<!-- book CRUD section starts  -->
-
 <section class="add-books">
-
     <h1 class="title">Добавить книги</h1>
-
     <form action="" method="post" enctype="multipart/form-data">
         <input type="text" name="name" class="box"
                placeholder="Введите название книги" required>
@@ -139,13 +127,7 @@ if (isset($_POST['update_book'])) {
                accept="image/jpg, image/jpeg, image/png" class="box" required>
         <input type="submit" value="Добавить" name="add_book" class="btn">
     </form>
-
 </section>
-
-<!-- book CRUD section ends -->
-
-<!-- show books  -->
-
 <section class="books">
     <div class="box-container">
         <?php
@@ -178,7 +160,6 @@ if (isset($_POST['update_book'])) {
         ?>
     </div>
 </section>
-
 <section class="edit-form">
     <?php
     if (isset($_GET['update'])) {
@@ -189,23 +170,22 @@ if (isset($_POST['update_book'])) {
             while ($fetch_update = mysqli_fetch_assoc($update_query)) {
                 ?>
                 <form action="" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="update_p_id"
+                    <input type="hidden" name="upd_book_id"
                            value="<?= $fetch_update['BOOK_ID'] ?>">
                     <input type="hidden" name="update_old_image"
                            value="<?= $fetch_update['BOOK_IMG'] ?>">
                     <img class="book_img"
                          src="uploaded_img/<?= $fetch_update['BOOK_IMG'] ?>"
                          alt="">
-                    <input type="text" name="update_name"
+                    <input type="text" name="upd_book_name"
                            value="<?= $fetch_update['BOOK_NAME'] ?>" class="box"
                            required placeholder="Введите новое название">
-                    <input type="number" name="update_amount"
+                    <input type="number" name="upd_book_amount"
                            value="<?= $fetch_update['BOOK_AMOUNT'] ?>" min="0"
                            class="box" required
                            placeholder="Введите новое количество">
                     <input type="file" class="box" name="update_image"
                            accept="image/jpg, image/jpeg, image/png">
-
                     <input type="submit" value="Изменить" name="update_book"
                            class="btn">
                     <p></p>
@@ -220,11 +200,7 @@ if (isset($_POST['update_book'])) {
         echo '<script>document.querySelector(".edit-form").style.display = "none";</script>';
     }
     ?>
-
 </section>
-
-<!-- custom admin js file link  -->
 <script src="js/admin_script.js"></script>
-
 </body>
 </html>

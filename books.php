@@ -14,9 +14,7 @@ if (isset($_POST['add_to_cart'])) {
     $book_id = $_POST['book_id'];
     $book_amount = $_POST['book_amount'];
     $book_quantity = 1;
-
-    $message[] = addToCart($conn, $user_id, $book_id, $book_quantity,
-        $book_amount);
+    $message[] = addToCart($conn, $user_id, $book_id, $book_quantity, $book_amount);
 }
 ?>
 
@@ -48,19 +46,16 @@ if (isset($_POST['add_to_cart'])) {
             "SELECT * FROM `books`") or die('query failed');
         if (mysqli_num_rows($select_books) > 0) {
             while ($fetch_books = mysqli_fetch_assoc($select_books)) {
+                $author_by_id = getColFromTable($conn, 'authors', 'AUTH_ID', $fetch_books['AUTH_ID']);
                 ?>
                 <form action="" method="post" class="box">
                     <a href="details.php?id=<?= $fetch_books['BOOK_ID'] ?>">
                         <img class="image"
                              src="uploaded_img/<?= $fetch_books['BOOK_IMG'] ?>"
                              width="100%" alt=""></a>
-                    <div
-                        class="name"><?= $fetch_books['BOOK_NAME'] ?></div>
-                    <div class="name"><?php $author = GetAuthorById($conn,
-                            $fetch_books['AUTH_ID']);
-                        echo $author['AUTH_NAME']; ?></div>
-                    <div class="qty">
-                        Кол-во: <?= $fetch_books['BOOK_AMOUNT'] ?></div>
+                    <div class="name"><?= $fetch_books['BOOK_NAME'] ?></div>
+                    <div class="name"><?= $author_by_id['AUTH_NAME'] ?></div>
+                    <div class="qty"> Кол-во: <?= $fetch_books['BOOK_AMOUNT'] ?></div>
                     <input type="hidden" name="book_id"
                            value="<?= $fetch_books['BOOK_ID'] ?>">
                     <input type="hidden" name="book_amount"
@@ -77,11 +72,7 @@ if (isset($_POST['add_to_cart'])) {
         ?>
     </div>
 </section>
-
 <?php include 'footer.php'; ?>
-
-<!-- custom js file link  -->
 <script src="js/script.js"></script>
-
 </body>
 </html>
