@@ -38,7 +38,7 @@ if (isset($_POST['add_to_cart'])) {
 </div>
 <section class="description">
     <?php
-    $book_by_id = getColFromTable($conn, 'books', 'BOOK_ID', $fetch_cart['BOOK_ID']);
+    $book_by_id = getColFromTable($conn, 'books', 'BOOK_ID', $_GET['id']);
     if (isset($_GET['id']) && $book_by_id) {
         $pub_by_id = getColFromTable($conn, 'publishers', 'PUB_ID', $book_by_id['PUB_ID']);
         $author_by_id = getColFromTable($conn, 'authors', 'AUTH_ID', $book_by_id['AUTH_ID']);
