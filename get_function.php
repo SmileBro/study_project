@@ -23,6 +23,17 @@ function deleteBook($conn, $delete_id, $dest) {
         "DELETE FROM `books` WHERE BOOK_ID = '$delete_id'") or die('query failed');
 }
 
+function deleteLease($conn, $delete_id) {
+    $lease = getColFromTable($conn, 'leases', 'LEASE_ID', $delete_id);
+    $book = getColFromTable($conn, 'books', 'BOOK_ID', $lease['BOOK_ID']);
+    mysqli_query($conn,
+        "DELETE FROM `leases` WHERE LEASE_ID = '$delete_id'") or die('query failed');
+    $new_amount = $book['BOOK_AMOUNT'] + 1;
+    $book_id = $book['BOOK_ID'];
+    mysqli_query($conn,
+        "UPDATE `books` SET BOOK_AMOUNT = '$new_amount' WHERE BOOK_ID = '$book_id'") or die('query failed');
+}
+
 function addToCart($conn, $user_id, $book_id, $book_quantity, $book_amount) {
     if ($book_quantity > $book_amount) {
         return 'Книги нет в наличии!';

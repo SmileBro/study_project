@@ -8,6 +8,12 @@ $user_id = $_SESSION['user_id'];
 if (!isset($user_id)) {
     header('location:login.php');
 }
+
+if (isset($_GET['cancel'])) {
+    $cancel_order_id = $_GET['cancel'];
+    deleteLease($conn, $cancel_order_id);
+    header('location:orders.php');
+}
 ?>
 
 <!DOCTYPE html>
@@ -49,6 +55,14 @@ if (!isset($user_id)) {
                             } else {
                                 echo 'green';
                             } ?>;"><?= $fetch_orders['LEASE_STATUS'] ?></span></p>
+                    <form action="" method="post">
+                        <input type="hidden" name="lease_id"
+                               value="<?= $fetch_orders['LEASE_ID'] ?>">
+
+                        <a href="orders.php?cancel=<?= $fetch_orders['LEASE_ID'] ?>"
+                           onclick="return confirm('Отменить этот заказ?');"
+                           class="delete-btn">Отменить заказ</a>
+                    </form>
                 </div>
                 <?php
             }
