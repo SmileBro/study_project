@@ -61,9 +61,15 @@ if (isset($_GET['cancel'])) {
                     <form action="" method="post">
                         <input type="hidden" name="lease_id"
                                value="<?= $fetch_orders['LEASE_ID'] ?>">
-                        <a href="orders.php?cancel=<?= $fetch_orders['LEASE_ID'] ?>"
-                           onclick="return confirm('Отменить этот заказ?');"
-                           class="delete-btn">Отменить заказ</a>
+                        <?php
+                        if ($fetch_orders['LEASE_STATUS'] == 'processing') {
+                            ?>
+                            <a href="orders.php?cancel=<?= $fetch_orders['LEASE_ID'] ?>"
+                               onclick="return confirm('Отменить этот заказ?');"
+                               class="delete-btn">Отменить заказ</a>
+                            <?php
+                        }
+                        ?>
                     </form>
                 </div>
                 <?php
