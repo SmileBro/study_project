@@ -3,97 +3,24 @@
 include 'config.php';
 include 'get_function.php';
 session_start();
-
 $admin_id = $_SESSION['admin_id'];
 
 if (!isset($admin_id)) {
     header('location:login.php');
 }
-
 if (isset($_POST['send_lease'])) {
-    $user_login = mysqli_real_escape_string($conn, $_POST['user_login']);
-    $book_name = mysqli_real_escape_string($conn, $_POST['book_name']);
-    $worker_name = mysqli_real_escape_string($conn, $_POST['worker_name']);
-    $lease_start = $_POST['lease_start'];
-    $lease_due = $_POST['lease_due'];
-    $lease_status = mysqli_real_escape_string($conn, $_POST['lease_status']);
-
-    // Проверка, существуют ли пользователь, книга и работник с такими данными
-    $fetch_user = getColFromTable($conn, 'users', 'USER_LOGIN', $user_login);
-    $fetch_book = getColFromTable($conn, 'books', 'BOOK_NAME', $book_name);
-    $fetch_worker = getColFromTable($conn, 'users', 'USER_LOGIN', $worker_name);
-
-    if ($fetch_user && $fetch_book && $fetch_worker) {
-        //Проверка книги на наличие
-        $book_amount = $fetch_book['BOOK_AMOUNT'];
-        if ($book_amount < 1) {
-            $message[] = 'В данный момент книга отсутствует.';
-        }
-        else {
-            $user = $fetch_user['USER_ID'];
-            $book_id = $fetch_book['BOOK_ID'];
-            $worker = $fetch_worker['USER_ID'];
-
-            // Вставка записи в таблицу leases
-            $add_lease_query = mysqli_query($conn,
-                "INSERT INTO `leases`(USER_ID, BOOK_ID, WORKER_ID, LEASE_START, LEASE_DUE, LEASE_STATUS) VALUES('$user','$book_id', $worker, '$lease_start','$lease_due','$lease_status')");
-
-            if ($add_lease_query) {
-                // Уменьшение количества книг
-                $new_amount = $book_amount - 1;
-                $update_lease_query = mysqli_query($conn,
-                    "UPDATE `books` SET BOOK_AMOUNT = '$new_amount' WHERE BOOK_ID = '$book_id'") or die('query failed');
-                $message[] = 'Запись добавлена!';
-                header('location:admin_leases.php');
-            }
-            else {
-                $message[] = 'Не удалось добавить запись в базу данных.';
-            }
-        }
-    }
-    else {
-        $message[] = 'Вы ввели неправильные данные!';
-    }
+    $message[] = processLeaseRequest($conn, $_POST['send_lease']);
+    header('location:admin_leases.php');
 }
 if (isset($_GET['delete'])) {
     $delete_lease_id = $_GET['delete'];
     deleteLease($conn, $delete_lease_id);
     header('location:admin_leases.php');
 }
-
 if (isset($_POST['send_update_lease'])) {
-    $user_login = mysqli_real_escape_string($conn, $_POST['user_login']);
-    $book_name = mysqli_real_escape_string($conn, $_POST['book_name']);
-    $worker_name = mysqli_real_escape_string($conn, $_POST['worker_name']);
-    $lease_start = $_POST['lease_start'];
-    $lease_due = $_POST['lease_due'];
-    $lease_status = mysqli_real_escape_string($conn, $_POST['lease_status']);
     $lease_id = $_POST['lease_id'];
-    // Проверка, существуют ли пользователь, книга и работник с такими данными
-    $fetch_user = getColFromTable($conn, 'users', 'USER_LOGIN', $user_login);
-    $fetch_book = getColFromTable($conn, 'books', 'BOOK_NAME', $book_name);
-    $fetch_worker = getColFromTable($conn, 'users', 'USER_LOGIN', $worker_name);
-
-    if ($fetch_user && $fetch_book && $fetch_worker) {
-        $user = $fetch_user['USER_ID'];
-        $book = $fetch_book['BOOK_ID'];
-        $worker = $fetch_worker['USER_ID'];
-
-        // Обновление записи в таблице leases
-        $update_lease_query = mysqli_query($conn,
-            "UPDATE `leases` SET USER_ID = '$user', BOOK_ID = '$book', WORKER_ID = '$worker', LEASE_START = '$lease_start', LEASE_DUE = '$lease_due', LEASE_STATUS = '$lease_status' WHERE LEASE_ID = '$lease_id'") or die('query failed');
-
-        if ($update_lease_query) {
-            $message[] = 'Запись добавлена!';
-            header('location:admin_leases.php');
-        }
-        else {
-            $message[] = 'Не удалось добавить запись в базу данных.';
-        }
-    }
-    else {
-        $message[] = 'Вы ввели неправильные данные!';
-    }
+    $message[] = processLeaseRequest($conn, $_POST['send_update_lease'], true, $lease_id);
+    header('location:admin_leases.php');
 }
 ?>
 
@@ -151,10 +78,8 @@ if (isset($_POST['send_update_lease'])) {
                     <form action="" method="post">
                         <input type="hidden" name="lease_id"
                                value="<?= $fetch_leases['LEASE_ID'] ?>">
-
                         <a href="admin_leases.php?update_lease=<?= $fetch_leases['LEASE_ID'] ?>"
                            class="option-btn">Изменить</a>
-
                         <a href="admin_leases.php?delete=<?= $fetch_leases['LEASE_ID'] ?>"
                            onclick="return confirm('Удалить этот заказ?');"
                            class="delete-btn">Удалить</a>
@@ -190,9 +115,10 @@ if (isset($_POST['send_update_lease'])) {
             <input type="date" name="lease_due" class="box" required
                    placeholder="Введите дату конца выдачи">
             <select name="lease_status" class="box">
+                <option value="processing">В обработке</option>
                 <option value="active">Активна</option>
                 <option value="closed">Закрыта</option>
-                <option value="pending">Просрочена</option>
+                <option value="overdue">Просрочена</option>
             </select>
 
             <input type="submit" value="Добавить" name="send_lease" class="btn">
@@ -217,43 +143,37 @@ if (isset($_POST['send_update_lease'])) {
                                value="<?= $fetch_user['USER_LOGIN'] ?>"
                                required
                                placeholder="Введите логин заказчика">
-
                         <p>Название книги</p>
                         <input type="text" name="book_name" class="box"
                                value="<?= $fetch_book['BOOK_NAME'] ?>"
                                required
                                placeholder="Введите название книги">
-
                         <p>Логин работника</p>
                         <input type="text" name="worker_name" class="box"
                                value="<?= $_SESSION['admin_name'] ?>"
                                required
                                placeholder="Введите логин работника">
-
                         <p>Дата заказа</p>
                         <input type="date" name="lease_start" class="box"
                                value="<?= $fetch_leases['LEASE_START'] ?>"
                                required
                                placeholder="Введите дату начала выдачи">
-
                         <p>Дата конца выдачи</p>
                         <input type="date" name="lease_due" class="box"
                                value="<?= $fetch_leases['LEASE_DUE'] ?>"
                                required
                                placeholder="Введите дату конца выдачи">
-
                         <p>Статус выдачи</p>
                         <select name="lease_status" class="box">
+                            <option value="processing">В обработке</option>
                             <option value="active">Активна</option>
                             <option value="closed">Закрыта</option>
-                            <option value="pending">Просрочена</option>
+                            <option value="overdue">Просрочена</option>
                         </select>
-
                         <input type="hidden" name="lease_id"
                                value="<?= $fetch_leases['LEASE_ID'] ?>">
                         <input type="hidden" name="user_id"
                                value="<?= $fetch_leases['USER_ID'] ?>">
-
                         <input type="submit" value="Изменить"
                                name="send_update_lease" class="option-btn">
                         <input value="Отменить" id="close-update"

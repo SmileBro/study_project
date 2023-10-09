@@ -34,6 +34,52 @@ function deleteLease($conn, $delete_id) {
         "UPDATE `books` SET BOOK_AMOUNT = '$new_amount' WHERE BOOK_ID = '$book_id'") or die('query failed');
 }
 
+function processLeaseRequest($conn, $posted, $isUpdate = false, $lease_id = null) {
+    $lease_start = $posted['lease_start'];
+    $lease_due = $posted['lease_due'];
+    $lease_status = mysqli_real_escape_string($conn, $posted['lease_status']);
+    $user_login = mysqli_real_escape_string($conn, $posted['user_login']);
+    $book_name = mysqli_real_escape_string($conn, $posted['book_name']);
+    $worker_name = mysqli_real_escape_string($conn, $posted['worker_name']);
+    $fetch_user = getColFromTable($conn, 'users', 'USER_LOGIN', $user_login);
+    $fetch_book = getColFromTable($conn, 'books', 'BOOK_NAME', $book_name);
+    $fetch_worker = getColFromTable($conn, 'users', 'USER_LOGIN', $worker_name);
+
+    if ($fetch_user && $fetch_book && $fetch_worker) {
+        $user = $fetch_user['USER_ID'];
+        $book = $fetch_book['BOOK_ID'];
+        $worker = $fetch_worker['USER_ID'];
+        if (!$isUpdate) {
+            $book_amount = $fetch_book['BOOK_AMOUNT'];
+            if ($book_amount < 1) {
+                return 'В данный момент книга отсутствует.';
+            } else {
+                $add_lease_query = mysqli_query($conn,
+                    "INSERT INTO `leases`(USER_ID, BOOK_ID, WORKER_ID, LEASE_START, LEASE_DUE, LEASE_STATUS) VALUES('$user','$book', $worker, '$lease_start','$lease_due','$lease_status')");
+                if ($add_lease_query) {
+                    $new_amount = $book_amount - 1;
+                    mysqli_query($conn,
+                        "UPDATE `books` SET BOOK_AMOUNT = '$new_amount' WHERE BOOK_ID = '$book'") or die('query failed');
+                    return 'Запись добавлена!';
+                } else {
+                    return 'Не удалось добавить запись в базу данных.';
+                }
+            }
+        } else {
+            // Обновление записи в таблице leases
+            $update_lease_query = mysqli_query($conn,
+                "UPDATE `leases` SET USER_ID = '$user', BOOK_ID = '$book', WORKER_ID = '$worker', LEASE_START = '$lease_start', LEASE_DUE = '$lease_due', LEASE_STATUS = '$lease_status' WHERE LEASE_ID = '$lease_id'") or die('query failed');
+            if ($update_lease_query) {
+                return 'Запись обновлена!';
+            } else {
+                return 'Не удалось обновить запись в базе данных.';
+            }
+        }
+    } else {
+        return 'Вы ввели неправильные данные!';
+    }
+}
+
 function addToCart($conn, $user_id, $book_id, $book_quantity, $book_amount) {
     if ($book_quantity > $book_amount) {
         return 'Книги нет в наличии!';
