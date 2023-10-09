@@ -119,3 +119,9 @@ function uploadImage($file, $destination, $newfilename) {
     move_uploaded_file($file["tmp_name"], $destination . $newfilename);
     return 'Книга успешно изменена!';
 }
+
+function fetchRecord($conn, $table, $column, $value) {
+    $query = "SELECT * FROM `$table` WHERE $column = '$value'";
+    $result = mysqli_query($conn, $query);
+    return $result ? mysqli_fetch_assoc($result) : null;
+}

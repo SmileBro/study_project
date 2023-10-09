@@ -19,18 +19,11 @@ if (isset($_POST['send_lease'])) {
     $lease_status = mysqli_real_escape_string($conn, $_POST['lease_status']);
 
     // Проверка, существуют ли пользователь, книга и работник с такими данными
-    $user_query = mysqli_query($conn,
-        "SELECT * FROM `users` WHERE USER_LOGIN = '$user_login'");
-    $book_query = mysqli_query($conn,
-        "SELECT * FROM `books` WHERE BOOK_NAME = '$book_name'");
-    $worker_query = mysqli_query($conn,
-        "SELECT * FROM `users` WHERE USER_LOGIN = '$worker_name'");
+    $fetch_user = fetchRecord($conn, 'users', 'USER_LOGIN', $user_login);
+    $fetch_book = fetchRecord($conn, 'books', 'BOOK_NAME', $book_name);
+    $fetch_worker = fetchRecord($conn, 'users', 'USER_LOGIN', $worker_name);
 
-    if ($user_query && $book_query && $worker_query) {
-        $fetch_user = mysqli_fetch_assoc($user_query);
-        $fetch_book = mysqli_fetch_assoc($book_query);
-        $fetch_worker = mysqli_fetch_assoc($worker_query);
-
+    if ($fetch_user && $fetch_book && $fetch_worker) {
         //Проверка книги на наличие
         $book_amount = $fetch_book['BOOK_AMOUNT'];
         if ($book_amount < 1) {
@@ -148,12 +141,8 @@ if (isset($_POST['send_update_lease'])) {
             "SELECT * FROM `leases`") or die('query failed');
         if (mysqli_num_rows($select_leases) > 0) {
             while ($fetch_leases = mysqli_fetch_assoc($select_leases)) {
-                $user_id = $fetch_leases['USER_ID'];
-                $book_id = $fetch_leases['BOOK_ID'];
-                $fetch_user = mysqli_fetch_assoc(mysqli_query($conn,
-                    "SELECT * FROM `users` WHERE USER_ID = $user_id"));
-                $fetch_book = mysqli_fetch_assoc(mysqli_query($conn,
-                    "SELECT * FROM `books` WHERE BOOK_ID = $book_id"));
+                $fetch_user = GetUserById($conn, $fetch_leases['USER_ID']);
+                $fetch_book = GetBookById($conn, $fetch_leases['BOOK_ID']);
                 ?>
                 <div class="box">
                     <p> № выдачи :
@@ -232,12 +221,8 @@ if (isset($_POST['send_update_lease'])) {
             "SELECT * FROM `leases` WHERE LEASE_ID = '$update_id'") or die('query failed');
         if (mysqli_num_rows($update_query) > 0) {
             while ($fetch_leases = mysqli_fetch_assoc($update_query)) {
-                $user_id = $fetch_leases['USER_ID'];
-                $book_id = $fetch_leases['BOOK_ID'];
-                $fetch_user = mysqli_fetch_assoc(mysqli_query($conn,
-                    "SELECT * FROM `users` WHERE USER_ID = $user_id"));
-                $fetch_book = mysqli_fetch_assoc(mysqli_query($conn,
-                    "SELECT * FROM `books` WHERE BOOK_ID = $book_id"));
+                $fetch_user = GetUserById($conn, $fetch_leases['USER_ID']);
+                $fetch_book = GetBookById($conn, $fetch_leases['BOOK_ID']);
                 ?>
                 <form action="" method="post" enctype="multipart/form-data">
                     <div class="box">
