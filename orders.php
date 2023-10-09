@@ -10,8 +10,11 @@ if (!isset($user_id)) {
 }
 
 if (isset($_GET['cancel'])) {
-    $cancel_order_id = $_GET['cancel'];
-    deleteLease($conn, $cancel_order_id);
+    $cancel_lease_id = $_GET['cancel'];
+    $lease_by_id = getColFromTable($conn, 'leases', 'LEASE_ID', $cancel_lease_id);
+    if ($lease_by_id['LEASE_STATUS'] == 'processing') {
+        deleteLease($conn, $cancel_lease_id);
+    }
     header('location:orders.php');
 }
 ?>
@@ -58,7 +61,6 @@ if (isset($_GET['cancel'])) {
                     <form action="" method="post">
                         <input type="hidden" name="lease_id"
                                value="<?= $fetch_orders['LEASE_ID'] ?>">
-
                         <a href="orders.php?cancel=<?= $fetch_orders['LEASE_ID'] ?>"
                            onclick="return confirm('Отменить этот заказ?');"
                            class="delete-btn">Отменить заказ</a>

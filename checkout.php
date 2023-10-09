@@ -32,7 +32,7 @@ if (isset($_POST['order_btn'])) {
             else {
                 //Запись данных о выдаче в БД
                 mysqli_query($conn,
-                    "INSERT INTO `leases`(USER_ID, BOOK_ID, WORKER_ID, LEASE_START, LEASE_DUE, LEASE_STATUS) VALUES('$user_id', '$book_id', '$worker_id', '$placed_on', '$due_date', 'Active')") or die('query failed');
+                    "INSERT INTO `leases`(USER_ID, BOOK_ID, WORKER_ID, LEASE_START, LEASE_DUE, LEASE_STATUS) VALUES('$user_id', '$book_id', '$worker_id', '$placed_on', '$due_date', 'processing')") or die('query failed');
 
                 //Обновление количества книг в БД при заказе
                 $new_amount = $book_amount - 1;
