@@ -40,14 +40,14 @@ if (isset($_POST['add_to_cart'])) {
 <?php include 'header.php'; ?>
 
 <div class="heading">
-    <h3>search page</h3>
-    <p><a href="home.php">home</a> / search </p>
+    <h3>страница поиска</h3>
+    <p><a href="home.php">главная</a> / поиск </p>
 </div>
 <section class="search-form">
     <form action="" method="post">
-        <input type="text" name="search" placeholder="search books..."
+        <input type="text" name="search" placeholder="начать поиск..."
                class="box">
-        <input type="submit" name="submit" value="search" class="btn">
+        <input type="submit" name="submit" value="поиск" class="btn">
     </form>
 </section>
 <section class="books" style="padding-top: 0;">
@@ -82,11 +82,11 @@ if (isset($_POST['add_to_cart'])) {
                 }
             }
             else {
-                echo '<p class="empty">no result found!</p>';
+                echo '<p class="empty">Ничего не нашлось!</p>';
             }
         }
         else {
-            echo '<p class="empty">search something!</p>';
+            echo '<p class="empty">Поищите что-нибудь!</p>';
         }
         ?>
     </div>
