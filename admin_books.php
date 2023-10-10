@@ -28,11 +28,11 @@ function uniquePost($posted) {
     // check if session hash matches current form hash
     if (isset($_SESSION['form_hash']) && $_SESSION['form_hash'] == md5($description)) {
         // form was re-submitted return false
-        return FALSE;
+        return false;
     }
     // set the session value to prevent re-submit
     $_SESSION['form_hash'] = md5($description);
-    return TRUE;
+    return true;
 }
 
 if (isset($_POST['add_book']) && uniquePost($_POST)) {
@@ -61,8 +61,8 @@ if (isset($_POST['add_book']) && uniquePost($_POST)) {
                 "UPDATE `books` SET `BOOK_AMOUNT`='$upd_amount' WHERE BOOK_NAME = '$name'") or die('query failed');
         }
         else {
-            $pub_id = insertIfNeeded($conn, 'publishers', 'PUB_NAME', $publisher);
-            $auth_id = insertIfNeeded($conn, 'authors', 'AUTH_NAME', $author);
+            $pub_id = insertIfNeeded($conn, 'PUB_ID', 'publishers', 'PUB_NAME', $publisher);
+            $auth_id = insertIfNeeded($conn, 'AUTH_ID', 'authors', 'AUTH_NAME', $author);
             $add_book_query = mysqli_query($conn,
                 "INSERT INTO `books`(BOOK_NAME, BOOK_AMOUNT,PUB_ID, AUTH_ID, RELEASE_YEAR, BOOK_IMG) VALUES('$name','$amount','$pub_id', '$auth_id','$year', '')") or die('query failed');
             if ($add_book_query) {

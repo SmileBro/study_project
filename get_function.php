@@ -2,14 +2,14 @@
 
 include 'config.php';
 
-function insertIfNeeded($conn, $table, $column, $value) {
+function insertIfNeeded($conn, $column, $table, $condition, $value) {
     $select_query = mysqli_query($conn,
-        "SELECT {$table}_ID FROM `$table` WHERE $column = '$value'");
+        "SELECT $column FROM `$table` WHERE $condition = '$value'");
     if (mysqli_num_rows($select_query) > 0) {
         return $select_query->fetch_array()[0];
     }
     else {
-        mysqli_query($conn, "INSERT INTO `$table`($column) VALUES('$value')");
+        mysqli_query($conn, "INSERT INTO `$table`($condition) VALUES('$value')");
         return mysqli_insert_id($conn);
     }
 }
@@ -109,8 +109,8 @@ function updateBook(
 ) {
     $upd_book_name = mysqli_real_escape_string($conn, $book_name);
     $upd_rating = mysqli_real_escape_string($conn, $rating);
-    $upd_auth_by_name = insertIfNeeded($conn, 'authors', 'AUTH_NAME', $auth_name);
-    $upd_pub_by_name = insertIfNeeded($conn, 'publishers', 'PUB_NAME', $pub_name);
+    $upd_auth_by_name = insertIfNeeded($conn, 'AUTH_ID', 'authors', 'AUTH_NAME', $auth_name);
+    $upd_pub_by_name = insertIfNeeded($conn, 'PUB_ID', 'publishers', 'PUB_NAME', $pub_name);
     $query = "UPDATE `books` SET 
         BOOK_NAME = '$upd_book_name', 
         BOOK_AMOUNT = '$book_amount', 
@@ -131,8 +131,8 @@ function updateBook(
     }
 }
 
-function getColFromTable($conn, $table, $column, $value) {
-    $query = "SELECT * FROM `$table` WHERE $column = '$value'";
+function getColFromTable($conn, $table, $condition, $value) {
+    $query = "SELECT * FROM `$table` WHERE $condition = '$value'";
     $result = mysqli_query($conn, $query);
     return $result ? mysqli_fetch_assoc($result) : null;
 }
