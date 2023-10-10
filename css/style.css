@@ -809,7 +809,6 @@ section {
     border: var(--border);
     width: 100%;
     border-radius: .5rem;
-    width: 100%;
     background-color: var(--white);
     padding: 1.2rem 1.4rem;
     font-size: 1.8rem;
@@ -819,10 +818,10 @@ section {
 .placed-orders .box-container {
     max-width: 1200px;
     margin: 0 auto;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
+    display: grid;
     gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, 30rem);
+    justify-content: center;
 }
 
 .placed-orders .box-container .empty {
