@@ -42,9 +42,9 @@ if (isset($_POST['order_btn'])) {
                 //Удаление предметов из корзины пользователя
                 mysqli_query($conn,
                     "DELETE FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
+                $message[] = 'Заказ успешно сформирован!';
             }
         }
-        $message[] = 'Заказ успешно сформирован!';
     }
     else {
         $message[] = 'Ваша корзина пуста!';
