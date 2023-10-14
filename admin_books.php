@@ -6,7 +6,7 @@ session_start();
 $admin_id = $_SESSION['admin_id'];
 if (!isset($admin_id)) {
     header('location:login.php');
-};
+}
 
 function uniquePost($posted) {
     // Define an array of form fields that you want to include in the description
@@ -28,11 +28,11 @@ function uniquePost($posted) {
     // check if session hash matches current form hash
     if (isset($_SESSION['form_hash']) && $_SESSION['form_hash'] == md5($description)) {
         // form was re-submitted return false
-        return false;
+        return FALSE;
     }
     // set the session value to prevent re-submit
     $_SESSION['form_hash'] = md5($description);
-    return true;
+    return TRUE;
 }
 
 if (isset($_POST['add_book']) && uniquePost($_POST)) {
@@ -59,6 +59,7 @@ if (isset($_POST['add_book']) && uniquePost($_POST)) {
             $upd_amount = $amount + $existing_books->fetch_array()[0];
             mysqli_query($conn,
                 "UPDATE `books` SET `BOOK_AMOUNT`='$upd_amount' WHERE BOOK_NAME = '$name'") or die('query failed');
+            $message[] = 'Количество книг обновлено!';
         }
         else {
             $pub_id = insertIfNeeded($conn, 'PUB_ID', 'publishers', 'PUB_NAME', $publisher);
@@ -70,8 +71,7 @@ if (isset($_POST['add_book']) && uniquePost($_POST)) {
                 $newfilename = $inserted_book_id . '.' . end($temp);
                 $add_book_query = mysqli_query($conn,
                     "UPDATE `books` SET BOOK_IMG = '$newfilename' WHERE BOOK_ID = '$inserted_book_id'") or die('query failed');
-                move_uploaded_file($_FILES["image"]["tmp_name"],
-                    $dest . $newfilename);
+                move_uploaded_file($_FILES["image"]["tmp_name"], $dest . $newfilename);
                 $message[] = 'Книга успешно добавлена!';
             }
         }
@@ -94,7 +94,6 @@ if (isset($_POST['update_book'])) {
     header('location:admin_books.php');
 }
 ?>
-
 
 
 <!DOCTYPE html>
