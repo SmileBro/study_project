@@ -9,7 +9,7 @@ if (!isset($admin_id)) {
     header('location:login.php');
 }
 if (isset($_POST['send_lease'])) {
-    $message[] = processLeaseRequest($conn, $_POST['send_lease']);
+    $message[] = processLeaseRequest($conn, $_POST);
     header('location:admin_leases.php');
 }
 if (isset($_GET['delete'])) {
@@ -19,7 +19,7 @@ if (isset($_GET['delete'])) {
 }
 if (isset($_POST['send_update_lease'])) {
     $lease_id = $_POST['lease_id'];
-    $message[] = processLeaseRequest($conn, $_POST['send_update_lease'], true, $lease_id);
+    $message[] = processLeaseRequest($conn, $_POST, true, $lease_id);
     header('location:admin_leases.php');
 }
 ?>
