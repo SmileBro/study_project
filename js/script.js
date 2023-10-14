@@ -24,4 +24,6 @@ window.onscroll = () =>{
 }
 
 document.querySelector('#close-update').onclick = () =>{
-   document.querySelector('.edit-form').style.display = 'none';}
+   document.querySelector('.edit-form').style.display = 'none';
+   window.location = window.location.href.split('?')[0];
+}
