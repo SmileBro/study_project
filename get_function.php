@@ -80,7 +80,10 @@ function processLeaseRequest($conn, $posted, $isUpdate = false, $lease_id = null
     }
 }
 
-function addToCart($conn, $user_id, $book_id, $book_quantity, $book_amount) {
+function addToCart($conn, $user_id, $posted) {
+    $book_id = $posted['book_id'];
+    $book_amount = $posted['book_amount'];
+    $book_quantity = 1;
     if ($book_quantity > $book_amount) {
         return 'Книги нет в наличии!';
     } else {

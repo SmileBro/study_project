@@ -3,7 +3,6 @@
 include 'config.php';
 include 'get_function.php';
 session_start();
-
 $user_id = $_SESSION['user_id'];
 
 if (!isset($user_id)) {
@@ -11,10 +10,7 @@ if (!isset($user_id)) {
 }
 
 if (isset($_POST['add_to_cart'])) {
-    $book_id = $_POST['book_id'];
-    $book_amount = $_POST['book_amount'];
-    $book_quantity = 1;
-    $message[] = addToCart($conn, $user_id, $book_id, $book_quantity, $book_amount);
+    $message[] = addToCart($conn, $user_id, $_POST['add_to_cart']);
 }
 ?>
 
