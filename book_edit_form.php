@@ -1,5 +1,8 @@
 <section class="edit-form">
     <?php
+    
+    
+
     if (isset($_GET['update'])) {
         $update_id = $_GET['update'];
         $update_query = mysqli_query($conn,
