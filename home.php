@@ -62,7 +62,7 @@ if (isset($_POST['add_to_cart'])) {
                            value="<?= $fetch_books['BOOK_ID'] ?>">
                     <input type="hidden" name="book_name"
                            value="<?= $fetch_books['BOOK_NAME'] ?>">
-                    <input type="hidden" name="book_amount" value="<?= 1 ?>">
+                    <input type="hidden" name="book_amount" value="<?= $fetch_books['BOOK_AMOUNT'] ?>">
                     <input type="submit" value="В корзину" name="add_to_cart"
                            class="btn">
                 </form>
