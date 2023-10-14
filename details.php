@@ -13,7 +13,8 @@ if (isset($_POST['add_to_cart'])) {
     $book_id = $_POST['book_id'];
     $book_amount = $_POST['book_amount'];
     $book_quantity = 1;
-    $message[] = addToCart($conn, $user_id, $book_id, $book_quantity, $book_amount);
+    $message[] = addToCart($conn, $user_id, $book_id, $book_quantity,
+        $book_amount);
 }
 ?>
 
@@ -40,18 +41,17 @@ if (isset($_POST['add_to_cart'])) {
     <?php
     $book_by_id = getColFromTable($conn, 'books', 'BOOK_ID', $_GET['id']);
     if (isset($_GET['id']) && $book_by_id) {
-        $pub_by_id = getColFromTable($conn, 'publishers', 'PUB_ID', $book_by_id['PUB_ID']);
-        $author_by_id = getColFromTable($conn, 'authors', 'AUTH_ID', $book_by_id['AUTH_ID']);
+        $pub_by_id = getColFromTable($conn, 'publishers', 'PUB_ID',
+            $book_by_id['PUB_ID']);
+        $author_by_id = getColFromTable($conn, 'authors', 'AUTH_ID',
+            $book_by_id['AUTH_ID']);
         ?>
-        <!-- Left Column / Headphones Image -->
         <div class="left-column">
             <img class="img"
                  src="uploaded_img/<?= $book_by_id['BOOK_IMG'] . '?t=' . time() ?>"
                  height="350rem" width=100% alt="">
         </div>
-        <!-- Right Column -->
         <div class="right-column">
-            <!-- Product Description -->
             <div class="product-description">
                 <form action="" method="post" enctype="multipart/form-data">
                     <h1><?= $book_by_id['BOOK_NAME'] ?></h1>
@@ -73,9 +73,7 @@ if (isset($_POST['add_to_cart'])) {
                            class="btn">
                 </form>
             </div>
-            <!--Book description -->
             <div class="product-configuration">
-                <!-- Tags -->
                 <div class="tags-config">
                     <span>Метки</span>
                     <div class="tags">
@@ -86,9 +84,9 @@ if (isset($_POST['add_to_cart'])) {
         </div>
     <?php }
     else {
-        ?><a href="details.php?id=<?= $book_by_id['BOOK_ID'] ?>">'<p
-                class="empty">На главную</p>';</a><?php
-    } ?>
+        ?><a href="books.php"><p class="empty">На главную</p></a><?php
+    }
+    ?>
 </section>
 <script src="js/script.js"></script>
 </body>

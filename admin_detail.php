@@ -25,10 +25,10 @@ if (isset($_POST['update_book'])) {
     $upd_auth_name = $_POST['upd_auth_name'];
     $upd_pub_name = $_POST['upd_pub_name'];
 
-    $message[] = updateBook($conn, $upd_book_id, $upd_book_name, $upd_book_amount,
-        $upd_book_release_year, $upd_rating, $upd_auth_name, $upd_pub_name, $_FILES["update_image"],
-        $dest, $_POST['update_old_image']);
-    header('location:admin_detail.php');
+    $message[] = updateBook($conn, $upd_book_id, $upd_book_name,
+        $upd_book_amount, $upd_book_release_year, $upd_rating, $upd_auth_name,
+        $upd_pub_name, $_FILES["update_image"], $dest,
+        $_POST['update_old_image']);
 }
 ?>
 <!DOCTYPE html>
@@ -54,18 +54,17 @@ if (isset($_POST['update_book'])) {
     <?php
     $book_by_id = getColFromTable($conn, 'books', 'BOOK_ID', $_GET['id']);
     if (isset($_GET['id']) && $book_by_id) {
-        $pub_by_id = getColFromTable($conn, 'publishers', 'PUB_ID', $book_by_id['PUB_ID']);
-        $author_by_id = getColFromTable($conn, 'authors', 'AUTH_ID', $book_by_id['AUTH_ID']);
+        $pub_by_id = getColFromTable($conn, 'publishers', 'PUB_ID',
+            $book_by_id['PUB_ID']);
+        $author_by_id = getColFromTable($conn, 'authors', 'AUTH_ID',
+            $book_by_id['AUTH_ID']);
         ?>
-        <!-- Left Column / Headphones Image -->
         <div class="left-column">
             <img class="img"
                  src="uploaded_img/<?= $book_by_id['BOOK_IMG'] . '?t=' . time() ?>"
                  height="350rem" width=100% alt="">
         </div>
-        <!-- Right Column -->
         <div class="right-column">
-            <!-- Product Description -->
             <div class="product-description">
                 <form action="" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="upd_book_id"
@@ -73,7 +72,8 @@ if (isset($_POST['update_book'])) {
                     <input type="hidden" name="update_old_image"
                            value="<?= $book_by_id['BOOK_IMG'] ?>">
                     <input type="text" name="upd_book_name"
-                           value="<?= $book_by_id['BOOK_NAME'] ?>" class="box"
+                           value="<?= $book_by_id['BOOK_NAME'] ?>"
+                           class="box"
                            required placeholder="Введите новое название">
                     <input type="number" name="upd_book_amount"
                            value="<?= $book_by_id['BOOK_AMOUNT'] ?>" min="0"
@@ -81,12 +81,15 @@ if (isset($_POST['update_book'])) {
                            placeholder="Введите новое количество">
                     <input type="text" name="upd_pub_name"
                            value="<?= $pub_by_id['PUB_NAME'] ?>" class="box"
-                           required placeholder="Введите название издательства">
+                           required
+                           placeholder="Введите название издательства">
                     <input type="text" name="upd_auth_name"
-                           value="<?= $author_by_id['AUTH_NAME'] ?>" class="box"
+                           value="<?= $author_by_id['AUTH_NAME'] ?>"
+                           class="box"
                            required placeholder="Введите автора">
                     <input type="number" name="upd_book_release_year"
-                           value="<?= $book_by_id['RELEASE_YEAR'] ?>" min="0"
+                           value="<?= $book_by_id['RELEASE_YEAR'] ?>"
+                           min="0"
                            class="box" required
                            placeholder="Введите год издания">
                     <input type="text" name="update_rating"
@@ -101,11 +104,9 @@ if (isset($_POST['update_book'])) {
                        onclick="return confirm('Удалить эту книгу?');">Удалить книгу</a>
                 </form>
             </div>
-            <!--Book description -->
             <div class="product-configuration">
-                <!-- Tags -->
                 <div class="cable-config">
-                    <span>Tags</span>
+                    <span>Метки</span>
                     <div class="tags">
                         <button>Tag</button>
                     </div>
@@ -114,9 +115,9 @@ if (isset($_POST['update_book'])) {
         </div>
     <?php }
     else {
-        ?><a href="admin_detail.php?id=<?= $book_by_id['BOOK_ID'] ?>">'<p
-                class="empty">На главную</p>';</a><?php
-    } ?>
+        ?><a href="admin_books.php"><p class="empty">На главную</p></a><?php
+    }
+    ?>
 </section>
 <script src="js/admin_script.js"></script>
 </body>
