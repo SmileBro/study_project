@@ -51,7 +51,7 @@ if (isset($_POST['add_to_cart'])) {
                 ?>
                 <form action="" method="post" class="box">
                     <a href="details.php?id=<?= $fetch_books['BOOK_ID'] ?>">
-                        <img class="book_img"
+                        <img class="image"
                              src="uploaded_img/<?= $fetch_books['BOOK_IMG'] ?>"
                              height="350rem" width=100% alt=""></a>
                     <div class="name"><?= $fetch_books['BOOK_NAME'] ?></div>
