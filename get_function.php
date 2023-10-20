@@ -9,7 +9,8 @@ function insertIfNeeded($conn, $column, $table, $condition, $value) {
         return $select_query->fetch_array()[0];
     }
     else {
-        mysqli_query($conn, "INSERT INTO `$table`($condition) VALUES('$value')");
+        mysqli_query($conn,
+            "INSERT INTO `$table`($condition) VALUES('$value')");
         return mysqli_insert_id($conn);
     }
 }
@@ -34,7 +35,12 @@ function deleteLease($conn, $delete_id) {
         "UPDATE `books` SET BOOK_AMOUNT = '$new_amount' WHERE BOOK_ID = '$book_id'") or die('query failed');
 }
 
-function processLeaseRequest($conn, $posted, $isUpdate = false, $lease_id = null) {
+function processLeaseRequest(
+    $conn,
+    $posted,
+    $isUpdate = FALSE,
+    $lease_id = NULL
+) {
     $lease_start = $posted['lease_start'];
     $lease_due = $posted['lease_due'];
     $lease_status = mysqli_real_escape_string($conn, $posted['lease_status']);
@@ -53,7 +59,8 @@ function processLeaseRequest($conn, $posted, $isUpdate = false, $lease_id = null
             $book_amount = $fetch_book['BOOK_AMOUNT'];
             if ($book_amount < 1) {
                 return 'В данный момент книга отсутствует.';
-            } else {
+            }
+            else {
                 $add_lease_query = mysqli_query($conn,
                     "INSERT INTO `leases`(USER_ID, BOOK_ID, WORKER_ID, LEASE_START, LEASE_DUE, LEASE_STATUS) VALUES('$user','$book', $worker, '$lease_start','$lease_due','$lease_status')");
                 if ($add_lease_query) {
@@ -61,21 +68,25 @@ function processLeaseRequest($conn, $posted, $isUpdate = false, $lease_id = null
                     mysqli_query($conn,
                         "UPDATE `books` SET BOOK_AMOUNT = '$new_amount' WHERE BOOK_ID = '$book'") or die('query failed');
                     return 'Запись добавлена!';
-                } else {
+                }
+                else {
                     return 'Не удалось добавить запись в базу данных.';
                 }
             }
-        } else {
+        }
+        else {
             // Обновление записи в таблице leases
             $update_lease_query = mysqli_query($conn,
                 "UPDATE `leases` SET USER_ID = '$user', BOOK_ID = '$book', WORKER_ID = '$worker', LEASE_START = '$lease_start', LEASE_DUE = '$lease_due', LEASE_STATUS = '$lease_status' WHERE LEASE_ID = '$lease_id'") or die('query failed');
             if ($update_lease_query) {
                 return 'Запись обновлена!';
-            } else {
+            }
+            else {
                 return 'Не удалось обновить запись в базе данных.';
             }
         }
-    } else {
+    }
+    else {
         return 'Вы ввели неправильные данные!';
     }
 }
@@ -83,12 +94,16 @@ function processLeaseRequest($conn, $posted, $isUpdate = false, $lease_id = null
 function addToCart($conn, $user_id, $book_id, $book_quantity, $book_amount) {
     if ($book_quantity > $book_amount) {
         return 'Книги нет в наличии!';
-    } else {
-        $is_book_in_the_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE USER_ID = '$user_id' AND BOOK_ID = '$book_id'") or die('query failed');
+    }
+    else {
+        $is_book_in_the_cart = mysqli_query($conn,
+            "SELECT * FROM `cart` WHERE USER_ID = '$user_id' AND BOOK_ID = '$book_id'") or die('query failed');
         if (mysqli_num_rows($is_book_in_the_cart) > 0) {
             return 'Книга уже в корзине!';
-        } else {
-            mysqli_query($conn, "INSERT INTO `cart`(USER_ID, BOOK_ID, BOOK_AMOUNT) VALUES('$user_id', '$book_id', '$book_quantity')") or die('query failed');
+        }
+        else {
+            mysqli_query($conn,
+                "INSERT INTO `cart`(USER_ID, BOOK_ID, BOOK_AMOUNT) VALUES('$user_id', '$book_id', '$book_quantity')") or die('query failed');
             return 'Книга добавлена в корзину!';
         }
     }
@@ -109,8 +124,10 @@ function updateBook(
 ) {
     $upd_book_name = mysqli_real_escape_string($conn, $book_name);
     $upd_rating = mysqli_real_escape_string($conn, $rating);
-    $upd_auth_by_name = insertIfNeeded($conn, 'AUTH_ID', 'authors', 'AUTH_NAME', $auth_name);
-    $upd_pub_by_name = insertIfNeeded($conn, 'PUB_ID', 'publishers', 'PUB_NAME', $pub_name);
+    $upd_auth_by_name = insertIfNeeded($conn, 'AUTH_ID', 'authors', 'AUTH_NAME',
+        $auth_name);
+    $upd_pub_by_name = insertIfNeeded($conn, 'PUB_ID', 'publishers', 'PUB_NAME',
+        $pub_name);
     $query = "UPDATE `books` SET 
         BOOK_NAME = '$upd_book_name', 
         BOOK_AMOUNT = '$book_amount', 
@@ -134,5 +151,11 @@ function updateBook(
 function getColFromTable($conn, $table, $condition, $value) {
     $query = "SELECT * FROM `$table` WHERE $condition = '$value'";
     $result = mysqli_query($conn, $query);
-    return $result ? mysqli_fetch_assoc($result) : null;
+    return $result ? mysqli_fetch_assoc($result) : NULL;
+}
+
+function getCountByStatus($conn, $table, $status, $value) {
+    $query = "SELECT COUNT(*) as total FROM `$table` WHERE $status = '$value'";
+    $result = mysqli_query($conn, $query);
+    return $result ? mysqli_fetch_assoc($result)['total'] : NULL;
 }

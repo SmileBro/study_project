@@ -1,6 +1,7 @@
 <?php
 
 include 'config.php';
+include 'get_function.php';
 session_start();
 $admin_id = $_SESSION['admin_id'];
 if (!isset($admin_id)) {
@@ -28,31 +29,37 @@ if (!isset($admin_id)) {
     <div class="box-container">
         <div class="box">
             <?php
-            //$total_overdue = 0;
-            $select_overdue = mysqli_query($conn,
-                "SELECT COUNT(*) as total_overdue FROM `leases` WHERE LEASE_STATUS = 'overdue'") or die('query failed');
-            $total_overdue = mysqli_fetch_assoc($select_overdue)['total_overdue'];
+            $total_processing = getCountByStatus($conn, 'leases', 'LEASE_STATUS', 'processing');
             ?>
-            <h3><?= $total_overdue ?></h3>
+            <span style="color: var(--orange)"><?= $total_processing ?></span>
+            <p>В обработке</p>
+        </div>
+        <div class="box">
+            <?php
+            $total_active = getCountByStatus($conn, 'leases', 'LEASE_STATUS', 'active');
+            ?>
+            <span style="color: var(--green)"><?= $total_active ?></span>
+            <p>Активно</p>
+        </div>
+        <div class="box">
+            <?php
+            $total_overdue = getCountByStatus($conn, 'leases', 'LEASE_STATUS', 'overdue');
+            ?>
+            <span style="color: var(--red)"><?= $total_overdue ?></span>
             <p>Просроченных книг</p>
         </div>
         <div class="box">
             <?php
-            //$total_closed = 0;
-            $select_closed = mysqli_query($conn,
-                "SELECT COUNT(*) as total_closed FROM `leases` WHERE LEASE_STATUS = 'closed'") or die('query failed');
-            $total_closed = mysqli_fetch_assoc($select_closed)['total_closed'];
+            $total_closed = getCountByStatus($conn, 'leases', 'LEASE_STATUS', 'closed');
             ?>
-            <h3><?= $total_closed ?></h3>
+            <span><?= $total_closed ?></span>
             <p>Вернули всего</p>
         </div>
         <div class="box">
             <?php
-            $select_leases = mysqli_query($conn,
-                "SELECT COUNT(*) as total_leases FROM `leases`") or die('query failed');
-            $total_leases = mysqli_fetch_assoc($select_leases)['total_leases'];
+            $total_leases = getCountByStatus($conn, 'leases', 'LEASE_STATUS', NULL);
             ?>
-            <h3><?= $total_leases ?></h3>
+            <span><?= $total_leases ?></span>
             <p>Всего выдали</p>
         </div>
         <div class="box">
@@ -62,34 +69,28 @@ if (!isset($admin_id)) {
                 "SELECT SUM(BOOK_AMOUNT) as total_books FROM `books`") or die('query failed');
             $total_books = mysqli_fetch_assoc($select_books)['total_books'];
             ?>
-            <h3><?= $total_books ?></h3>
+            <span><?= $total_books ?></span>
             <p>Всего книг</p>
         </div>
         <div class="box">
             <?php
-            $select_users = mysqli_query($conn,
-                "SELECT COUNT(*) as total_users FROM `users` WHERE USER_STATUS = 1") or die('query failed');
-            $total_users = mysqli_fetch_assoc($select_users)['total_users'];
+            $total_users = getCountByStatus($conn, 'users', 'USER_STATUS', 1);
             ?>
-            <h3><?= $total_users ?></h3>
+            <span><?= $total_users ?></span>
             <p>Пользователи</p>
         </div>
         <div class="box">
             <?php
-            $select_admins = mysqli_query($conn,
-                "SELECT COUNT(*) as total_admins FROM `users` WHERE USER_STATUS = 3") or die('query failed');
-            $total_admins = mysqli_fetch_assoc($select_admins)['total_admins'];
+            $total_admins = getCountByStatus($conn, 'users', 'USER_STATUS', 3);
             ?>
-            <h3><?= $total_admins ?></h3>
+            <span><?= $total_admins ?></span>
             <p>Администраторы</p>
         </div>
         <div class="box">
             <?php
-            $select_accounts = mysqli_query($conn,
-                "SELECT COUNT(*) as total_accounts FROM `users`") or die('query failed');
-            $total_accounts = mysqli_fetch_assoc($select_accounts)['total_accounts'];
+            $total_accounts = getCountByStatus($conn, 'users', 'USER_STATUS', NULL);
             ?>
-            <h3><?= $total_accounts ?></h3>
+            <span><?= $total_accounts ?></span>
             <p>Всего аккаунтов</p>
         </div>
         <div class="box">
@@ -98,7 +99,7 @@ if (!isset($admin_id)) {
                 "SELECT COUNT(*) as total_messages FROM `message` WHERE TO_USER = $admin_id OR TO_USER = 'null'") or die('query failed');
             $total_messages = mysqli_fetch_assoc($select_messages)['total_messages'];
             ?>
-            <h3><?= $total_messages ?></h3>
+            <span><?= $total_messages ?></span>
             <p>Новых сообщений</p>
         </div>
     </div>
