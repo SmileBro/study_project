@@ -108,7 +108,7 @@ if (isset($_POST['update_book'])) {
                 <div class="cable-config">
                     <span>Метки</span>
                     <div class="tags">
-                        <button>Tag</button>
+                        <button>+</button>
                     </div>
                 </div>
             </div>
