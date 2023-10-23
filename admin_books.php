@@ -83,14 +83,6 @@ if (isset($_GET['delete'])) {
     deleteBook($conn, $delete_id, $dest);
     header('location:admin_books.php');
 }
-
-if (isset($_POST['update_book'])) {
-    $upd_book_id = $_POST['upd_book_id'];
-    $upd_book_name = $_POST['upd_book_name'];
-    $upd_book_amount = $_POST['upd_book_amount'];
-    $message[] = updateBook($conn, $_POST, $_FILES["update_image"], $dest);
-    header('location:admin_books.php');
-}
 ?>
 
 
@@ -139,13 +131,11 @@ if (isset($_POST['update_book'])) {
                     <a href="admin_detail.php?id=<?= $fetch_books['BOOK_ID'] ?>">
                         <img class="image"
                              src="uploaded_img/<?= $fetch_books['BOOK_IMG'] . '?t=' . time() ?>"
-                             height="350rem" width=100%
+                             width=100%
                              alt=""></a>
                     <div class="name"><?= $fetch_books['BOOK_NAME'] ?></div>
                     <div class="qty">
                         Количество: <?= $fetch_books['BOOK_AMOUNT'] ?></div>
-                    <a href="admin_books.php?update=<?= $fetch_books['BOOK_ID'] ?>"
-                       class="option-btn">Изменить</a>
                     <a href="admin_books.php?delete=<?= $fetch_books['BOOK_ID'] ?>"
                        class="delete-btn"
                        onclick="return confirm('Удалить эту книгу?');">Удалить</a>
@@ -159,8 +149,6 @@ if (isset($_POST['update_book'])) {
         ?>
     </div>
 </section>
-
-<?php include 'book_edit_form.php' ?>
 <script src="js/admin_script.js"></script>
 </body>
 </html>
