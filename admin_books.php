@@ -88,9 +88,7 @@ if (isset($_POST['update_book'])) {
     $upd_book_id = $_POST['upd_book_id'];
     $upd_book_name = $_POST['upd_book_name'];
     $upd_book_amount = $_POST['upd_book_amount'];
-    $message[] = updateBook($conn, $upd_book_id, $upd_book_name,
-        $upd_book_amount, NULL, NULL, NULL, NULL, $_FILES["update_image"],
-        $dest, $_POST['update_old_image']);
+    $message[] = updateBook($conn, $_POST, $_FILES["update_image"], $dest);
     header('location:admin_books.php');
 }
 ?>
@@ -139,12 +137,12 @@ if (isset($_POST['update_book'])) {
                 ?>
                 <div class="box">
                     <a href="admin_detail.php?id=<?= $fetch_books['BOOK_ID'] ?>">
-                        <img class="book_img"
+                        <img class="image"
                              src="uploaded_img/<?= $fetch_books['BOOK_IMG'] . '?t=' . time() ?>"
                              height="350rem" width=100%
                              alt=""></a>
                     <div class="name"><?= $fetch_books['BOOK_NAME'] ?></div>
-                    <div class="amount">
+                    <div class="qty">
                         Количество: <?= $fetch_books['BOOK_AMOUNT'] ?></div>
                     <a href="admin_books.php?update=<?= $fetch_books['BOOK_ID'] ?>"
                        class="option-btn">Изменить</a>
