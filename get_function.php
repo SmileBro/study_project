@@ -6,11 +6,13 @@ function insertIfNeeded($conn, $column, $table, $condition, $value) {
     $select_query = mysqli_query($conn,
         "SELECT $column FROM `$table` WHERE $condition = '$value'");
     if (mysqli_num_rows($select_query) > 0) {
+        // возвращает id существующей записи
         return $select_query->fetch_array()[0];
     }
     else {
         mysqli_query($conn,
             "INSERT INTO `$table`($condition) VALUES('$value')");
+        // возвращает id только что добавленной записи
         return mysqli_insert_id($conn);
     }
 }
@@ -111,30 +113,29 @@ function addToCart($conn, $user_id, $book_id, $book_quantity, $book_amount) {
 
 function updateBook(
     $conn,
-    $book_id,
-    $book_name,
-    $book_amount,
-    $release_year,
-    $rating,
-    $auth_name,
-    $pub_name,
+    $posted,
     $file,
-    $dest,
-    $old_image
+    $dest
 ) {
-    $upd_book_name = mysqli_real_escape_string($conn, $book_name);
-    $upd_rating = mysqli_real_escape_string($conn, $rating);
-    $upd_auth_by_name = insertIfNeeded($conn, 'AUTH_ID', 'authors', 'AUTH_NAME',
-        $auth_name);
-    $upd_pub_by_name = insertIfNeeded($conn, 'PUB_ID', 'publishers', 'PUB_NAME',
-        $pub_name);
+    $book_id = $posted['upd_book_id'];
+    $book_name = mysqli_real_escape_string($conn, $posted['upd_book_name']);
+    $rating = mysqli_real_escape_string($conn, $posted['update_rating']);
+    $book_amount = $posted['upd_book_amount'];
+    $release_year = $posted['upd_book_release_year'];
+    $auth_name = $posted['upd_auth_name'];
+    $pub_name = $posted['upd_pub_name'];
+    $old_image = $posted['update_old_image'];
+
+    $upd_auth_by_name = insertIfNeeded($conn, 'AUTH_ID', 'authors', 'AUTH_NAME', $auth_name);
+    $upd_pub_by_name = insertIfNeeded($conn, 'PUB_ID', 'publishers', 'PUB_NAME', $pub_name);
+
     $query = "UPDATE `books` SET 
-        BOOK_NAME = '$upd_book_name', 
+        BOOK_NAME = '$book_name', 
         BOOK_AMOUNT = '$book_amount', 
         PUB_ID = '$upd_pub_by_name', 
         AUTH_ID = '$upd_auth_by_name', 
         RELEASE_YEAR = '$release_year', 
-        RATING = '$upd_rating' 
+        RATING = '$rating' 
         WHERE BOOK_ID = '$book_id'";
     mysqli_query($conn, $query) or die('query failed');
     if (isset($_FILES["update_image"])) {

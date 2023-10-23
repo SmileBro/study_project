@@ -16,19 +16,7 @@ if (isset($_GET['delete'])) {
 }
 
 if (isset($_POST['update_book'])) {
-    $upd_book_id = $_POST['upd_book_id'];
-    $upd_book_release_year = $_POST['upd_book_release_year'];
-    $upd_book_amount = $_POST['upd_book_amount'];
-
-    $upd_book_name = $_POST['upd_book_name'];
-    $upd_rating = $_POST['update_rating'];
-    $upd_auth_name = $_POST['upd_auth_name'];
-    $upd_pub_name = $_POST['upd_pub_name'];
-
-    $message[] = updateBook($conn, $upd_book_id, $upd_book_name,
-        $upd_book_amount, $upd_book_release_year, $upd_rating, $upd_auth_name,
-        $upd_pub_name, $_FILES["update_image"], $dest,
-        $_POST['update_old_image']);
+    $message[] = updateBook($conn, $_POST, $_FILES["update_image"], $dest);
 }
 ?>
 <!DOCTYPE html>
