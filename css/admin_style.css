@@ -529,10 +529,31 @@ section {
     background-color: var(--light-bg);
     border-radius: .5rem;
 }
+.add-leases form {
+    background-color: var(--white);
+    border-radius: 24px;
+    padding: 24px;
+    text-align: center;
+    box-shadow: var(--box-shadow);
+    /* border: var(--border); */
+    max-width: 50rem;
+    margin: 0 auto;
+}
+
+.add-leases form .box {
+    width: 100%;
+    background-color: var(--light-bg);
+    border-radius: 24px;
+    margin-bottom: 16px;
+    padding: 12px 16px;
+    color: var(--black);
+    font-size: 1.8rem;
+    /* border: var(--border); */
+}
 
 .leases .box-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, 30rem);
+    grid-template-columns: repeat(auto-fit, 35rem);
     justify-content: center;
     gap: 1.5rem;
     max-width: 1200px;
@@ -544,13 +565,16 @@ section {
 .leases .box-container .box {
     background-color: var(--white);
     padding: 2rem;
-    border: var(--border);
+    /* border: var(--border); */
     box-shadow: var(--box-shadow);
-    border-radius: .5rem;
+    border-radius: 24px;
+}
+.leases .box-container .box .sector{
+    border-bottom: 1px solid #e1e8ee;
 }
 
 .leases .box-container .box p {
-    padding-bottom: 1rem;
+    padding: 8px;
     font-size: 2rem;
     color: var(--light-color);
 }
