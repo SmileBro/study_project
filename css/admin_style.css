@@ -105,7 +105,7 @@ section {
 .delete-btn,
 .white-btn {
     display: inline-block;
-    /* margin: 1rem; */
+    margin: 8px;
     padding: 20px 24px;
     cursor: pointer;
     color: var(--white);
@@ -113,7 +113,7 @@ section {
     border-radius: 32px;
     text-transform: capitalize;
     box-shadow: var(--box-shadow);
-    height: 64px;
+    /*height: 64px;*/
 }
 
 .btn:hover,
@@ -315,11 +315,11 @@ section {
 
 .add-books form {
     background-color: var(--white);
-    border-radius: .5rem;
-    padding: 2rem;
+    border-radius: 24px;
+    padding: 24px;
     text-align: center;
     box-shadow: var(--box-shadow);
-    border: var(--border);
+    /* border: var(--border); */
     max-width: 50rem;
     margin: 0 auto;
 }
@@ -334,12 +334,12 @@ section {
 .add-books form .box {
     width: 100%;
     background-color: var(--light-bg);
-    border-radius: .5rem;
-    margin: 1rem 0;
-    padding: 1.2rem 1.4rem;
+    border-radius: 24px;
+    margin-bottom: 16px;
+    padding: 12px 16px;
     color: var(--black);
     font-size: 1.8rem;
-    border: var(--border);
+    /* border: var(--border); */
 }
 
 .show-.add-books .box-container {
@@ -430,26 +430,29 @@ section {
     border-radius: 16px;
     background-color: var(--white);
     box-shadow: var(--box-shadow);
-    padding-bottom: 12px;
     text-align: center;
     position: relative;
 }
 
 .books .box-container .box .image {
-    height: 40rem;
+    height: 43rem;
     border-radius: 16px;
     box-shadow: var(--box-shadow);
 }
 
+.books .box-container .box .desc {
+    padding: 8px 0;
+}
+
 .books .box-container .box .name {
-    padding: 12px 0;
+    padding: 8px 0;
     font-size: 2rem;
     color: var(--black);
 }
 
 .books .box-container .box .qty {
     width: 100%;
-    padding: 12px 0;
+    padding: 8px 0;
     /* border-radius: .5rem; */
     /* border: var(--border); */
     /* margin: 1rem 0; */
@@ -771,7 +774,9 @@ section {
     html {
         font-size: 55%;
     }
-
+    .btn, .option-btn, .delete-btn, .white-btn {
+        padding: 16px 20px;
+    }
 }
 
 @media (max-width: 768px) {

@@ -133,12 +133,13 @@ if (isset($_GET['delete'])) {
                              src="uploaded_img/<?= $fetch_books['BOOK_IMG'] . '?t=' . time() ?>"
                              width=100%
                              alt=""></a>
-                    <div class="name"><?= $fetch_books['BOOK_NAME'] ?></div>
-                    <div class="qty">
-                        Количество: <?= $fetch_books['BOOK_AMOUNT'] ?></div>
-                    <a href="admin_books.php?delete=<?= $fetch_books['BOOK_ID'] ?>"
-                       class="delete-btn"
-                       onclick="return confirm('Удалить эту книгу?');">Удалить</a>
+                    <div class="desc">
+                        <div class="name"><?= $fetch_books['BOOK_NAME'] ?></div>
+                        <div class="qty">Количество: <?= $fetch_books['BOOK_AMOUNT'] ?></div>
+                        <a href="admin_books.php?delete=<?= $fetch_books['BOOK_ID'] ?>"
+                           class="delete-btn"
+                           onclick="return confirm('Удалить эту книгу?');">Удалить</a>
+                    </div>
                 </div>
                 <?php
             }
