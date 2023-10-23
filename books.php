@@ -52,15 +52,17 @@ if (isset($_POST['add_to_cart'])) {
                         <img class="image"
                              src="uploaded_img/<?= $fetch_books['BOOK_IMG'] ?>"
                              width="100%" alt=""></a>
-                    <div class="name"><?= $fetch_books['BOOK_NAME'] ?></div>
-                    <div class="name"><?= $author_by_id['AUTH_NAME'] ?></div>
-                    <div class="qty"> Кол-во: <?= $fetch_books['BOOK_AMOUNT'] ?></div>
-                    <input type="hidden" name="book_id"
-                           value="<?= $fetch_books['BOOK_ID'] ?>">
-                    <input type="hidden" name="book_amount"
-                           value="<?= $fetch_books['BOOK_AMOUNT'] ?>">
-                    <input type="submit" value="В корзину" name="add_to_cart"
-                           class="btn">
+                    <div class="desc">
+                        <div class="name"><?= $fetch_books['BOOK_NAME'] ?></div>
+                        <div class="name"><?= $author_by_id['AUTH_NAME'] ?></div>
+                        <div class="qty"> В наличии: <?= $fetch_books['BOOK_AMOUNT'] ?> шт.</div>
+                        <input type="hidden" name="book_id"
+                               value="<?= $fetch_books['BOOK_ID'] ?>">
+                        <input type="hidden" name="book_amount"
+                               value="<?= $fetch_books['BOOK_AMOUNT'] ?>">
+                        <input type="submit" value="В корзину" name="add_to_cart"
+                               class="btn">
+                    </div>
                 </form>
                 <?php
             }

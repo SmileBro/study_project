@@ -103,7 +103,7 @@ section {
 .delete-btn,
 .white-btn {
     display: inline-block;
-    /* margin: 1rem; */
+    margin: 8px;
     padding: 20px 24px;
     cursor: pointer;
     color: var(--white);
@@ -111,7 +111,7 @@ section {
     border-radius: 32px;
     text-transform: capitalize;
     box-shadow: var(--box-shadow);
-    height: 64px;
+    /*height: 64px;*/
 }
 
 .btn:hover,
@@ -396,26 +396,29 @@ section {
     border-radius: 16px;
     background-color: var(--white);
     box-shadow: var(--box-shadow);
-    padding-bottom: 12px;
     text-align: center;
     position: relative;
 }
 
 .books .box-container .box .image {
-    height: 40rem;
+    height: 43rem;
     border-radius: 16px;
     box-shadow: var(--box-shadow);
 }
 
+.books .box-container .box .desc {
+    padding: 8px 0;
+}
+
 .books .box-container .box .name {
-    padding: 12px 0;
+    padding: 8px 0;
     font-size: 2rem;
     color: var(--black);
 }
 
 .books .box-container .box .qty {
     width: 100%;
-    padding: 12px 0;
+    padding: 8px 0;
     /* border-radius: .5rem; */
     /* border: var(--border); */
     /* margin: 1rem 0; */
@@ -427,7 +430,7 @@ section {
     top: 0;
     border-radius: 16px;
     padding: 10px 12px;
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: var(--white);
     background-color: var(--red);
     margin: 12px;
@@ -938,7 +941,9 @@ section {
     html {
         font-size: 55%;
     }
-
+    .btn, .option-btn, .delete-btn, .white-btn {
+        padding: 16px 20px;
+    }
 }
 
 @media (max-width: 768px) {
@@ -969,7 +974,6 @@ section {
     .home .content h3 {
         font-size: 3.5rem;
     }
-
 }
 
 @media (max-width: 450px) {

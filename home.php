@@ -53,18 +53,21 @@ if (isset($_POST['add_to_cart'])) {
                     <a href="details.php?id=<?= $fetch_books['BOOK_ID'] ?>">
                         <img class="image"
                              src="uploaded_img/<?= $fetch_books['BOOK_IMG'] ?>"
-                             height="350rem" width=100% alt=""></a>
-                    <div class="name"><?= $fetch_books['BOOK_NAME'] ?></div>
-                    <div class="amount">Новинка</div>
-                    <div class="name"><?= $author_by_id['AUTH_NAME'] ?></div>
-                    <div class="qty">Кол-во: <?= $fetch_books['BOOK_AMOUNT'] ?></div>
-                    <input type="hidden" name="book_id"
-                           value="<?= $fetch_books['BOOK_ID'] ?>">
-                    <input type="hidden" name="book_name"
-                           value="<?= $fetch_books['BOOK_NAME'] ?>">
-                    <input type="hidden" name="book_amount" value="<?= $fetch_books['BOOK_AMOUNT'] ?>">
-                    <input type="submit" value="В корзину" name="add_to_cart"
-                           class="btn">
+                             width=100% alt=""></a>
+                    <div class="desc">
+                        <div class="name"><?= $fetch_books['BOOK_NAME'] ?></div>
+                        <div class="amount">Новинка</div>
+                        <div class="name"><?= $author_by_id['AUTH_NAME'] ?></div>
+                        <div class="qty"> В наличии: <?= $fetch_books['BOOK_AMOUNT'] ?> шт.</div>
+                        <input type="hidden" name="book_id"
+                               value="<?= $fetch_books['BOOK_ID'] ?>">
+                        <input type="hidden" name="book_name"
+                               value="<?= $fetch_books['BOOK_NAME'] ?>">
+                        <input type="hidden" name="book_amount"
+                               value="<?= $fetch_books['BOOK_AMOUNT'] ?>">
+                        <input type="submit" value="В корзину" name="add_to_cart"
+                               class="btn">
+                    </div>
                 </form>
                 <?php
             }
