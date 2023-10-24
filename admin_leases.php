@@ -45,8 +45,6 @@ if (isset($_POST['send_update_lease'])) {
     <form action="" method="post" enctype="multipart/form-data">
         <input type="text" name="user_login" class="box" required
                placeholder="Введите логин заказчика">
-        <input type="text" name="user_name" class="box" required
-               placeholder="Введите имя заказчика">
         <input type="text" name="book_name" class="box" required
                placeholder="Введите название книги">
         <input type="text" name="worker_name" class="box"
@@ -93,7 +91,7 @@ if (isset($_POST['send_update_lease'])) {
                         <p> Дата выдачи :
                             <span><?= $fetch_leases['LEASE_START'] ?></span></p>
                         <p> Выдача до :
-                            <span><?= $fetch_leases['LEASE_START'] ?></span></p>
+                            <span><?= $fetch_leases['LEASE_DUE'] ?></span></p>
                     </div>
                     <p> Книга :
                         <span><?= $fetch_book['BOOK_NAME'] ?></span></p>
