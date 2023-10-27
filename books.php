@@ -42,7 +42,7 @@ if (isset($_POST['add_to_cart'])) {
     <div class="box-container">
         <?php
         $select_books = mysqli_query($conn,
-            "SELECT * FROM `books`") or die('query failed');
+            "SELECT * FROM `books` ORDER BY BOOK_ID DESC") or die('query failed');
         if (mysqli_num_rows($select_books) > 0) {
             while ($fetch_books = mysqli_fetch_assoc($select_books)) {
                 $author_by_id = getColFromTable($conn, 'authors', 'AUTH_ID', $fetch_books['AUTH_ID']);
