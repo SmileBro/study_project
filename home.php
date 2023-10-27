@@ -43,30 +43,30 @@ if (isset($_POST['add_to_cart'])) {
     <h1 class="title">популярное</h1>
     <div class="box-container">
         <?php
-        $select_books = mysqli_query($conn,
-            "SELECT * FROM `books` LIMIT 6") or die('query failed');
-        if (mysqli_num_rows($select_books) > 0) {
-            while ($fetch_books = mysqli_fetch_assoc($select_books)) {
-                $author_by_id = getColFromTable($conn, 'authors', 'AUTH_ID', $fetch_books['AUTH_ID']);
+        $select_popular_leases = mysqli_query($conn,
+            "SELECT b.BOOK_ID, b.BOOK_NAME, b.BOOK_AMOUNT, b.BOOK_IMG, a.AUTH_NAME, COUNT(l.LEASE_ID) AS popular FROM leases l JOIN books b ON l.BOOK_ID = b.BOOK_ID JOIN authors a ON b.AUTH_ID = a.AUTH_ID GROUP BY b.BOOK_ID,b.BOOK_NAME, a.AUTH_NAME ORDER BY popular DESC LIMIT 3") or die('query failed');
+        if (mysqli_num_rows($select_popular_leases) > 0) {
+            while ($popular_book = mysqli_fetch_assoc($select_popular_leases)) {
+                $amount = $popular_book['BOOK_AMOUNT'];
                 ?>
                 <form action="" method="post" class="box">
-                    <a href="details.php?id=<?= $fetch_books['BOOK_ID'] ?>">
+                    <a href="details.php?id=<?= $popular_book['BOOK_ID'] ?>">
                         <img class="image"
-                             src="uploaded_img/<?= $fetch_books['BOOK_IMG'] ?>"
+                             src="uploaded_img/<?= $popular_book['BOOK_IMG'] ?>"
                              width=100% alt=""></a>
                     <div class="desc">
-                        <div class="name"><?= $fetch_books['BOOK_NAME'] ?></div>
-                        <div class="amount">Новинка</div>
-                        <div class="name"><?= $author_by_id['AUTH_NAME'] ?></div>
-                        <div class="qty"> В наличии: <?= $fetch_books['BOOK_AMOUNT'] ?> шт.</div>
+                        <div class="name"><?= $popular_book['BOOK_NAME'] ?></div>
+                        <div class="name"><?= $popular_book['AUTH_NAME'] ?></div>
+                        <div class="qty"><?= ($amount != 0) ? "В наличии: $amount шт." : 'Нет в наличии' ?> </div>
                         <input type="hidden" name="book_id"
-                               value="<?= $fetch_books['BOOK_ID'] ?>">
+                               value="<?= $popular_book['BOOK_ID'] ?>">
                         <input type="hidden" name="book_name"
-                               value="<?= $fetch_books['BOOK_NAME'] ?>">
+                               value="<?= $popular_book['BOOK_NAME'] ?>">
                         <input type="hidden" name="book_amount"
-                               value="<?= $fetch_books['BOOK_AMOUNT'] ?>">
-                        <input type="submit" value="В корзину" name="add_to_cart"
-                               class="btn">
+                               value="<?= $popular_book['BOOK_AMOUNT'] ?>">
+                        <input type="submit" value="В корзину"
+                               name="add_to_cart"
+                               class="btn <?= ($amount != 0) ? '' : 'disabled' ?>">
                     </div>
                 </form>
                 <?php
