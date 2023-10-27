@@ -46,6 +46,7 @@ if (isset($_POST['add_to_cart'])) {
         if (mysqli_num_rows($select_books) > 0) {
             while ($fetch_books = mysqli_fetch_assoc($select_books)) {
                 $author_by_id = getColFromTable($conn, 'authors', 'AUTH_ID', $fetch_books['AUTH_ID']);
+                $amount = $fetch_books['BOOK_AMOUNT'];
                 ?>
                 <form action="" method="post" class="box">
                     <a href="details.php?id=<?= $fetch_books['BOOK_ID'] ?>">
@@ -54,14 +55,16 @@ if (isset($_POST['add_to_cart'])) {
                              width="100%" alt=""></a>
                     <div class="desc">
                         <div class="name"><?= $fetch_books['BOOK_NAME'] ?></div>
+                        <div class="amount">Новинка</div>
                         <div class="name"><?= $author_by_id['AUTH_NAME'] ?></div>
-                        <div class="qty"> В наличии: <?= $fetch_books['BOOK_AMOUNT'] ?> шт.</div>
+                        <div class="qty"><?= ($amount != 0) ? "В наличии: $amount шт." : 'Нет в наличии' ?> </div>
                         <input type="hidden" name="book_id"
                                value="<?= $fetch_books['BOOK_ID'] ?>">
                         <input type="hidden" name="book_amount"
                                value="<?= $fetch_books['BOOK_AMOUNT'] ?>">
-                        <input type="submit" value="В корзину" name="add_to_cart"
-                               class="btn">
+                        <input type="submit" value="В корзину"
+                               name="add_to_cart"
+                               class="btn <?= ($amount != 0) ? '' : 'disabled' ?>">
                     </div>
                 </form>
                 <?php

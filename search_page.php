@@ -60,23 +60,27 @@ if (isset($_POST['add_to_cart'])) {
             if (mysqli_num_rows($select_books) > 0) {
                 while ($fetch_books = mysqli_fetch_assoc($select_books)) {
                     $author_by_id = getColFromTable($conn, 'authors', 'AUTH_ID', $fetch_books['AUTH_ID']);
+                    $amount = $fetch_books['BOOK_AMOUNT'];
                     ?>
                     <form action="" method="post" class="box">
                         <a href="details.php?id=<?= $fetch_books['BOOK_ID'] ?>">
                             <img class="image"
                                  src="uploaded_img/<?= $fetch_books['BOOK_IMG'] ?>"
                                  width="100%" alt=""></a>
-                        <div class="name"><?= $fetch_books['BOOK_NAME'] ?></div>
-                        <div class="amount"><?= $fetch_books['BOOK_AMOUNT'] ?></div>
-                        <div class="name"><?= $author_by_id['AUTH_NAME'] ?></div>
-                        <input type="hidden" name="book_id"
-                               value="<?= $fetch_books['BOOK_ID'] ?>">
-                        <input type="hidden" name="book_name"
-                               value="<?= $fetch_books['BOOK_NAME'] ?>">
-                        <input type="hidden" name="book_amount"
-                               value="<?= $fetch_books['BOOK_AMOUNT'] ?>">
-                        <input type="submit" value="В корзину"
-                               name="add_to_cart" class="btn">
+                        <div class="desc">
+                            <div class="name"><?= $fetch_books['BOOK_NAME'] ?></div>
+                            <div class="amount"><?= $amount ?> шт.</div>
+                            <div class="name"><?= $author_by_id['AUTH_NAME'] ?></div>
+                            <input type="hidden" name="book_id"
+                                   value="<?= $fetch_books['BOOK_ID'] ?>">
+                            <input type="hidden" name="book_name"
+                                   value="<?= $fetch_books['BOOK_NAME'] ?>">
+                            <input type="hidden" name="book_amount"
+                                   value="<?= $fetch_books['BOOK_AMOUNT'] ?>">
+                            <input type="submit" value="В корзину"
+                                   name="add_to_cart"
+                                   class="btn <?= ($amount != 0) ? '' : 'disabled' ?>">
+                        </div>
                     </form>
                     <?php
                 }
