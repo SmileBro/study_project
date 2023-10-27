@@ -18,12 +18,20 @@ function insertIfNeeded($conn, $column, $table, $condition, $value) {
 }
 
 function deleteBook($conn, $delete_id, $dest) {
-    $delete_image_query = mysqli_query($conn,
-        "SELECT BOOK_IMG FROM `books` WHERE BOOK_ID = '$delete_id'") or die('query failed');
-    $fetch_delete_image = mysqli_fetch_assoc($delete_image_query);
-    unlink($dest . $fetch_delete_image['BOOK_IMG']);
-    mysqli_query($conn,
-        "DELETE FROM `books` WHERE BOOK_ID = '$delete_id'") or die('query failed');
+    $leases_by_book_id = mysqli_query($conn,
+        "SELECT * FROM `leases` WHERE BOOK_ID = '$delete_id' AND LEASE_STATUS = 'active'") or die('query failed');
+    if (mysqli_num_rows($leases_by_book_id) > 0) {
+        return 'Нельзя удалить, так как в данный момент книга выдана';
+    }
+    else {
+        $delete_image_query = mysqli_query($conn,
+            "SELECT BOOK_IMG FROM `books` WHERE BOOK_ID = '$delete_id'") or die('query failed');
+        $fetch_delete_image = mysqli_fetch_assoc($delete_image_query);
+        unlink($dest . $fetch_delete_image['BOOK_IMG']);
+        mysqli_query($conn,
+            "DELETE FROM `books` WHERE BOOK_ID = '$delete_id'") or die('query failed');
+        return 'Книга удалена';
+    }
 }
 
 function deleteLease($conn, $delete_id) {
