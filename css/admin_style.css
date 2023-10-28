@@ -105,14 +105,15 @@ section {
 .delete-btn,
 .white-btn {
     display: inline-block;
-    margin-top: 1rem;
-    padding: 1rem 3rem;
+    margin: 8px;
+    padding: 20px 24px;
     cursor: pointer;
     color: var(--white);
-    font-size: 1.8rem;
-    border-radius: .5rem;
+    font-size: 2rem;
+    border-radius: 32px;
     text-transform: capitalize;
-
+    box-shadow: var(--box-shadow);
+    /*height: 64px;*/
 }
 
 .btn:hover,
@@ -287,7 +288,7 @@ section {
     align-items: flex-start;
 }
 
-.dashboard .box-container .box{
+.dashboard .box-container .box {
     border-radius: 24px;
     padding: 20px;
     background-color: var(--white);
@@ -302,11 +303,11 @@ section {
     color: var(--black);
 }
 
-.dashboard .box-container .box p{
+.dashboard .box-container .box p {
     margin-top: 1.5rem;
     padding: 12px;
     background-color: var(--light-bg);
-    color:var(--purple);
+    color: var(--purple);
     font-size: 2rem;
     border-radius: 24px;
     /* border:var(--border); */
@@ -314,11 +315,11 @@ section {
 
 .add-books form {
     background-color: var(--white);
-    border-radius: .5rem;
-    padding: 2rem;
+    border-radius: 24px;
+    padding: 24px;
     text-align: center;
     box-shadow: var(--box-shadow);
-    border: var(--border);
+    /* border: var(--border); */
     max-width: 50rem;
     margin: 0 auto;
 }
@@ -333,12 +334,12 @@ section {
 .add-books form .box {
     width: 100%;
     background-color: var(--light-bg);
-    border-radius: .5rem;
-    margin: 1rem 0;
-    padding: 1.2rem 1.4rem;
+    border-radius: 24px;
+    margin-bottom: 16px;
+    padding: 12px 16px;
     color: var(--black);
     font-size: 1.8rem;
-    border: var(--border);
+    /* border: var(--border); */
 }
 
 .show-.add-books .box-container {
@@ -426,33 +427,35 @@ section {
 }
 
 .books .box-container .box {
-    min-height: 600px;
-    max-height: 600px;
-    border-radius: .5rem;
+    border-radius: 16px;
     background-color: var(--white);
     box-shadow: var(--box-shadow);
-    padding: 2rem;
     text-align: center;
-    border: var(--border);
     position: relative;
 }
 
 .books .box-container .box .image {
-    height: 30rem;
+    height: 43rem;
+    border-radius: 16px;
+    box-shadow: var(--box-shadow);
+}
+
+.books .box-container .box .desc {
+    padding: 8px 0;
 }
 
 .books .box-container .box .name {
-    padding: 1rem 0;
+    padding: 8px 0;
     font-size: 2rem;
     color: var(--black);
 }
 
 .books .box-container .box .qty {
     width: 100%;
-    padding: 1.2rem 1.4rem;
-    border-radius: .5rem;
-    border: var(--border);
-    margin: 1rem 0;
+    padding: 8px 0;
+    /* border-radius: .5rem; */
+    /* border: var(--border); */
+    /* margin: 1rem 0; */
     font-size: 2rem;
 }
 
@@ -526,10 +529,31 @@ section {
     background-color: var(--light-bg);
     border-radius: .5rem;
 }
+.add-leases form {
+    background-color: var(--white);
+    border-radius: 24px;
+    padding: 24px;
+    text-align: center;
+    box-shadow: var(--box-shadow);
+    /* border: var(--border); */
+    max-width: 50rem;
+    margin: 0 auto;
+}
+
+.add-leases form .box {
+    width: 100%;
+    background-color: var(--light-bg);
+    border-radius: 24px;
+    margin-bottom: 16px;
+    padding: 12px 16px;
+    color: var(--black);
+    font-size: 1.8rem;
+    /* border: var(--border); */
+}
 
 .leases .box-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, 30rem);
+    grid-template-columns: repeat(auto-fit, 35rem);
     justify-content: center;
     gap: 1.5rem;
     max-width: 1200px;
@@ -541,13 +565,16 @@ section {
 .leases .box-container .box {
     background-color: var(--white);
     padding: 2rem;
-    border: var(--border);
+    /* border: var(--border); */
     box-shadow: var(--box-shadow);
-    border-radius: .5rem;
+    border-radius: 24px;
+}
+.leases .box-container .box .sector{
+    border-bottom: 1px solid #e1e8ee;
 }
 
 .leases .box-container .box p {
-    padding-bottom: 1rem;
+    padding: 8px;
     font-size: 2rem;
     color: var(--light-color);
 }
@@ -771,7 +798,9 @@ section {
     html {
         font-size: 55%;
     }
-
+    .btn, .option-btn, .delete-btn, .white-btn {
+        padding: 16px 20px;
+    }
 }
 
 @media (max-width: 768px) {

@@ -40,14 +40,31 @@ if (isset($_POST['send_update_lease'])) {
 <body>
 
 <?php include 'admin_header.php'; ?>
-
-<section class="leases">
+<section class="add-leases">
     <h1 class="title">выданные книги</h1>
-    <div class="box-container">
-        <div class="box">
-            <a href="admin_leases.php?add_lease" class="option-btn">Добавить</a>
-        </div>
-    </div>
+    <form action="" method="post" enctype="multipart/form-data">
+        <input type="text" name="user_login" class="box" required
+               placeholder="Введите логин заказчика">
+        <input type="text" name="book_name" class="box" required
+               placeholder="Введите название книги">
+        <input type="text" name="worker_name" class="box"
+               value="<?= $_SESSION['admin_name'] ?>" required
+               placeholder="Введите логин работника">
+        <input type="date" name="lease_start" class="box" required
+               placeholder="Введите дату начала выдачи">
+        <input type="date" name="lease_due" class="box" required
+               placeholder="Введите дату конца выдачи">
+        <select name="lease_status" class="box">
+            <option value="processing">В обработке</option>
+            <option value="active">Активна</option>
+            <option value="closed">Закрыта</option>
+            <option value="overdue">Просрочена</option>
+        </select>
+
+        <input type="submit" value="Добавить" name="send_lease" class="btn">
+    </form>
+</section>
+<section class="leases">
     <div class="box-container">
         <?php
         $select_leases = mysqli_query($conn,
@@ -58,20 +75,26 @@ if (isset($_POST['send_update_lease'])) {
                 $fetch_book = getColFromTable($conn, 'books', 'BOOK_ID', $fetch_leases['BOOK_ID']);
                 ?>
                 <div class="box">
-                    <p> № выдачи :
-                        <span><?= $fetch_leases['LEASE_ID'] ?></span></p>
-                    <p> № пользователя :
-                        <span><?= $fetch_leases['USER_ID'] ?></span></p>
-                    <p> Выдача размещена :
-                        <span><?= $fetch_leases['LEASE_START'] ?></span></p>
+                    <div class="sector">
+                        <p> № выдачи :
+                            <span><?= $fetch_leases['LEASE_ID'] ?></span></p>
+                    </div>
+                    <div class="sector">
+                        <p> Логин :
+                            <span><?= $fetch_user['USER_LOGIN'] ?></span></p>
+                        <p> Номер :
+                            <span><?= $fetch_user['USER_PHONE'] ?></span></p>
+                        <p> Email :
+                            <span><?= $fetch_user['USER_MAIL'] ?></span></p>
+                    </div>
+                    <div class="sector">
+                        <p> Дата выдачи :
+                            <span><?= $fetch_leases['LEASE_START'] ?></span></p>
+                        <p> Выдача до :
+                            <span><?= $fetch_leases['LEASE_DUE'] ?></span></p>
+                    </div>
                     <p> Книга :
                         <span><?= $fetch_book['BOOK_NAME'] ?></span></p>
-                    <p> Логин пользователя :
-                        <span><?= $fetch_user['USER_LOGIN'] ?></span></p>
-                    <p> Номер пользователя :
-                        <span><?= $fetch_user['USER_PHONE'] ?></span></p>
-                    <p> Email пользователя :
-                        <span><?= $fetch_user['USER_MAIL'] ?></span></p>
                     <p> Статус выдачи :
                         <span><?= $fetch_leases['LEASE_STATUS'] ?></span></p>
 
@@ -97,37 +120,7 @@ if (isset($_POST['send_update_lease'])) {
 
 <section class="edit-form">
     <?php
-    if (isset($_GET['add_lease'])) {
-        ?>
-        <form action="" method="post" enctype="multipart/form-data">
-            <h1 class="title">Добавление записи</h1>
-            <input type="text" name="user_login" class="box" required
-                   placeholder="Введите логин заказчика">
-            <input type="text" name="user_name" class="box" required
-                   placeholder="Введите имя заказчика">
-            <input type="text" name="book_name" class="box" required
-                   placeholder="Введите название книги">
-            <input type="text" name="worker_name" class="box"
-                   value="<?= $_SESSION['admin_name'] ?>" required
-                   placeholder="Введите логин работника">
-            <input type="date" name="lease_start" class="box" required
-                   placeholder="Введите дату начала выдачи">
-            <input type="date" name="lease_due" class="box" required
-                   placeholder="Введите дату конца выдачи">
-            <select name="lease_status" class="box">
-                <option value="processing">В обработке</option>
-                <option value="active">Активна</option>
-                <option value="closed">Закрыта</option>
-                <option value="overdue">Просрочена</option>
-            </select>
-
-            <input type="submit" value="Добавить" name="send_lease" class="btn">
-            <input type="reset" value="Отменить" id="close-update"
-                   class="option-btn">
-        </form>
-        <?php
-    }
-    elseif (isset($_GET['update_lease'])) {
+    if (isset($_GET['update_lease'])) {
         $update_id = $_GET['update_lease'];
         $update_query = mysqli_query($conn,
             "SELECT * FROM `leases` WHERE LEASE_ID = '$update_id'") or die('query failed');

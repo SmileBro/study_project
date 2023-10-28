@@ -10,44 +10,52 @@ if (!isset($user_id)) {
 }
 
 if (isset($_POST['order_btn'])) {
-    $name = mysqli_real_escape_string($conn, $_POST['name']);
-    $email = mysqli_real_escape_string($conn, $_POST['email']);
     $placed_on = date('Y-m-d h:i:sa');
     $due_date = date('Y-m-d h:i:sa', strtotime($placed_on . ' + 30 days'));
-    $worker_id = 0;
-    $cart_total = 0;
-
-    $cart_query = mysqli_query($conn,
-        "SELECT * FROM `cart` WHERE USER_ID = '$user_id'") or die('query failed');
-    if (mysqli_num_rows($cart_query) > 0) {
-        while ($cart_item = mysqli_fetch_assoc($cart_query)) {
-            $book_id = $cart_item['BOOK_ID'];
-            $book_by_id = getColFromTable($conn, 'books', 'BOOK_ID', $book_id);
-
-            //Проверка на наличие книги
-            $book_amount = $book_by_id['BOOK_AMOUNT'];
-            if ($book_amount < 1) {
-                $message[] = 'В данный момент книга отсутствует.';
-            }
-            else {
-                //Запись данных о выдаче в БД
-                mysqli_query($conn,
-                    "INSERT INTO `leases`(USER_ID, BOOK_ID, WORKER_ID, LEASE_START, LEASE_DUE, LEASE_STATUS) VALUES('$user_id', '$book_id', '$worker_id', '$placed_on', '$due_date', 'processing')") or die('query failed');
-
-                //Обновление количества книг в БД при заказе
-                $new_amount = $book_amount - 1;
-                $update_lease_query = mysqli_query($conn,
-                    "UPDATE `books` SET BOOK_AMOUNT = '$new_amount' WHERE BOOK_ID = '$book_id'") or die('query failed');
-
-                //Удаление предметов из корзины пользователя
-                mysqli_query($conn,
-                    "DELETE FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
-                $message[] = 'Заказ успешно сформирован!';
-            }
-        }
+    $worker_id = 0; // system
+    $total_leases = getCountByStatus($conn, 'leases', 'USER_ID', $user_id);
+    $cart_total = getCountByStatus($conn, 'cart', 'USER_ID', $user_id);
+    if ($cart_total + $total_leases > 5) {
+        $message[] = "Можно взять ещё " . (5 - $total_leases) . " книг. У вас - $cart_total.";
     }
     else {
-        $message[] = 'Ваша корзина пуста!';
+        $cart_query = mysqli_query($conn,
+            "SELECT * FROM `cart` WHERE USER_ID = '$user_id'") or die('query failed');
+        if (mysqli_num_rows($cart_query) > 0) {
+            while ($cart_item = mysqli_fetch_assoc($cart_query)) {
+                $book_id = $cart_item['BOOK_ID'];
+                $book_by_id = getColFromTable($conn, 'books', 'BOOK_ID', $book_id);
+                $leased_book = getColFromTable($conn, 'leases', 'BOOK_ID', $book_id);
+                if ($leased_book) {
+                    $book_name = $book_by_id['BOOK_NAME'];
+                    $message[] = "Книга \"$book_name\" уже была заказана.";
+                }
+                else {
+                    //Проверка на наличие книги
+                    $book_amount = $book_by_id['BOOK_AMOUNT'];
+                    if ($book_amount < 1) {
+                        $message[] = 'В данный момент книга отсутствует.';
+                    }
+                    else {
+                        //Запись данных о выдаче в БД
+                        mysqli_query($conn,
+                            "INSERT INTO `leases`(USER_ID, BOOK_ID, WORKER_ID, LEASE_START, LEASE_DUE, LEASE_STATUS) VALUES('$user_id', '$book_id', '$worker_id', '$placed_on', '$due_date', 'processing')") or die('query failed');
+                        //Обновление количества книг в БД при заказе
+                        $new_amount = $book_amount - 1;
+                        $update_lease_query = mysqli_query($conn,
+                            "UPDATE `books` SET BOOK_AMOUNT = '$new_amount' WHERE BOOK_ID = '$book_id'") or die('query failed');
+
+                        //Удаление предметов из корзины пользователя
+                        mysqli_query($conn,
+                            "DELETE FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
+                        $message[] = 'Заказ успешно сформирован!';
+                    }
+                }
+            }
+        }
+        else {
+            $message[] = 'Ваша корзина пуста!';
+        }
     }
 }
 ?>
@@ -73,12 +81,11 @@ if (isset($_POST['order_btn'])) {
 </div>
 <section class="display-order">
     <?php
-    $grand_total = 0;
+    $cart_total = getCountByStatus($conn, 'cart', 'USER_ID', $user_id);
     $select_cart = mysqli_query($conn,
         "SELECT * FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
     if (mysqli_num_rows($select_cart) > 0) {
         while ($fetch_cart = mysqli_fetch_assoc($select_cart)) {
-            $grand_total += $fetch_cart['BOOK_AMOUNT'];
             $book_by_id = getColFromTable($conn, 'books', 'BOOK_ID', $fetch_cart['BOOK_ID']);
             ?>
             <p><?= $book_by_id['BOOK_NAME'] ?></p>
@@ -89,7 +96,7 @@ if (isset($_POST['order_btn'])) {
         echo '<p class="empty">Ваша корзина пуста</p>';
     }
     ?>
-    <div class="grand-total"> Всего книг : <span><?= $grand_total ?></span>
+    <div class="grand-total"> Всего книг : <span><?= $cart_total ?></span>
     </div>
 </section>
 
