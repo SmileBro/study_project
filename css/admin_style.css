@@ -800,6 +800,47 @@ section {
 
 }
 
+.changeTags {
+    position: relative;
+  }
+
+  .changeTags input {
+    position: absolute;
+    padding: 5px;
+    display: none;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .changeTags .changeTagBtn {
+    border: 2px solid #8e44ad;
+    border-radius: 6px;
+    padding: 13px 20px;
+    font-size: 14px;
+    color: #333;
+    background-color: #fff;
+    cursor: pointer;
+    transition: all .5s;
+    display: inline;
+    position: absolute;
+    overflow: hidden;
+    white-space: nowrap;
+    text-align: center;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 120px;
+  }
+  
+  .changeTags .changeTagBtn:hover {
+    border: 2px solid #86939e;
+    outline: none;
+  }
+  
+
 @media (max-width: 450px) {
 
     html {

@@ -21,3 +21,5 @@ document.querySelector('#close-update').onclick = () => {
 	window.location = window.location.href.split('?')[0];
 }
   
+
+  

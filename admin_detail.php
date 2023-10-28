@@ -30,6 +30,11 @@ if (isset($_POST['update_book'])) {
         $upd_pub_name, $_FILES["update_image"], $dest,
         $_POST['update_old_image']);
 }
+
+if (isset($_POST['tag_input'])) {
+    echo var_dump($_POST);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,6 +45,31 @@ if (isset($_POST['update_book'])) {
     <title>Описание</title>
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src=
+"https://code.jquery.com/jquery-3.6.0.min.js">
+    </script>
+    <script> 
+
+
+
+// Function to create the cookie 
+function createCookie(name, value, days) { 
+	var expires; 
+	
+	if (days) { 
+		var date = new Date(); 
+		date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); 
+		expires = "; expires=" + date.toGMTString(); 
+	} 
+	else { 
+		expires = ""; 
+	} 
+	
+	document.cookie = escape(name) + "=" + 
+		escape(value) + expires + "; path=/"; 
+} 
+
+</script>
     <link rel="stylesheet" href="css/admin_style.css">
 </head>
 <body>
@@ -108,7 +138,47 @@ if (isset($_POST['update_book'])) {
                 <div class="cable-config">
                     <span>Метки</span>
                     <div class="tags">
-                        <button>+</button>
+                    <form id="changeTagsForm" action="" method="post" enctype="multipart/form-data">
+                    <div class="changeTags">
+                    <div class="changeTagBtn">+</div>
+                    <input type="text" placeholder="Тег" name="tag_input" id ="tag_input">
+                    </div>
+                    </form>
+                    <script type="text/javascript">
+                    //Shows Input Box When Focussed
+                    $(".changeTagBtn").click(function() {
+                      var neww = $(".changeTags input").css("width");
+                      $(this).animate({
+                        width: neww
+                      }, 300, function() {
+                        $(".changeTags input").fadeIn(300, function() {
+                          $(".changeTagBtn").hide();
+                        }).focus();
+                      });
+                    });
+
+                    //Shows Button When Unfocussed
+                    $(".changeTags input").blur(function() {
+                        const XHR = new XMLHttpRequest();
+                        XHR.setRequestHeader(
+                        "Content-Type",
+                        `multipart/form-data; boundary=${boundary}`,
+                        );
+                        XHR.open("POST", window.location.href+"?tag_input="+document.getElementById('tag_input').value);
+                        XHR.send(document.getElementById('tag_input').value);
+                      $(".changeTagBtn").css("width", "120px");
+                      var neww = $(".changeTagBtn").css("width");
+                      $(this).animate({
+                        width: neww
+                      }, 300, function() {
+                        $(".changeTagBtn").show(0, function() {
+                          $(".changeTags input").fadeOut(500, function() {
+                            $(".changeTags input").css("width", "auto");
+                          });
+                        });
+                      });
+                    });
+                    </script>
                     </div>
                 </div>
             </div>
@@ -120,5 +190,6 @@ if (isset($_POST['update_book'])) {
     ?>
 </section>
 <script src="js/admin_script.js"></script>
+
 </body>
 </html>
