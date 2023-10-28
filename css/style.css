@@ -864,6 +864,7 @@ section {
     margin: 0 auto;
     display: flex;
     gap: 1rem;
+    justify-content: center;
 }
 
 .search-form form .box {

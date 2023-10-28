@@ -34,6 +34,8 @@ if (isset($_POST['add_to_cart'])) {
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <script src="js/search.js"></script>
+    
 </head>
 <body>
 
@@ -45,8 +47,14 @@ if (isset($_POST['add_to_cart'])) {
 </div>
 <section class="search-form">
     <form action="" method="post">
-        <input type="text" name="search" placeholder="начать поиск..."
-               class="box">
+        <input type="text" name="search" id="dName" placeholder="начать поиск..."
+               class="box" style="width: 100%" >
+            <script>
+            ac.attach({
+            target: document.getElementById("dName"),
+            data: "2b-search.php"
+            }); 
+            </script>
         <input type="submit" name="submit" value="поиск" class="btn">
     </form>
 </section>

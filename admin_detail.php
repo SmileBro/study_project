@@ -147,13 +147,7 @@ function createCookie(name, value, days) {
 
                     //Shows Button When Unfocussed
                     $(".changeTags input").blur(function() {
-                        const XHR = new XMLHttpRequest();
-                        XHR.setRequestHeader(
-                        "Content-Type",
-                        `multipart/form-data; boundary=${boundary}`,
-                        );
-                        XHR.open("POST", window.location.href+"?tag_input="+document.getElementById('tag_input').value);
-                        XHR.send(document.getElementById('tag_input').value);
+                        
                       $(".changeTagBtn").css("width", "120px");
                       var neww = $(".changeTagBtn").css("width");
                       $(this).animate({
