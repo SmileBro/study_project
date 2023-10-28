@@ -113,7 +113,8 @@ section {
     border-radius: 32px;
     text-transform: capitalize;
     box-shadow: var(--box-shadow);
-    /*height: 64px;*/
+    height: 64px;
+    max-height: 64px;
 }
 
 .btn:hover,
@@ -514,11 +515,22 @@ section {
     margin: 0 auto;
     display: flex;
     gap: 1rem;
+    justify-content: center;
 }
 
 .search-form form .btn {
     margin-top: 0;
 }
+ul {
+    list-style-type: circle;
+    
+    
+  }
+  li {
+    margin: 10px;
+    
+    font-size: 2rem;
+  }
 
 .search-form form .box {
     width: 100%;

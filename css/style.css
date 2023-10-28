@@ -25,6 +25,8 @@
     transition: all .2s linear;
 }
 
+
+
 *::selection {
     background-color: var(--purple);
     color: var(--white);
@@ -111,7 +113,8 @@ section {
     border-radius: 32px;
     text-transform: capitalize;
     box-shadow: var(--box-shadow);
-    /*height: 64px;*/
+    height: 64px;
+    max-height: 64px;
 }
 
 .btn:hover,
@@ -877,6 +880,16 @@ section {
     border-radius: 40px;
 }
 
+ul {
+    list-style-type: circle;
+    
+    
+  }
+  li {
+    margin: 10px;
+    
+    font-size: 2rem;
+  }
 
 .footer {
     background-color: var(--light-bg);

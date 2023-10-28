@@ -20,10 +20,11 @@ if (isset($_GET['delete'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>search page</title>
+    <title>страница поиска</title>
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="css/admin_style.css">
+    <script src="js/search.js"></script>
 </head>
 <body>
 
@@ -34,9 +35,15 @@ if (isset($_GET['delete'])) {
     <p><a href="admin_page.php">главная</a> / поиск </p>
 </div>
 <section class="search-form">
-    <form action="" method="post">
-        <input type="text" name="search" placeholder="начать поиск..."
-               class="box">
+    <form action="" method="post" >
+    <input type="text" name="search" id="dName" placeholder="начать поиск..."
+               class="box" style="width: 100%" >
+            <script>
+            ac.attach({
+            target: document.getElementById("dName"),
+            data: "2b-search.php"
+            }); 
+            </script>
         <input type="submit" name="submit" value="поиск" class="btn">
     </form>
 </section>
