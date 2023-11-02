@@ -113,14 +113,14 @@ section {
     border-radius: 32px;
     text-transform: capitalize;
     box-shadow: var(--box-shadow);
-    height: 64px;
-    max-height: 64px;
+    /* height: 64px;
+    max-height: 64px; */
 }
 
 .btn:hover,
 .option-btn:hover,
 .delete-btn:hover {
-    /* background-color: var(--black); */
+    background-color: var(--black);
 }
 
 .white-btn,
@@ -175,8 +175,8 @@ section {
 
 @keyframes fadeIn {
     0% {
-        transform: translateY(1rem);
-        opacity: .2s;
+        transform: translateY(-1rem);
+        transition: .2s;
     }
 }
 
@@ -321,14 +321,13 @@ section {
 
 .header .header-2 .flex .user-box {
     position: absolute;
-    top: 120%; right: 2rem;
-    background-color: var(--white);
-    border-radius: .5rem;
+    top: 120%;
+    right: 2rem;
     box-shadow: var(--box-shadow);
-    border: var(--border);
-    padding: 2rem;
+    padding: 16px;
     text-align: center;
-    width: 30rem;
+    border-radius: 24px;
+    background-color: var(--white);
     display: none;
     animation: fadeIn .2s linear;
 }
@@ -340,15 +339,11 @@ section {
 .header .header-2 .flex .user-box p {
     font-size: 2rem;
     color: var(--light-color);
-    margin-bottom: 1.5rem;
+    padding: 8px;
 }
 
 .header .header-2 .flex .user-box p span {
     color: var(--purple);
-}
-
-.header .header-2 .flex .user-box .delete-btn {
-    margin-top: 0;
 }
 
 .home {
@@ -416,16 +411,13 @@ section {
 .books .box-container .box .name {
     padding: 8px 0;
     font-size: 2rem;
-    color: var(--black);
 }
 
 .books .box-container .box .qty {
     width: 100%;
     padding: 8px 0;
-    /* border-radius: .5rem; */
-    /* border: var(--border); */
-    /* margin: 1rem 0; */
     font-size: 2rem;
+    color: var(--light-color);
 }
 
 .books .box-container .box .amount {
@@ -882,14 +874,14 @@ section {
 
 ul {
     list-style-type: circle;
-    
-    
-  }
-  li {
+
+
+}
+li {
     margin: 10px;
-    
+
     font-size: 2rem;
-  }
+}
 
 .footer {
     background-color: var(--light-bg);
@@ -951,7 +943,17 @@ ul {
         font-size: 55%;
     }
     .btn, .option-btn, .delete-btn, .white-btn {
-        padding: 16px 20px;
+        padding: 12px 16px;
+    }
+    .books .box-container .box .name,
+    .books .box-container .box .qty {
+        padding: 4px 0;
+    }
+    .header .header-2 .flex .user-box {
+        padding: 8px 16px;
+    }
+    .header .header-2 .flex .user-box p {
+        padding: 4px;
     }
 }
 

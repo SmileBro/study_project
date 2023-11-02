@@ -113,8 +113,8 @@ section {
     border-radius: 32px;
     text-transform: capitalize;
     box-shadow: var(--box-shadow);
-    height: 64px;
-    max-height: 64px;
+    /* height: 64px;
+    max-height: 64px; */
 }
 
 .btn:hover,
@@ -148,9 +148,8 @@ section {
     align-items: center;
     justify-content: center;
     gap: 1rem;
-    background: url(../images/heading-bg.webp) no-repeat;
     background-size: cover;
-    background-position: center;
+    background: url(../images/heading-bg.webp) no-repeat center;
     text-align: center;
 }
 
@@ -175,8 +174,7 @@ section {
 
 @keyframes fadeIn {
     0% {
-        transform: translateY(1rem);
-        opacity: .2s;
+        transform: translateY(-1rem);
     }
 }
 
@@ -231,14 +229,12 @@ section {
 
 .header .flex .account-box {
     position: absolute;
-    top: 120%; right: 2rem;
-    width: 30rem;
+    top: 120%;
+    right: 2rem;
     box-shadow: var(--box-shadow);
-    border-radius: .5rem;
-    padding: 2rem;
+    padding: 16px;
     text-align: center;
-    border-radius: .5rem;
-    border: var(--border);
+    border-radius: 24px;
     background-color: var(--white);
     display: none;
     animation: fadeIn .2s linear;
@@ -251,15 +247,11 @@ section {
 .header .flex .account-box p {
     font-size: 2rem;
     color: var(--light-color);
-    margin-bottom: 1.5rem;
+    padding: 8px;
 }
 
 .header .flex .account-box p span {
     color: var(--purple);
-}
-
-.header .flex .account-box .delete-btn {
-    margin-top: 0;
 }
 
 .header .flex .account-box div {
@@ -448,16 +440,13 @@ section {
 .books .box-container .box .name {
     padding: 8px 0;
     font-size: 2rem;
-    color: var(--black);
 }
 
 .books .box-container .box .qty {
     width: 100%;
     padding: 8px 0;
-    /* border-radius: .5rem; */
-    /* border: var(--border); */
-    /* margin: 1rem 0; */
     font-size: 2rem;
+    color: var(--light-color);
 }
 
 .books .box-container .box .price {
@@ -523,14 +512,14 @@ section {
 }
 ul {
     list-style-type: circle;
-    
-    
-  }
-  li {
+
+
+}
+li {
     margin: 10px;
-    
+
     font-size: 2rem;
-  }
+}
 
 .search-form form .box {
     width: 100%;
@@ -811,7 +800,17 @@ ul {
         font-size: 55%;
     }
     .btn, .option-btn, .delete-btn, .white-btn {
-        padding: 16px 20px;
+        padding: 12px 16px;
+    }
+    .books .box-container .box .name,
+    .books .box-container .box .qty {
+        padding: 4px 0;
+    }
+    .header .flex .account-box {
+        padding: 8px 16px;
+    }
+    .header .flex .account-box p {
+        padding: 4px;
     }
 }
 
@@ -843,9 +842,9 @@ ul {
 
 .changeTags {
     position: relative;
-  }
+}
 
-  .changeTags input {
+.changeTags input {
     position: absolute;
     padding: 5px;
     display: none;
@@ -853,9 +852,9 @@ ul {
     right: 0;
     margin-left: auto;
     margin-right: auto;
-  }
-  
-  .changeTags .changeTagBtn {
+}
+
+.changeTags .changeTagBtn {
     border: 2px solid #8e44ad;
     border-radius: 6px;
     padding: 13px 20px;
@@ -874,13 +873,13 @@ ul {
     margin-left: auto;
     margin-right: auto;
     width: 120px;
-  }
-  
-  .changeTags .changeTagBtn:hover {
+}
+
+.changeTags .changeTagBtn:hover {
     border: 2px solid #86939e;
     outline: none;
-  }
-  
+}
+
 
 @media (max-width: 450px) {
 
