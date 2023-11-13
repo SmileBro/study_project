@@ -525,31 +525,34 @@ section {
     display: flex;
     gap: 1rem;
     justify-content: center;
-}
-
-.search-form form .btn {
-    margin-top: 0;
-}
-ul {
-    list-style-type: circle;
-
-
-}
-li {
-    margin: 10px;
-
-    font-size: 2rem;
+    align-items: flex-start;
 }
 
 .search-form form .box {
     width: 100%;
-    padding: 1.2rem 1.4rem;
-    border: var(--border);
+    padding: 20px 32px;
+    /*border: var(--border);*/
     font-size: 2rem;
     color: var(--black);
-    background-color: var(--light-bg);
-    border-radius: .5rem;
+    background-color: var(--white);
+    border-radius: 40px;
+    margin: 8px 0;
+    box-shadow: var(--box-shadow);
 }
+
+.acSuggest {
+    animation: fadeIn .2s linear;
+}
+
+ul {
+    list-style-type: circle;
+}
+
+li {
+    margin: 10px;
+    font-size: 2rem;
+}
+
 .add-leases form {
     background-color: var(--white);
     border-radius: 24px;

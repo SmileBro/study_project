@@ -894,6 +894,7 @@ section {
     display: flex;
     gap: 1rem;
     justify-content: center;
+    align-items: flex-start;
 }
 
 .search-form form .box {
@@ -904,17 +905,21 @@ section {
     color: var(--black);
     background-color: var(--light-bg);
     border-radius: 40px;
+    margin: 8px 0;
+}
+
+.acSuggest {
+    animation: fadeIn .2s linear;
 }
 
 ul {
     list-style-type: circle;
-
-
 }
+
 li {
     margin: 10px;
-
     font-size: 2rem;
+    transition: 1s;
 }
 
 .footer {
