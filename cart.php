@@ -40,13 +40,13 @@ if (isset($_GET['delete_all'])) {
 
 <div class="heading">
     <h3>Корзина</h3>
-    <p><a href="home.php">главная</a> / корзина </p>
+    <p><a href="home.php">главная</a> / корзина</p>
 </div>
 <section class="shopping-cart">
     <h1 class="title">добавленные книги</h1>
     <div class="box-container">
         <?php
-        $grand_total = 0;
+        $grand_total = getCountByStatus($conn, 'cart', 'USER_ID', $user_id);
         $select_cart = mysqli_query($conn,
             "SELECT * FROM `cart` WHERE USER_ID = '$user_id'") or die('query failed');
         if (mysqli_num_rows($select_cart) > 0) {
@@ -62,8 +62,6 @@ if (isset($_GET['delete_all'])) {
                     <div class="name"><?= $book_by_id['BOOK_NAME'] ?></div>
                 </div>
                 <?php
-                $sub_total = $fetch_cart['BOOK_AMOUNT'];
-                $grand_total += $sub_total;
             }
         }
         else {
