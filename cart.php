@@ -40,9 +40,8 @@ if (isset($_GET['delete_all'])) {
 
 <div class="heading">
     <h3>Корзина</h3>
-    <p><a href="home.php">главная</a> / коризна </p>
+    <p><a href="home.php">главная</a> / корзина </p>
 </div>
-
 <section class="shopping-cart">
     <h1 class="title">добавленные книги</h1>
     <div class="box-container">
@@ -59,11 +58,8 @@ if (isset($_GET['delete_all'])) {
                        class="fas fa-times"
                        onclick="return confirm('Удалить эту книгу из корзины?');"></a>
                     <a href="details.php?id=<?= $fetch_cart['BOOK_ID'] ?>">
-                        <img
-                            src="uploaded_img/<?= $book_by_id['BOOK_IMG'] ?>"
-                            alt=""></a>
+                        <img src="uploaded_img/<?= $book_by_id['BOOK_IMG'] ?>" alt=""></a>
                     <div class="name"><?= $book_by_id['BOOK_NAME'] ?></div>
-
                 </div>
                 <?php
                 $sub_total = $fetch_cart['BOOK_AMOUNT'];
@@ -75,11 +71,10 @@ if (isset($_GET['delete_all'])) {
         }
         ?>
     </div>
-    <div style="margin-top: 2rem; text-align:center;">
+    <div class="cart-clear">
         <a href="cart.php?delete_all"
            class="delete-btn <?= ($grand_total > 1) ? '' : 'disabled' ?>"
-           onclick="return confirm('Удалить все предметы из корзины?');">Удалить
-            все</a>
+           onclick="return confirm('Удалить все предметы из корзины?');">Удалить все</a>
     </div>
     <div class="cart-total">
         <p>Всего книг : <span><?= $grand_total ?></span></p>
