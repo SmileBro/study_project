@@ -19,15 +19,10 @@ if (isset($message)) {
 }
 function uniquePost($posted)
 {
-    // take some form values
     $description = $_POST['update_u_id'] . $_POST['update_name'] . $_POST['update_email'] . $_POST['update_status'];
-
-    // check if session hash matches current form hash
     if (isset($_SESSION['form_hash']) && $_SESSION['form_hash'] == md5($description)) {
-        // form was re-submitted return false
         return false;
     }
-    // set the session value to prevent re-submit
     $_SESSION['form_hash'] = md5($description);
     return true;
 }
@@ -49,12 +44,10 @@ if (isset($_POST['update_user']) && uniquePost($_POST)) {
 }
 
 if (isset($_GET['delete'])) {
-    $delete_id = intval($_GET['delete']); // Преобразовываем значение в целое число, чтобы избежать SQL-инъекций
-
+    $delete_id = (int) $_GET['delete']; // Преобразовываем значение в целое число, чтобы избежать SQL-инъекций
     if ($delete_id > 0) {
         $delete_query = "DELETE FROM `users` WHERE USER_ID = $delete_id";
         $result = mysqli_query($conn, $delete_query);
-
         if ($result) {
             header('location:admin_users.php');
         } else {
@@ -73,13 +66,8 @@ if (isset($_GET['delete'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>users</title>
-
-    <!-- font awesome cdn link  -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-    <!-- custom admin css file link  -->
     <link rel="stylesheet" href="css/admin_style.css">
-
 </head>
 <body>
 
@@ -89,31 +77,36 @@ if (isset($_GET['delete'])) {
     <h1 class="title"> Аккаунты пользователей </h1>
     <div class="box-container">
         <?php
-        $select_users = mysqli_query($conn, "SELECT * FROM `users`") or die('query failed');
+        $select_users = mysqli_query($conn,
+            "SELECT * FROM `users`") or die('query failed');
         while ($fetch_users = mysqli_fetch_assoc($select_users)) {
             ?>
             <div class="box">
                 <div class="sector">
-                    <p> ID : <span><?= $fetch_users['USER_ID']; ?></span></p>
+                    <p> ID : <span><?= $fetch_users['USER_ID'] ?></span></p>
                 </div>
                 <div class="sector">
-                    <p> Имя : <span><?= $fetch_users['USER_NAME']; ?></span></p>
-                    <p> Номер : <span><?= $fetch_users['USER_PHONE']; ?></span></p>
-                    <p> Email : <span><?= $fetch_users['USER_MAIL']; ?></span></p>
+                    <p> Логин : <span><?= $fetch_users['USER_ID'] == 0 ? '*top secret*' : $fetch_users['USER_LOGIN'] ?></span></p>
+                    <p> Имя : <span><?= $fetch_users['USER_NAME'] ?></span></p>
+                    <p> Номер : <span><?= $fetch_users['USER_PHONE'] ?></span></p>
+                    <p> Email : <span><?= $fetch_users['USER_MAIL'] ?></span></p>
                 </div>
-                <p> Уровень : <span style="color:<?php if ($fetch_users['USER_STATUS'] == 3) {
-                        echo 'var(--orange)';
-                    } ?>">
-         <?php
-         $status = $fetch_users['USER_STATUS'];
-         $userType = ($status == 1) ? "Пользователь" : (($status == 2) ? "Работник" : "Администратор");
-         echo $userType;
-         ?></span></p>
-                <a href="admin_users.php?delete=<?= $fetch_users['USER_ID']; ?>" onclick="return confirm('Удалить этого пользователя?');" class="delete-btn">Удалить</a>
-                <a href="admin_users.php?update=<?= $fetch_users['USER_ID']; ?>" class="option-btn">Изменить</a>
-            </div>
+                <p> Уровень : <span
+                        style="color:<?php if ($fetch_users['USER_STATUS'] == 3) {
+                            echo 'var(--orange)';
+                        } ?>">
             <?php
-        };
+            $status = $fetch_users['USER_STATUS'];
+            echo ($status == 1) ? "Пользователь" : (($status == 2) ? "Работник" : "Администратор");
+            ?></span></p>
+                    <a href="admin_users.php?delete=<?= $fetch_users['USER_ID']; ?>"
+                       onclick="return confirm('Удалить этого пользователя?');"
+                       class="delete-btn">Удалить</a>
+                    <a href="admin_users.php?update=<?= $fetch_users['USER_ID']; ?>"
+                       class="option-btn">Изменить</a>
+                </div>
+                <?php
+        }
         ?>
     </div>
 </section>
@@ -126,15 +119,31 @@ if (isset($_GET['delete'])) {
             while ($fetch_update = mysqli_fetch_assoc($update_query)) {
                 ?>
                 <form action="" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="update_u_id" value="<?= $fetch_update['USER_ID'] ?>">
-                    <input type="text" name="update_name" value="<?= $fetch_update['USER_NAME'] ?>" class="box"
-                           required placeholder="Введите имя">
-                    <input type="text" name="update_email" value="<?= $fetch_update['USER_MAIL'] ?>" min="0"
-                           class="box" required placeholder="Введите email">
-                    <input type="text" name="update_status" value="<?= $fetch_update['USER_STATUS'] ?>" min="0"
-                           class="box" required placeholder="Введите уровень доступа">
-                    <input type="submit" value="Изменить" name="update_user" class="btn">
-                    <input type="reset" value="Отменить" id="close-update" class="option-btn">
+                    <input type="hidden" name="update_u_id"
+                           value="<?= $fetch_update['USER_ID'] ?>">
+                    <input type="text" name="update_name"
+                           value="<?= $fetch_update['USER_NAME'] ?>"
+                           class="box"
+                           placeholder="Введите имя"
+                           required>
+                    <input type="text" name="update_email"
+                           value="<?= $fetch_update['USER_MAIL'] ?>"
+                           min="0"
+                           class="box"
+                           placeholder="Введите email"
+                           required>
+                    <input type="text" name="update_status"
+                           value="<?= $fetch_update['USER_STATUS'] ?>"
+                           min="0"
+                           class="box"
+                           placeholder="Введите уровень доступа"
+                           required>
+                    <input type="submit" value="Изменить"
+                           name="update_user"
+                           class="btn">
+                    <input type="reset" value="Отменить"
+                           class="option-btn"
+                           id="close-update">
                 </form>
                 <?php
             }
@@ -145,7 +154,6 @@ if (isset($_GET['delete'])) {
     ?>
 </section>
 
-<!-- custom admin js file link  -->
 <script src="js/admin_script.js"></script>
 </body>
 </html>
