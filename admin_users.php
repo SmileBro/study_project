@@ -96,7 +96,7 @@ if (isset($_GET['delete'])) {
                 <div class="sector">
                     <p> ID : <span><?= $fetch_users['USER_ID']; ?></span></p>
                 </div>
-                <div class="sector">git 
+                <div class="sector">
                     <p> Имя : <span><?= $fetch_users['USER_NAME']; ?></span></p>
                     <p> Номер : <span><?= $fetch_users['USER_PHONE']; ?></span></p>
                     <p> Email : <span><?= $fetch_users['USER_MAIL']; ?></span></p>

@@ -43,11 +43,15 @@ if (isset($_GET['delete'])) {
                 $user_by_id = getColFromTable($conn, 'users', 'USER_ID', $fetch_message['FROM_USER']);
                 ?>
                 <div class="box">
-                    <p> ID : <span><?= $fetch_message['FROM_USER'] ?></span></p>
-                    <p> Логин : <span><?= $user_by_id['USER_LOGIN'] ?></span></p>
-                    <p> Имя : <span><?= $user_by_id['USER_NAME'] ?></span></p>
-                    <p> Номер тел. : <span><?= $user_by_id['USER_PHONE'] ?></span></p>
-                    <p> Email : <span><?= $user_by_id['USER_MAIL'] ?></span></p>
+                    <div class="sector">
+                        <p> ID : <span><?= $fetch_message['FROM_USER'] ?></span></p>
+                    </div>
+                    <div class="sector">
+                        <p> Логин : <span><?= $user_by_id['USER_LOGIN'] ?></span></p>
+                        <p> Имя : <span><?= $user_by_id['USER_NAME'] ?></span></p>
+                        <p> Номер тел. : <span><?= $user_by_id['USER_PHONE'] ?></span></p>
+                        <p> Email : <span><?= $user_by_id['USER_MAIL'] ?></span></p>
+                    </div>
                     <p> Сообщение : <span><?= $fetch_message['MESSAGE'] ?></span></p>
                     <a href="admin_contacts.php?delete=<?= $fetch_message['MESSAGE_ID'] ?>"
                        onclick="return confirm('Удалить это сообщение?');"
