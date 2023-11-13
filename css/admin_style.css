@@ -239,7 +239,7 @@ section {
     font-size: 2.5rem;
     color: var(--black);
     cursor: pointer;
-    margin-left: 1.5rem;
+    padding: 10px;
 }
 
 .header .flex .icons > *:hover {
@@ -590,7 +590,8 @@ li {
     box-shadow: var(--box-shadow);
     border-radius: 24px;
 }
-.leases .box-container .box .sector{
+
+.sector{
     border-bottom: 1px solid #e1e8ee;
 }
 
@@ -626,25 +627,25 @@ li {
 
 .users .box-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, 30rem);
-    justify-content: center;
+    grid-template-columns: repeat(auto-fit, 35rem);
     gap: 1.5rem;
     max-width: 1200px;
     margin: 0 auto;
     align-items: flex-start;
+    justify-content: center;
+    text-align: center;
 }
 
 .users .box-container .box {
     background-color: var(--white);
     padding: 2rem;
-    border: var(--border);
+    /* border: var(--border); */
     box-shadow: var(--box-shadow);
-    border-radius: .5rem;
-    text-align: center;
+    border-radius: 24px;
 }
 
 .users .box-container .box p {
-    padding-bottom: 1.5rem;
+    padding: 8px;
     font-size: 2rem;
     color: var(--light-color);
 }

@@ -93,9 +93,14 @@ if (isset($_GET['delete'])) {
         while ($fetch_users = mysqli_fetch_assoc($select_users)) {
             ?>
             <div class="box">
-                <p> Номер : <span><?= $fetch_users['USER_ID']; ?></span></p>
-                <p> Имя : <span><?= $fetch_users['USER_NAME']; ?></span></p>
-                <p> Email : <span><?= $fetch_users['USER_MAIL']; ?></span></p>
+                <div class="sector">
+                    <p> ID : <span><?= $fetch_users['USER_ID']; ?></span></p>
+                </div>
+                <div class="sector">git 
+                    <p> Имя : <span><?= $fetch_users['USER_NAME']; ?></span></p>
+                    <p> Номер : <span><?= $fetch_users['USER_PHONE']; ?></span></p>
+                    <p> Email : <span><?= $fetch_users['USER_MAIL']; ?></span></p>
+                </div>
                 <p> Уровень : <span style="color:<?php if ($fetch_users['USER_STATUS'] == 3) {
                         echo 'var(--orange)';
                     } ?>">

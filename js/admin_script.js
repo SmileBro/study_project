@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			link.classList.add('active');
 		}
 		if (current_page === '/admin_detail.php') {
-			navLinks[2].classList.add('active');
+			navLinks[1].classList.add('active');
 		}
 	});
 });
