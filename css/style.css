@@ -894,7 +894,7 @@ section {
     display: flex;
     gap: 1rem;
     justify-content: center;
-    align-items: flex-start;
+    align-items: baseline;
 }
 
 .search-form form .box {
@@ -982,6 +982,9 @@ li {
         font-size: 55%;
     }
     .btn, .option-btn, .delete-btn, .white-btn {
+        padding: 12px 16px;
+    }
+    .search-form form .box {
         padding: 12px 16px;
     }
     .books .box-container .box .name,

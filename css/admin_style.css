@@ -64,12 +64,13 @@ section {
 }
 
 .empty {
-    padding: 1.5rem;
+    padding: 12px;
     text-align: center;
     border: var(--border);
     background-color: var(--white);
     color: var(--red);
     font-size: 2rem;
+    border-radius: 24px;
 }
 
 .message {
@@ -191,11 +192,11 @@ section {
 .header .flex {
     padding: 10px;
     display: flex;
-    align-items: center;
     justify-content: space-between;
     max-width: 1200px;
     margin: 0 auto;
     position: relative;
+    align-items: center;
 }
 
 .header .flex .logo {
@@ -209,7 +210,7 @@ section {
 }
 
 .header .flex .navbar {
-    padding: 10px 0;
+    /* padding: 10px 0; */
 }
 
 .header .flex .navbar a {
@@ -217,6 +218,7 @@ section {
     color: var(--black);
     padding: 10px 16px;
     border-radius: 24px;
+    line-height: 42px;
 }
 
 .header .flex .navbar a:hover {
@@ -233,6 +235,10 @@ section {
 .header .flex .navbar a.active:hover {
     color: var(--white);
     text-decoration: underline;
+}
+
+.header .flex .icons {
+    display: contents;
 }
 
 .header .flex .icons > * {
@@ -525,7 +531,7 @@ section {
     display: flex;
     gap: 1rem;
     justify-content: center;
-    align-items: flex-start;
+    align-items: baseline;
 }
 
 .search-form form .box {
@@ -820,6 +826,9 @@ li {
     .btn, .option-btn, .delete-btn, .white-btn {
         padding: 12px 16px;
     }
+    .search-form form .box {
+        padding: 12px 16px;
+    }
     .books .box-container .box .name,
     .books .box-container .box .qty {
         padding: 4px 0;
@@ -852,8 +861,10 @@ li {
     }
 
     .header .flex .navbar a {
-        margin: 2rem;
+        margin: 10px;
         display: block;
+        font-size: 2.5rem;
+        line-height: unset;
     }
 
 }
