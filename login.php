@@ -2,6 +2,34 @@
 include 'config.php';
 session_start();
 
+$select_leases = mysqli_query($conn,
+    "SELECT LEASE_ID, LEASE_DUE, LEASE_STATUS, BOOK_ID FROM `leases`") or die('query failed');
+if (mysqli_num_rows($select_leases) > 0) {
+    try {
+        while ($fetch_leases = mysqli_fetch_assoc($select_leases)) {
+            if ($fetch_leases['LEASE_DUE'] < date("Y-m-d")) {
+                $lease_id = $fetch_leases['LEASE_ID'];
+                if ($fetch_leases['LEASE_STATUS'] == 'active') {
+                    mysqli_query($conn,
+                        "UPDATE `leases` SET LEASE_STATUS = 'pending' WHERE LEASE_ID = '$lease_id'") or die('query failed');
+                }
+                elseif ($fetch_leases['LEASE_STATUS'] == 'processing') {
+                    mysqli_query($conn,
+                        "UPDATE `leases` SET LEASE_STATUS = 'closed' WHERE LEASE_ID = '$lease_id'") or die('query failed');
+                    $book = getColFromTable($conn, 'books', 'BOOK_ID', $fetch_leases['BOOK_ID']);
+                    $new_amount = $book['BOOK_AMOUNT'] + 1;
+                    $book_id = $book['BOOK_ID'];
+                    mysqli_query($conn,
+                        "UPDATE `books` SET BOOK_AMOUNT = '$new_amount' WHERE BOOK_ID = '$book_id'") or die('query failed');
+                }
+            }
+        }
+    }
+    catch (Exception $e) {
+        $message = 'Something went wrong: ' .  $e->getMessage();
+    }
+}
+
 if (isset($_POST['submit'])) {
     $login = mysqli_real_escape_string($conn, $_POST['login']);
     $pass = mysqli_real_escape_string($conn, md5($_POST['password']));
