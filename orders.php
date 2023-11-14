@@ -45,24 +45,40 @@ if (isset($_GET['cancel'])) {
         $order_query = mysqli_query($conn,"SELECT * FROM `leases` WHERE USER_ID = '$user_id'") or die('query failed');
         if (mysqli_num_rows($order_query) > 0) {
             while ($fetch_orders = mysqli_fetch_assoc($order_query)) {
-                $user_by_id = getColFromTable($conn, 'users', 'USER_ID', $user_id);
                 $book_by_id = getColFromTable($conn, 'books', 'BOOK_ID', $fetch_orders['BOOK_ID']);
+                $color = 'var(--main)';
+                $show_button = false;
+                switch ($fetch_orders['LEASE_STATUS']) {
+                    case 'processing':
+                        $color = 'orange';
+                        $show_button = true;
+                        break;
+                    case 'active':
+                        $color = 'green';
+                        break;
+                    case 'closed':
+                        $color = 'black';
+                        break;
+                    case 'pending':
+                        $color = 'red';
+                        break;
+                }
                 ?>
                 <div class="box">
-                    <p> дата заказа : <span><?= $fetch_orders['LEASE_START'] ?></span></p>
+                    <div class="sector">
+                        <p> номер заказа : <span><?= $fetch_orders['LEASE_ID'] ?></span></p>
+                    </div>
+                    <div class="sector">
+                        <p> дата заказа : <span><?= $fetch_orders['LEASE_START'] ?></span></p>
+                        <p> выдача до : <span><?= $fetch_orders['LEASE_DUE'] ?></span></p>
+                    </div>
                     <p> книга : <span><?= $book_by_id['BOOK_NAME']; ?></span></p>
-                    <p> номер : <span><?= $user_by_id['USER_PHONE'] ?></span></p>
-                    <p> email : <span><?= $user_by_id['USER_MAIL'] ?></span></p>
-                    <p> статус : <span style="color:<?php if ($fetch_orders['LEASE_STATUS'] == 'pending') {
-                                echo 'red';
-                            } else {
-                                echo 'green';
-                            } ?>;"><?= $fetch_orders['LEASE_STATUS'] ?></span></p>
+                    <p> статус : <span style="color:<?= $color ?>;"><?= $fetch_orders['LEASE_STATUS'] ?></span></p>
                     <form action="" method="post">
                         <input type="hidden" name="lease_id"
                                value="<?= $fetch_orders['LEASE_ID'] ?>">
                         <?php
-                        if ($fetch_orders['LEASE_STATUS'] == 'processing') {
+                        if ($show_button) {
                             ?>
                             <a href="orders.php?cancel=<?= $fetch_orders['LEASE_ID'] ?>"
                                onclick="return confirm('Отменить этот заказ?');"

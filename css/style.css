@@ -870,22 +870,25 @@ section {
 }
 
 .placed-orders .box-container .box {
-    flex: 1 1 40rem;
-    border-radius: .5rem;
-    padding: 2rem;
-    border: var(--border);
     background-color: var(--light-bg);
-    padding: 1rem 2rem;
+    padding: 2rem;
+    /* border: var(--border); */
+    box-shadow: var(--box-shadow);
+    border-radius: 24px;
 }
 
 .placed-orders .box-container .box p {
-    padding: 1rem 0;
+    padding: 8px;
     font-size: 2rem;
     color: var(--light-color);
 }
 
 .placed-orders .box-container .box p span {
     color: var(--main);
+}
+
+.sector{
+    border-bottom: 1px solid #ccc;
 }
 
 .search-form form {
