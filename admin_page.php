@@ -57,7 +57,9 @@ if (!isset($admin_id)) {
         </div>
         <div class="box">
             <?php
-            $total_leases = getCountByStatus($conn, 'leases', 'LEASE_STATUS', NULL);
+            $select_leases = mysqli_query($conn,
+                "SELECT COUNT(*) as total_leases FROM `leases`") or die('query failed');
+            $total_leases = mysqli_fetch_assoc($select_leases)['total_leases'];
             ?>
             <span><?= $total_leases ?></span>
             <p>Всего выдали</p>
@@ -88,7 +90,9 @@ if (!isset($admin_id)) {
         </div>
         <div class="box">
             <?php
-            $total_accounts = getCountByStatus($conn, 'users', 'USER_STATUS', NULL);
+            $select_accounts = mysqli_query($conn,
+                "SELECT COUNT(*) as total_accounts FROM `users`") or die('query failed');
+            $total_accounts = mysqli_fetch_assoc($select_accounts)['total_accounts'];
             ?>
             <span><?= $total_accounts ?></span>
             <p>Всего аккаунтов</p>
