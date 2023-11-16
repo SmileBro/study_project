@@ -59,7 +59,7 @@ if (isset($_GET['cancel'])) {
                     case 'closed':
                         $color = 'black';
                         break;
-                    case 'pending':
+                    case 'overdue':
                         $color = 'red';
                         break;
                 }

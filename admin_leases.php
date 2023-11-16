@@ -22,6 +22,8 @@ if (isset($_POST['send_update_lease'])) {
     $message[] = processLeaseRequest($conn, $_POST, true, $lease_id);
     header('location:admin_leases.php');
 }
+
+updateBookStatus($conn);
 ?>
 
 

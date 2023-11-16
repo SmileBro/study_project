@@ -63,20 +63,20 @@ function processLeaseRequest(
 
     if ($fetch_user && $fetch_book && $fetch_worker) {
         $user = $fetch_user['USER_ID'];
-        $book = $fetch_book['BOOK_ID'];
+        $book_id = $fetch_book['BOOK_ID'];
         $worker = $fetch_worker['USER_ID'];
+        $book_amount = (int)$fetch_book['BOOK_AMOUNT'];
         if (!$isUpdate) {
-            $book_amount = $fetch_book['BOOK_AMOUNT'];
             if ($book_amount < 1) {
                 return 'В данный момент книга отсутствует.';
             }
             else {
                 $add_lease_query = mysqli_query($conn,
-                    "INSERT INTO `leases`(USER_ID, BOOK_ID, WORKER_ID, LEASE_START, LEASE_DUE, LEASE_STATUS) VALUES('$user','$book', $worker, '$lease_start','$lease_due','$lease_status')");
+                    "INSERT INTO `leases`(USER_ID, BOOK_ID, WORKER_ID, LEASE_START, LEASE_DUE, LEASE_STATUS) VALUES('$user','$book_id', $worker, '$lease_start','$lease_due','$lease_status')");
                 if ($add_lease_query) {
                     $new_amount = $book_amount - 1;
                     mysqli_query($conn,
-                        "UPDATE `books` SET BOOK_AMOUNT = '$new_amount' WHERE BOOK_ID = '$book'") or die('query failed');
+                        "UPDATE `books` SET BOOK_AMOUNT = '$new_amount' WHERE BOOK_ID = '$book_id'") or die('query failed');
                     return 'Запись добавлена!';
                 }
                 else {
@@ -86,8 +86,15 @@ function processLeaseRequest(
         }
         else {
             // Обновление записи в таблице leases
+            $fetch_lease = getColFromTable($conn, 'leases', 'LEASE_ID', $lease_id);
+            // Если был статус "закрыта", а новый статус не "просрочена", то уменьшаем количество доступных книг
+            if ($fetch_lease['LEASE_STATUS'] == 'closed' && $lease_status != 'overdue') {
+                $new_amount = $book_amount - 1;
+                mysqli_query($conn,
+                    "UPDATE `books` SET BOOK_AMOUNT = '$new_amount' WHERE BOOK_ID = '$book_id'") or die('query failed');
+            }
             $update_lease_query = mysqli_query($conn,
-                "UPDATE `leases` SET USER_ID = '$user', BOOK_ID = '$book', WORKER_ID = '$worker', LEASE_START = '$lease_start', LEASE_DUE = '$lease_due', LEASE_STATUS = '$lease_status' WHERE LEASE_ID = '$lease_id'") or die('query failed');
+                "UPDATE `leases` SET USER_ID = '$user', BOOK_ID = '$book_id', WORKER_ID = '$worker', LEASE_START = '$lease_start', LEASE_DUE = '$lease_due', LEASE_STATUS = '$lease_status' WHERE LEASE_ID = '$lease_id'") or die('query failed');
             if ($update_lease_query) {
                 return 'Запись обновлена!';
             }
@@ -155,6 +162,39 @@ function updateBook(
     else {
         return 'Изменение не удалось.';
     }
+}
+
+function updateBookStatus($conn) {
+    $select_leases = mysqli_query($conn,
+        "SELECT LEASE_ID, LEASE_DUE, LEASE_STATUS, BOOK_ID FROM `leases`") or die('query failed');
+    if (mysqli_num_rows($select_leases) > 0) {
+        try {
+            while ($fetch_leases = mysqli_fetch_assoc($select_leases)) {
+                $lease_id = $fetch_leases['LEASE_ID'];
+                $lease_due = strtotime($fetch_leases['LEASE_DUE']);
+                $current_time = time();
+                if ($lease_due < $current_time) {
+                    if ($fetch_leases['LEASE_STATUS'] == 'active') {
+                        mysqli_query($conn,
+                            "UPDATE `leases` SET LEASE_STATUS = 'overdue' WHERE LEASE_ID = '$lease_id'") or die('query failed');
+                    }
+                    elseif ($fetch_leases['LEASE_STATUS'] == 'processing') {
+                        mysqli_query($conn,
+                            "UPDATE `leases` SET LEASE_STATUS = 'closed' WHERE LEASE_ID = '$lease_id'") or die('query failed');
+                        $book = getColFromTable($conn, 'books', 'BOOK_ID', $fetch_leases['BOOK_ID']);
+                        $new_amount = (int)$book['BOOK_AMOUNT'] + 1;
+                        $book_id = $book['BOOK_ID'];
+                        mysqli_query($conn,
+                            "UPDATE `books` SET BOOK_AMOUNT = '$new_amount' WHERE BOOK_ID = '$book_id'") or die('query failed');
+                    }
+                }
+            }
+        }
+        catch (Exception $e) {
+            return 'Something went wrong: ' .  $e->getMessage();
+        }
+    }
+    return null;
 }
 
 function getColFromTable($conn, $table, $condition, $value) {
