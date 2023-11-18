@@ -644,30 +644,26 @@ section {
 .contact form {
     margin: 0 auto;
     background-color: var(--light-bg);
-    border-radius: .5rem;
-    border: var(--border);
-    padding: 2rem;
+    border-radius: 24px;
+    padding: 24px;
     max-width: 50rem;
     margin: 0 auto;
     text-align: center;
+    box-shadow: var(--box-shadow);
 }
 
-.contact form h3 {
-    font-size: 2.5rem;
-    text-transform: uppercase;
-    margin-bottom: 1rem;
-    color: var(--black);
+.contact form p {
+    margin-bottom: 16px;
 }
 
 .contact form .box {
-    margin: 1rem 0;
+    margin-bottom: 16px;
     width: 100%;
-    border: var(--border);
     background-color: var(--white);
-    padding: 1.2rem 1.4rem;
+    padding: 12px 16px;
     font-size: 1.8rem;
     color: var(--black);
-    border-radius: .5rem;
+    border-radius: 24px;
 }
 
 .contact form textarea {
@@ -1190,35 +1186,30 @@ li {
 
 .users .box-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, 30rem);
-    justify-content: center;
+    grid-template-columns: repeat(auto-fit, 40rem);
     gap: 1.5rem;
     max-width: 1200px;
     margin: 0 auto;
     align-items: flex-start;
+    justify-content: center;
 }
 
 .users .box-container .box {
     background-color: var(--white);
     padding: 2rem;
-    border: var(--border);
+    /* border: var(--border); */
     box-shadow: var(--box-shadow);
-    border-radius: .5rem;
-    text-align: center;
+    border-radius: 24px;
 }
 
 .users .box-container .box p {
-    padding-bottom: 1.5rem;
+    padding: 8px;
     font-size: 2rem;
     color: var(--light-color);
 }
 
 .users .box-container .box p span {
     color: var(--main);
-}
-
-.users .box-container .box .delete-btn {
-    margin-top: 0;
 }
 
 
@@ -1259,4 +1250,30 @@ li {
     font-size: 1.8rem;
     color: var(--black);
     width: 100%;
+}
+
+.messages .box-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, 35rem);
+    justify-content: center;
+}
+
+.messages .box-container .box {
+    background-color: var(--light-bg);
+    padding: 2rem;
+    box-shadow: var(--box-shadow);
+    border-radius: 24px;
+}
+
+.messages .box-container .box p {
+    padding: 8px;
+    font-size: 2rem;
+    color: var(--light-color);
+}
+
+.messages .box-container .box p span {
+    color: var(--main);
 }

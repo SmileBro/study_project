@@ -59,23 +59,32 @@ if (isset($_POST['send'])) {
 </div>
 <section class="contact">
     <?php
-    $user_by_id = getColFromTable($conn, 'users', 'USER_ID', $_SESSION['user_id']);
+    $user_by_id = getColFromTable($conn, 'users', 'USER_ID',
+        $_SESSION['user_id']);
     ?>
     <form action="" method="post">
-        <h3>скажите что-нибудь!</h3>
         <p>Оставьте поле ниже пустым чтобы отправить сообщение в библиотеку</p>
         <input type="hidden" name="user_id"
-               value="<?= $_SESSION['user_id'] ?>" class="box">
+               value="<?= $_SESSION['user_id'] ?>"
+               class="box">
         <input type="text" name="user_login"
-               placeholder="Введите логин получателя" class="box">
-        <input type="text" name="name" value="<?= $user_by_id['USER_NAME'] ?>"
-               required placeholder="Введите ваше имя" class="box">
+               class="box"
+               placeholder="Введите логин получателя">
+        <input type="text" name="name"
+               value="<?= $user_by_id['USER_NAME'] ?>"
+               class="box"
+               placeholder="Введите ваше имя"
+               required>
         <input type="email" name="email"
                value="<?= $user_by_id['USER_MAIL'] ?>"
-               required placeholder="Введите ваш email" class="box">
+               class="box"
+               placeholder="Введите ваш email"
+               required>
         <input type="text" name="number"
-               value="<?= $user_by_id['USER_PHONE'] ?>" required
-               placeholder="Введите ваш номер" class="box">
+               value="<?= $user_by_id['USER_PHONE'] ?>"
+               class="box"
+               placeholder="Введите ваш номер"
+               required>
         <textarea name="message" class="box" placeholder="Ваше сообщение" id=""
                   cols="30" rows="10"></textarea>
         <input type="submit" value="Отправить" name="send" class="btn">
