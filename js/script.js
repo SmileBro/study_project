@@ -16,11 +16,13 @@ window.onscroll = () => {
     userBox.classList.remove('active');
     navbar.classList.remove('active');
     if (window.scrollY > head1.offsetHeight) {
-        document.querySelector('.heading').classList.add('active');
-        document.querySelector('.header .header-2').classList.add('active');
+        document.querySelector('.heading')?.classList.add('active');
+        document.querySelector('.home')?.classList.add('active');
+        document.querySelector('.header .header-2')?.classList.add('active');
     } else {
-        document.querySelector('.heading').classList.remove('active');
-        document.querySelector('.header .header-2').classList.remove('active');
+        document.querySelector('.heading')?.classList.remove('active');
+        document.querySelector('.home')?.classList.remove('active');
+        document.querySelector('.header .header-2')?.classList.remove('active');
     }
 };
 
@@ -40,4 +42,3 @@ document.querySelector('#close-update').onclick = () => {
     document.querySelector('.edit-form').style.display = 'none';
     window.location = window.location.href.split('?')[0];
 };
-

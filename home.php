@@ -32,7 +32,7 @@ if (isset($_POST['add_to_cart'])) {
 
 <?php include 'header.php'; ?>
 
-<section class="home heading">
+<section class="home">
     <div class="content">
         <h3>Забронируйте книгу не выходя из дома.</h3>
         <p>До 5 книг в одни руки из нашей библиотеки</p>
