@@ -71,6 +71,13 @@ if (isset($_GET['delete'])) {
         $message[] = 'Неверный идентификатор пользователя.';
     }
 }
+
+if (isset($_GET['delete_msg'])) {
+    $delete_id = $_GET['delete_msg'];
+    mysqli_query($conn,
+        "DELETE FROM `message` WHERE MESSAGE_ID = '$delete_id'") or die('query failed');
+    header('location:user_cabinet.php');
+}
 ?>
 
 <!DOCTYPE html>
@@ -133,7 +140,7 @@ if (isset($_GET['delete'])) {
                         <p> Email : <span><?= $user_by_id['USER_MAIL'] ?></span></p>
                     </div>
                     <p> Сообщение : <span><?= $fetch_message['MESSAGE'] ?></span></p>
-                    <a href="admin_contacts.php?delete=<?= $fetch_message['MESSAGE_ID'] ?>"
+                    <a href="user_cabinet.php?delete_msg=<?= $fetch_message['MESSAGE_ID'] ?>"
                        onclick="return confirm('Удалить это сообщение?');"
                        class="delete-btn">удалить</a>
                 </div>
