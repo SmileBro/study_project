@@ -10,7 +10,8 @@ if (!isset($admin_id)) {
 }
 if (isset($_POST['send_lease'])) {
     $message[] = processLeaseRequest($conn, $_POST);
-    header('location:admin_leases.php');
+    echo '<script>setTimeout(\'location="admin_leases.php"\', 500)</script>';
+    // header('location:admin_leases.php');
 }
 if (isset($_GET['delete'])) {
     $delete_lease_id = $_GET['delete'];
@@ -20,7 +21,8 @@ if (isset($_GET['delete'])) {
 if (isset($_POST['send_update_lease'])) {
     $lease_id = $_POST['lease_id'];
     $message[] = processLeaseRequest($conn, $_POST, true, $lease_id);
-    header('location:admin_leases.php');
+    echo '<script>setTimeout(\'location="admin_leases.php"\', 500)</script>';
+    // header('location:admin_leases.php');
 }
 
 updateBookStatus($conn);

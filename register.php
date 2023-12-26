@@ -20,7 +20,8 @@ if (isset($_POST['submit'])) {
         mysqli_query($conn,
             "INSERT INTO `users`(USER_LOGIN, USER_PASSWORD, USER_MAIL) VALUES('$name', '$cpass','$email')") or die('query failed');
         $message[] = 'Регистрация успешна!';
-        header('location:login.php');
+        echo '<script>setTimeout(\'location="login.php"\', 500)</script>';
+        // header('location:login.php');
     }
 }
 ?>
