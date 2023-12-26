@@ -26,7 +26,9 @@ if (isset($_POST['order_btn'])) {
                 $book_id = $cart_item['BOOK_ID'];
                 $book_by_id = getColFromTable($conn, 'books', 'BOOK_ID', $book_id);
                 $leased_book = getColFromTable($conn, 'leases', 'BOOK_ID', $book_id);
-                if ($leased_book) {
+                $is_leased = mysqli_query($conn,
+                    "SELECT * FROM `leases` WHERE USER_ID = '$user_id' AND BOOK_ID = '$book_id'") or die('query failed');
+                if ($leased_book && mysqli_num_rows($is_leased) > 0) {
                     $book_name = $book_by_id['BOOK_NAME'];
                     $message[] = "Книга \"$book_name\" уже была заказана.";
                 }
