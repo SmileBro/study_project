@@ -134,49 +134,47 @@ updateBookStatus($conn);
                 $fetch_book = getColFromTable($conn, 'books', 'BOOK_ID', $fetch_leases['BOOK_ID']);
                 ?>
                 <form action="" method="post" enctype="multipart/form-data">
-                    <div class="box">
-                        <p>Логин пользователя</p>
-                        <input type="text" name="user_login" class="box"
-                               value="<?= $fetch_user['USER_LOGIN'] ?>"
-                               required
-                               placeholder="Введите логин заказчика">
-                        <p>Название книги</p>
-                        <input type="text" name="book_name" class="box"
-                               value="<?= $fetch_book['BOOK_NAME'] ?>"
-                               required
-                               placeholder="Введите название книги">
-                        <p>Логин работника</p>
-                        <input type="text" name="worker_name" class="box"
-                               value="<?= $_SESSION['admin_name'] ?>"
-                               required
-                               placeholder="Введите логин работника">
-                        <p>Дата заказа</p>
-                        <input type="date" name="lease_start" class="box"
-                               value="<?= $fetch_leases['LEASE_START'] ?>"
-                               required
-                               placeholder="Введите дату начала выдачи">
-                        <p>Дата конца выдачи</p>
-                        <input type="date" name="lease_due" class="box"
-                               value="<?= $fetch_leases['LEASE_DUE'] ?>"
-                               required
-                               placeholder="Введите дату конца выдачи">
-                        <p>Статус выдачи</p>
-                        <select name="lease_status" class="box">
-                            <option value="processing">В обработке</option>
-                            <option value="active">Активна</option>
-                            <option value="closed">Закрыта</option>
-                            <option value="overdue">Просрочена</option>
-                        </select>
-                        <input type="hidden" name="lease_id"
-                               value="<?= $fetch_leases['LEASE_ID'] ?>">
-                        <input type="hidden" name="user_id"
-                               value="<?= $fetch_leases['USER_ID'] ?>">
-                        <input type="submit" value="Изменить"
-                               name="send_update_lease" class="option-btn">
-                        <input value="Отменить" id="close-update"
-                               class="option-btn"
-                               type="reset">
-                    </div>
+                    <p>Логин пользователя</p>
+                    <input type="text" name="user_login" class="box"
+                           value="<?= $fetch_user['USER_LOGIN'] ?>"
+                           required
+                           placeholder="Введите логин заказчика">
+                    <p>Название книги</p>
+                    <input type="text" name="book_name" class="box"
+                           value="<?= $fetch_book['BOOK_NAME'] ?>"
+                           required
+                           placeholder="Введите название книги">
+                    <p>Логин работника</p>
+                    <input type="text" name="worker_name" class="box"
+                           value="<?= $_SESSION['admin_name'] ?>"
+                           required
+                           placeholder="Введите логин работника">
+                    <p>Дата заказа</p>
+                    <input type="date" name="lease_start" class="box"
+                           value="<?= $fetch_leases['LEASE_START'] ?>"
+                           required
+                           placeholder="Введите дату начала выдачи">
+                    <p>Дата конца выдачи</p>
+                    <input type="date" name="lease_due" class="box"
+                           value="<?= $fetch_leases['LEASE_DUE'] ?>"
+                           required
+                           placeholder="Введите дату конца выдачи">
+                    <p>Статус выдачи</p>
+                    <select name="lease_status" class="box">
+                        <option value="processing">В обработке</option>
+                        <option value="active">Активна</option>
+                        <option value="closed">Закрыта</option>
+                        <option value="overdue">Просрочена</option>
+                    </select>
+                    <input type="hidden" name="lease_id"
+                           value="<?= $fetch_leases['LEASE_ID'] ?>">
+                    <input type="hidden" name="user_id"
+                           value="<?= $fetch_leases['USER_ID'] ?>">
+                    <input type="submit" value="Изменить"
+                           name="send_update_lease" class="btn">
+                    <input value="Отменить" id="close-update"
+                           class="option-btn"
+                           type="reset">
                 </form>
                 <?php
             }
