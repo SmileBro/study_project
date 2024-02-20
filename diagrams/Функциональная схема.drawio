@@ -1,0 +1,78 @@
+<mxfile host="app.diagrams.net" modified="2024-02-20T11:11:28.230Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36" etag="-qnDh7fjW4UbVOvfmgrQ" version="23.1.5" type="device">
+  <diagram name="Страница — 1" id="4K15GXlrdn6nTy_tORNL">
+    <mxGraphModel dx="1221" dy="1103" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1169" pageHeight="827" background="none" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Xs-dS1vMVRvPpyn5B67N-5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Xs-dS1vMVRvPpyn5B67N-2" target="Xs-dS1vMVRvPpyn5B67N-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Xs-dS1vMVRvPpyn5B67N-2" value="Начало" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="160" y="-320" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Xs-dS1vMVRvPpyn5B67N-8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Xs-dS1vMVRvPpyn5B67N-4" target="Xs-dS1vMVRvPpyn5B67N-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Xs-dS1vMVRvPpyn5B67N-4" value="Ввод заказа" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" vertex="1" parent="1">
+          <mxGeometry x="160" y="-220" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Xs-dS1vMVRvPpyn5B67N-10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Xs-dS1vMVRvPpyn5B67N-7" target="Xs-dS1vMVRvPpyn5B67N-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Xs-dS1vMVRvPpyn5B67N-7" value="&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Helvetica; font-size: 13px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;Определение наличия книг&lt;/span&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="160" y="-120" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Xs-dS1vMVRvPpyn5B67N-12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Xs-dS1vMVRvPpyn5B67N-9" target="Xs-dS1vMVRvPpyn5B67N-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Xs-dS1vMVRvPpyn5B67N-13" value="Нет" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="Xs-dS1vMVRvPpyn5B67N-12">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Xs-dS1vMVRvPpyn5B67N-25" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="Xs-dS1vMVRvPpyn5B67N-9" target="Xs-dS1vMVRvPpyn5B67N-29">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="330" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Xs-dS1vMVRvPpyn5B67N-28" value="Да" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="Xs-dS1vMVRvPpyn5B67N-25">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Xs-dS1vMVRvPpyn5B67N-9" value="Хотя бы&lt;br&gt;одна книга в корзине&lt;br&gt;в наличии?" style="rhombus;html=1;whiteSpace=wrap;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="160" y="-20" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="Xs-dS1vMVRvPpyn5B67N-11" value="Конец" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry y="-10" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Xs-dS1vMVRvPpyn5B67N-31" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Xs-dS1vMVRvPpyn5B67N-26" target="Xs-dS1vMVRvPpyn5B67N-30">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Xs-dS1vMVRvPpyn5B67N-26" value="&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Helvetica; font-size: 13px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;Изменение остатка книг&lt;/span&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="300" y="100" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Xs-dS1vMVRvPpyn5B67N-27" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="Xs-dS1vMVRvPpyn5B67N-29" target="Xs-dS1vMVRvPpyn5B67N-26">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="360" y="30" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Xs-dS1vMVRvPpyn5B67N-29" value="Заказ с книгами в наличии" style="shape=datastore;whiteSpace=wrap;html=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="320" y="-20" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="Xs-dS1vMVRvPpyn5B67N-33" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Xs-dS1vMVRvPpyn5B67N-30" target="Xs-dS1vMVRvPpyn5B67N-32">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Xs-dS1vMVRvPpyn5B67N-36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="Xs-dS1vMVRvPpyn5B67N-30" target="Xs-dS1vMVRvPpyn5B67N-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Xs-dS1vMVRvPpyn5B67N-30" value="Сведения об остатках" style="shape=datastore;whiteSpace=wrap;html=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="320" y="200" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="Xs-dS1vMVRvPpyn5B67N-32" value="Статистика" style="shape=display;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="440" y="220" width="80" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
