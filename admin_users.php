@@ -46,12 +46,17 @@ if (isset($_POST['update_user']) && uniquePost($_POST)) {
 if (isset($_GET['delete'])) {
     $delete_id = (int) $_GET['delete']; // Преобразовываем значение в целое число, чтобы избежать SQL-инъекций
     if ($delete_id > 0) {
-        $delete_query = "DELETE FROM `users` WHERE USER_ID = $delete_id";
-        $result = mysqli_query($conn, $delete_query);
-        if ($result) {
-            header('location:admin_users.php');
-        } else {
-            $message[] = 'Ошибка при удалении пользователя: ' . mysqli_error($conn);
+        $delete_query = "DELETE FROM `users` WHERE USER_ID = '$delete_id'";
+        $result = NULL;
+        try {
+            $result = mysqli_query($conn, $delete_query);
+        }
+        catch (Exception $e) {
+            if ($result) {
+                header('location:admin_users.php');
+            } else {
+                $message[] = 'Ошибка при удалении пользователя.';
+            }
         }
     } else {
         $message[] = 'Неверный идентификатор пользователя.';
