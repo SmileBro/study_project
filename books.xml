@@ -1,0 +1,16 @@
+<books>
+    <book>
+        <name>The Great Gatsby</name>
+        <author>F. Scott Fitzgerald</author>
+        <publisher>Charles Scribner's Sons</publisher>
+        <amount>10</amount>
+        <year>1925</year>
+    </book>
+    <book>
+        <name>To Kill a Mockingbird</name>
+        <author>Harper Lee</author>
+        <publisher>J. B. Lippincott Co.</publisher>
+        <amount>8</amount>
+        <year>1960</year>
+    </book>
+</books>
